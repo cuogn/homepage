@@ -123,6 +123,113 @@ function adtec_get_dictionary() {
             'ja' => '最新の年間行事'
         ),
         'collapse' => array('vi' => 'Thu gọn', 'en' => 'Collapse', 'ja' => '折りたたむ'),
+
+        // --- TỪ ĐIỂN CHO PHẦN TUYỂN DỤNG ---
+        'tuyen_dung' => array(
+            'vi' => 'Tuyển dụng',
+            'en' => 'Careers',
+            'ja' => '採用'
+        ),
+        'job_description' => array(
+            'vi' => 'Mô tả công việc',
+            'en' => 'Job Description',
+            'ja' => '仕事概要'
+        ),
+        'tuyen_dung_dac_biet' => array(
+            'vi' => 'Tuyển dụng đặc biệt',
+            'en' => 'Special Recruitment',
+            'ja' => '特別採用'
+        ),
+        'nhan_vien' => array(
+            'vi' => 'Nhân viên',
+            'en' => 'Staff',
+            'ja' => 'スタッフ'
+        ),
+        'cong_nhan' => array(
+            'vi' => 'Công nhân',
+            'en' => 'Workers',
+            'ja' => '労働者'
+        ),
+        'view_details' => array(
+            'vi' => 'Xem chi tiết',
+            'en' => 'View details',
+            'ja' => '詳細を見る'
+        ),
+        'salary' => array(
+            'vi' => 'Lương',
+            'en' => 'Salary',
+            'ja' => '給与'
+        ),
+        'deadline' => array(
+            'vi' => 'Hạn nộp',
+            'en' => 'Deadline',
+            'ja' => '締切'
+        ),
+        'location' => array(
+            'vi' => 'Địa điểm',
+            'en' => 'Location',
+            'ja' => '勤務地'
+        ),
+        'quantity' => array(
+            'vi' => 'Số lượng',
+            'en' => 'Quantity',
+            'ja' => '人数'
+        ),
+        'apply_now' => array(
+            'vi' => 'ĐĂNG KÝ ỨNG TUYỂN',
+            'en' => 'APPLY NOW',
+            'ja' => '今すぐ応募'
+        ),
+        'general_requirements' => array(
+            'vi' => 'Yêu cầu chung',
+            'en' => 'General Requirements',
+            'ja' => '一般的な要件'
+        ),
+        'job_details' => array(
+            'vi' => 'Chi tiết',
+            'en' => 'Details',
+            'ja' => '詳細'
+        ),
+        'recruitment_process' => array(
+            'vi' => 'Quy trình',
+            'en' => 'Process',
+            'ja' => '流れ'
+        ),
+        'view_recruitment_process' => array(
+            'vi' => 'Xem quy trình ứng tuyển tại ADTEC',
+            'en' => 'View recruitment process at ADTEC',
+            'ja' => 'ADTECでの採用プロセスを見る'
+        ),
+        'other_positions' => array(
+            'vi' => 'Các vị trí khác',
+            'en' => 'Other Positions',
+            'ja' => '他のポジション'
+        ),
+        'back_to_list' => array(
+            'vi' => 'Quay lại danh sách',
+            'en' => 'Back to list',
+            'ja' => '一覧に戻る'
+        ),
+        'slug_quytrinhtuyendung' => array(
+            'vi' => 'quy-trinh-tuyen-dung',
+            'en' => 'recruitment-process',
+            'ja' => 'recruitment-process-ja'
+        ),
+        'featured' => array(
+            'vi' => 'NỔI BẬT',
+            'en' => 'FEATURED',
+            'ja' => '注目'
+        ),
+        'noi_bat' => array(
+            'vi' => 'Nổi bật',
+            'en' => 'Featured',
+            'ja' => '注目'
+        ),
+        'form_ung_tuyen' => array(
+            'vi' => 'Form Ứng Tuyển',
+            'en' => 'Application Form',
+            'ja' => '応募フォーム'
+        ),
     );
 }
 

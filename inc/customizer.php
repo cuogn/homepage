@@ -31,6 +31,90 @@ function adtec_customize_register( $wp_customize ) {
 			)
 		);
 	}
+
+	// =================================================================
+	// SECTION: Banner Tuyển dụng
+	// =================================================================
+	$wp_customize->add_section('career_banner_section', array(
+		'title'    => 'Banner Tuyển dụng',
+		'priority' => 30,
+	));
+
+	// 1. Image upload
+	$wp_customize->add_setting('career_banner_image', array(
+		'default'           => '',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport'         => 'postMessage',
+	));
+	$wp_customize->add_control(new WP_Customize_Image_Control(
+		$wp_customize, 'career_banner_image',
+		array(
+			'label'    => 'Ảnh Banner',
+			'section'  => 'career_banner_section',
+			'settings' => 'career_banner_image',
+		)
+	));
+
+	// 2. Title
+	$wp_customize->add_setting('career_banner_title', array(
+		'default'           => 'TUYỂN DỤNG',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'postMessage',
+	));
+	$wp_customize->add_control('career_banner_title', array(
+		'label'    => 'Tiêu đề Banner',
+		'section'  => 'career_banner_section',
+		'type'     => 'text',
+	));
+
+	// 3. Subtitle
+	$wp_customize->add_setting('career_banner_subtitle', array(
+		'default'           => '',
+		'sanitize_callback' => 'sanitize_textarea_field',
+		'transport'         => 'postMessage',
+	));
+	$wp_customize->add_control('career_banner_subtitle', array(
+		'label'    => 'Phụ đề Banner',
+		'section'  => 'career_banner_section',
+		'type'     => 'textarea',
+	));
+
+	// 4. Height
+	$wp_customize->add_setting('career_banner_height', array(
+		'default'           => '400px',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'postMessage',
+	));
+	$wp_customize->add_control('career_banner_height', array(
+		'label'    => 'Chiều cao Banner',
+		'section'  => 'career_banner_section',
+		'type'     => 'select',
+		'choices'  => array(
+			'300px' => 'Nhỏ (300px)',
+			'400px' => 'Vừa (400px)',
+			'500px' => 'Lớn (500px)',
+		),
+	));
+
+	// 5. Overlay opacity
+	$wp_customize->add_setting('career_banner_overlay_opacity', array(
+		'default'           => '0.4',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport'         => 'postMessage',
+	));
+	$wp_customize->add_control('career_banner_overlay_opacity', array(
+		'label'    => 'Độ mờ Overlay',
+		'section'  => 'career_banner_section',
+		'type'     => 'select',
+		'choices'  => array(
+			'0.2' => '20%',
+			'0.3' => '30%',
+			'0.4' => '40%',
+			'0.5' => '50%',
+			'0.6' => '60%',
+		),
+	));
+	// =================================================================
 }
 add_action( 'customize_register', 'adtec_customize_register' );
 

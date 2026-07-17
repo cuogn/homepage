@@ -347,11 +347,11 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         ],
     ];
 
-    // 4. Ô NHẬP LIỆU CHO CPT "TUYỂN DỤNG" (careers)
+    // 4. Ô NHẬP LIỆU CHO CPT "TUYỂN DỤNG" (tuyen_dung)
     $meta_boxes[] = [
         'id'         => 'mb_career_details',
         'title'      => 'Thông tin Đăng tuyển',
-        'post_types' => ['careers'],
+        'post_types' => ['tuyen_dung'],
         'fields'     => [
             [
                 'name'  => 'Hạn nộp hồ sơ',
@@ -370,6 +370,33 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'id'    => 'career_salary',
                 'type'  => 'text',
                 'desc'  => 'Có thể nhập số hoặc ghi "Thỏa thuận"',
+                'clone' => false,
+            ],
+            [
+                'name'  => 'Địa điểm làm việc',
+                'id'    => 'career_work_location',
+                'type'  => 'text',
+                'desc'  => 'VD: KCN Biên Hòa 2, Đồng Nai',
+                'clone' => false,
+            ],
+            [
+                'name'    => 'Loại hình công việc',
+                'id'      => 'career_work_type',
+                'type'    => 'select',
+                'options' => [
+                    'vi_tri_dac_biet' => 'Vị trí đặc biệt',
+                    'nhan_vien'        => 'Nhân viên',
+                    'cong_nhan'        => 'Công nhân',
+                    'ky_thuat_vien'    => 'Kỹ thuật viên',
+                ],
+                'desc'   => 'Chọn loại hình công việc (Vị trí đặc biệt/Nhân viên/Công nhân/Kỹ thuật viên)',
+                'clone'   => false,
+            ],
+            [
+                'name'  => 'Yêu cầu chung',
+                'id'    => 'career_general_requirements',
+                'type'  => 'textarea',
+                'desc'  => 'Nhập các yêu cầu chung cho vị trí tuyển dụng',
                 'clone' => false,
             ],
             [
@@ -394,6 +421,7 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'name'  => 'Đánh dấu Tin nổi bật',
                 'id'    => 'career_featured',
                 'type'  => 'checkbox',
+                'desc'  => 'Tick chọn để hiển thị ở mục "Tuyển dụng đặc biệt"',
                 'clone' => false,
             ],
         ],
@@ -603,6 +631,14 @@ function adv_register_all_taxonomies() {
         'show_in_rest' => true,
     ));
 
+    // Đăng ký Taxonomy Loại vị trí cho CPT Tuyển dụng (Tuyển dụng đặc biệt, Nhân viên, Công nhân)
+    register_taxonomy('loai_vi_tri', 'tuyen_dung', array(
+        'label'        => 'Loại vị trí',
+        'hierarchical' => true,
+        'show_in_rest' => true,
+        'show_admin_column' => true,
+    ));
+
     // Đăng ký Taxonomy Năm cho CPT Sự kiện
     register_taxonomy('nam_su_kien', 'su_kien_nam', array(
         'label'        => 'Năm',
@@ -631,6 +667,28 @@ function adv_register_all_taxonomies() {
     ));
 }
 add_action('init', 'adv_register_all_taxonomies');
+
+// Tạo default terms cho taxonomy loai_vi_tri khi theme activate
+function adtec_create_default_job_type_terms() {
+    $terms = array(
+        'tuyen-dung-dac-biet' => 'Tuyển dụng đặc biệt',
+        'nhan-vien' => 'Nhân viên',
+        'cong-nhan' => 'Công nhân',
+    );
+
+    foreach ($terms as $slug => $name) {
+        if (!term_exists($name, 'loai_vi_tri')) {
+            wp_insert_term(
+                $name,
+                'loai_vi_tri',
+                array(
+                    'slug' => $slug,
+                )
+            );
+        }
+    }
+}
+add_action('after_setup_theme', 'adtec_create_default_job_type_terms');
 
 /**
  * Hàm hỗ trợ tìm kiếm phần tử cha trong mảng Menu Items
