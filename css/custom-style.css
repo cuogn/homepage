@@ -1,0 +1,486 @@
+/* ==========================================================================
+   1. ĐỊNH DẠNG CHUNG & KHUNG TRANG (RESET & LAYOUT)
+   ========================================================================== */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1A1A1A;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+/* Ép container của theme lùi ra xa mép, tạo khung đọc dễ chịu */
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ==========================================================================
+   2. HEADER & MENU ĐIỀU HƯỚNG (NAV BAR)
+   ========================================================================== */
+
+/* Khung ngoài cùng của header: #masthead bọc 2 hàng
+   (.header-top-row + .header-navigation-row) xếp chồng theo chiều dọc */
+#masthead {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    max-width: 1260px;
+    background-color: #ffffff;
+    padding: 20px 30px;
+    margin: 0 auto;
+    /* position: sticky; */
+    top: 0;
+    z-index: 9999;
+    /* Giữ header luôn cố định ở đỉnh khi cuộn trang */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+/* Hàng 1: Logo + nút chuyển ngôn ngữ */
+.header-top-row {
+    padding-top: 16px;
+}
+
+/* Hàng 2: Menu chính, tách biệt khỏi hàng logo bằng viền mỏng phía trên */
+.header-navigation-row {
+    padding-top: 4px;
+}
+
+/* ---------- Logo / Tên thương hiệu ---------- */
+.site-branding {
+    display: flex;
+    align-items: center;
+}
+
+.site-logo img {
+    display: block;
+    max-height: 44px;
+    width: auto;
+}
+
+.site-title,
+.site-title a {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1F3B73 !important;
+    /* Màu xanh Navy thương hiệu ADTEC */
+    text-decoration: none;
+    margin: 0;
+    display: block;
+}
+
+/* ---------- Nút chuyển ngôn ngữ (ENG) ---------- */
+.header-language-switch {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    color: #4A4A4A;
+}
+
+.header-language-switch .lang-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.header-language-switch .lang-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: #1F3B73;
+}
+
+.header-language-switch .lang-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.header-language-switch:hover .lang-label,
+.header-language-switch:hover .lang-icon {
+    color: #1F3B73;
+}
+
+#masthead {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 100%;
+    max-width: none !important;
+    background-color: #ffffff;
+    /* border-bottom: 1px solid #EDEDED; */
+    padding: 0;
+    /* Bỏ padding ở đây để đưa vào container-header */
+    margin: 0 auto;
+    top: 0;
+    z-index: 9999;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02); */
+}
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
+    /* padding-top: 15px; */
+    box-sizing: border-box;
+}
+
+/* ========================================================================== */
+
+/* ---------- Menu chính (cấp 1) ---------- */
+.main-navigation {
+    width: 100%;
+    position: relative !important;
+    /* Điểm neo gốc duy nhất */
+}
+
+.main-navigation ul#primary-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    width: 100%;
+}
+
+/* QUAN TRỌNG TỐI THƯỢNG: Ép thẻ li thả tự do, không làm điểm neo nữa */
+.main-navigation ul#primary-menu>li {
+    position: static !important;
+}
+
+/*Menu Cấp 1 */
+.main-navigation ul#primary-menu>li>a {
+    text-decoration: none;
+    color: #4A4A4A;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.2s ease;
+    padding: 10px 0;
+    position: relative;
+    display: block;
+}
+
+.main-navigation ul#primary-menu>li:hover>a,
+.main-navigation ul#primary-menu>li.current-menu-item>a {
+    color: #1F3B73;
+}
+
+/* Hiệu ứng gạch chân Menu Cấp 1 */
+.main-navigation ul#primary-menu>li>a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #1F3B73;
+    transition: width 0.2s ease;
+}
+
+.main-navigation ul#primary-menu>li:hover>a::after,
+.main-navigation ul#primary-menu>li.current-menu-item>a::after {
+    width: 100%;
+}
+
+
+/* ---------- Sub-menu (cấp 2, Mega Menu tràn viền với vỏ div) ---------- */
+#masthead,
+.container-header,
+.main-navigation,
+.main-navigation ul {
+    overflow: visible !important;
+}
+
+/* Ép thẻ li nhả điểm neo */
+.main-navigation ul#primary-menu li {
+    position: static !important;
+}
+
+/* 1. LỚP VỎ DIV: Trải dài full màn hình */
+.main-navigation .mGlobalNaviChild__container {
+    display: block !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    width: 100vw !important;
+    background-color: #D8E6FF !important;
+    text-align: left;
+    z-index: 99999 !important;
+
+    /* Hiệu ứng ẩn/hiện mượt mà */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateX(-50%) !important;
+    transition: visibility 0.8s ease, opacity 0.8s ease, transform 0.8s ease !important;
+}
+
+.main-navigation .mGlobalNaviChild__container::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+}
+
+/* KÍCH HOẠT HIỂN THỊ KHI HOVER (Đã bỏ dấu > để bắt dính 100%) */
+.main-navigation li:hover .mGlobalNaviChild__container,
+.main-navigation li:focus-within .mGlobalNaviChild__container {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+/* 2. LỚP LÕI UL: Gom nội dung vào giữa thẳng hàng với Logo (1260px) */
+.main-navigation .mGlobalNaviChild__holder {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    float: none !important;
+    box-shadow: none !important;
+
+    list-style: none !important;
+    margin: 0 auto !important;
+    padding: 16px 0px !important;
+
+    width: 100% !important;
+    max-width: 1260px !important;
+
+    display: flex !important;
+    justify-content: flex-start !important;
+    flex-flow: row wrap !important;
+    gap: 32px !important;
+    box-sizing: border-box !important;
+}
+
+/* 3. ĐỊNH DẠNG CHỮ CHO MENU CON */
+.main-navigation .mGlobalNaviChild__holder li {
+    display: block !important;
+}
+
+.main-navigation .mGlobalNaviChild__holder a {
+    display: inline-block !important;
+    padding: 5px 0 !important;
+    white-space: nowrap !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    color: #4A4A4A !important;
+    position: relative !important;
+    text-decoration: none !important;
+}
+
+/* Gạch chân cho sub-menu */
+.main-navigation .mGlobalNaviChild__holder a::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 1px !important;
+    bottom: 2px !important;
+    left: 0 !important;
+    background-color: #1F3B73 !important;
+    transition: width 0.25s ease !important;
+}
+
+.main-navigation .mGlobalNaviChild__holder a:hover {
+    color: #1F3B73 !important;
+}
+
+.main-navigation .mGlobalNaviChild__holder a:hover::after {
+    width: 100% !important;
+}
+
+/* ==========================================================================
+   3. FOOTER (CHÂN TRANG CHUYÊN NGHIỆP ADTEC)
+   ========================================================================== */
+footer.site-footer {
+    background-color: #004B87;
+    color: #FFFFFF;
+    padding: 30px 0 0 0;
+    margin-top: 60px;
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    width: 100%;
+}
+
+/* Khung chứa 1260px phân bổ 2 cụm: Info bên trái, Links bên phải */
+.site-footer .footer-container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 30px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    /* Tự xuống dòng mượt mà trên mobile */
+    gap: 40px;
+}
+
+/* --- Cột bên trái: Logo & Slogan & Socials --- */
+.site-footer .footer-company-info {
+    flex: 1;
+    min-width: 300px;
+    max-width: 480px;
+}
+
+.site-footer .footer-logo img {
+    max-height: 68px;
+    width: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.site-footer .footer-slogan {
+    color: #A9C7FF;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 10px 0;
+}
+
+.site-footer .footer-socials {
+    display: flex;
+    gap: 12px;
+}
+
+.site-footer .social-icon {
+    color: #A9C7FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(169, 199, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.25s ease;
+    text-decoration: none;
+}
+
+.site-footer .social-icon:hover {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.site-footer .footer-links-grid {
+    min-width: 450px;
+    flex: 1;
+}
+
+/* --- Cụm bên phải: Menu chính sách chạy động --- */
+.site-footer .footer-links-grid {
+    flex: 1;
+    max-width: 600px;
+}
+
+.site-footer ul.adtec-footer-menu {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 80px;
+    row-gap: 18px;
+    width: 100% !important;
+}
+
+.site-footer ul.adtec-footer-menu li {
+    margin: 0 !important;
+    display: block !important;
+}
+
+.site-footer ul.adtec-footer-menu li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    /* Viết IN HOA */
+    letter-spacing: 0.8px;
+    position: relative;
+    padding-bottom: 4px;
+    display: inline-block;
+    transition: color 0.2s ease;
+}
+
+/* Hiệu ứng gạch chân chạy ngang khi hover */
+.site-footer ul.adtec-footer-menu li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1.5px;
+    bottom: 0;
+    left: 0;
+    background-color: #FFFFFF;
+    transition: width 0.2s ease;
+}
+
+.site-footer ul.adtec-footer-menu li a:hover {
+    color: #A9C7FF;
+}
+
+.site-footer ul.adtec-footer-menu li a:hover::after {
+    width: 100%;
+    background-color: #A9C7FF;
+}
+
+/* --- Vùng bản quyền dưới đáy (Site Info) --- */
+.site-footer .site-info {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: 16px;
+    padding: 12px 0;
+    background-color: transparent;
+}
+
+.site-footer .site-info-container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+
+.site-footer .site-info p {
+    margin: 0;
+    color: #A9C7FF;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
+   NEWS LIST - LOAD MORE TOGGLE
+   ========================================================================== */
+
+/* Ẩn các items có class is-hidden ban đầu */
+.news-list-rows .news-row-item.is-hidden {
+    display: none !important;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+/* Khi state=open (is-expanded), hiển thị tất cả items */
+.news-list-rows.is-expanded .news-row-item.is-hidden {
+    display: flex !important;
+    visibility: visible;
+    height: auto;
+    overflow: visible;
+    opacity: 1;
+}
