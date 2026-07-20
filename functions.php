@@ -437,11 +437,11 @@ function adtec_register_meta_boxes( $meta_boxes ) {
     ];
 
     // ==========================================================================
-    // BỔ SUNG Ô NHẬP LIỆU CHI TIẾT CHO CPT "CỘT MỐC LỊCH SỬ" (cot_moc)
+    // BỔ SUNG Ô NHẬP LIỆU CHI TIẾT CHO CPT "QUÁ TRÌNH PHÁT TRIỂN" (cot_moc)
     // ==========================================================================
     $meta_boxes[] = [
         'id'         => 'mb_cot_moc_details',
-        'title'      => 'Chi Tiết Cột Mốc Lịch Sử',
+        'title'      => 'Chi Tiết Quá Trình Phát Triển',
         'post_types' => ['cot_moc'],
         'fields'     => [
             [
@@ -449,13 +449,6 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'id'         => 'cot_moc_date',
                 'type'       => 'date',
                 'desc'       => 'Chọn ngày tháng năm diễn ra sự kiện.',
-                'clone'      => false,
-            ],
-            [
-                'name'       => 'Năm hiển thị (Để sắp xếp/lọc)',
-                'id'         => 'cot_moc_year',
-                'type'       => 'number',
-                'desc'       => 'Nhập số năm (VD: 2026) để hệ thống làm trục thời gian.',
                 'clone'      => false,
             ],
             // Lưu ý: Phần Tiêu đề lấy từ Title mặc định, Ảnh lấy từ Featured Image mặc định của WP.
@@ -581,10 +574,14 @@ function adv_register_all_custom_elements() {
 
     //4. Đăng ký CPT Cột mốc (Quá trình phát triển)
     register_post_type('cot_moc', array(
-        'label'=> 'Cột mốc',
+        'label'=> 'Quá trình phát triển',
         'public'=>true,
         'show_in_rest'=>true,
         'has_archive'=>false,
+        'rewrite'      => array(
+            'slug'       => 'qua-trinh-phat-trien',
+            'with_front' => false,
+        ),
         'menu_icon'=>'dashicons-flag',
         'supports'=>array('title','editor','thumbnail'), // title: Năm, editor: Nội dung, thumbnail: Ảnh minh họa
     ));
@@ -631,10 +628,14 @@ function adv_register_all_taxonomies() {
     ));
 
     // Đăng ký Taxonomy Năm cho CPT Cột mốc
-    register_taxonomy('nam_lich_su', 'cot_moc', array(
+    register_taxonomy('nam_qua_trinh_phat_trien', 'cot_moc', array(
         'label'        => 'Năm',
         'hierarchical' => true,
         'show_in_rest' => true,
+        'rewrite'      => array(
+            'slug'       => 'qua-trinh-phat-trien',
+            'with_front' => false,
+        ),
     ));
 
     register_taxonomy('quoc_gia', 'dia_diem', array(

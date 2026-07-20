@@ -2,59 +2,34 @@
 /**
  * The template for displaying 404 pages (not found)
  *
- * @link https://codex.wordpress.org/Creating_an_Error_404_Page
- *
  * @package adtec
  */
 
 get_header();
 ?>
 
-	<main id="primary" class="site-main">
+<main id="primary" class="site-main error-404-container">
+    <div class="error-404-wrapper">
+        <!-- 1. SỐ 404 KHỔNG LỒ -->
+        <div class="error-404-code">404</div>
 
-		<section class="error-404 not-found">
-			<header class="page-header">
-				<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'adtec' ); ?></h1>
-			</header><!-- .page-header -->
+        <!-- 2. TIÊU ĐỀ & MÔ TẢ ĐA NGÔN NGỮ -->
+        <h1 class="error-404-title">
+            <?php adtec_label('404_title'); ?>
+        </h1>
 
-			<div class="page-content">
-				<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'adtec' ); ?></p>
+        <p class="error-404-desc">
+            <?php adtec_label('404_desc'); ?>
+        </p>
 
-					<?php
-					get_search_form();
-
-					the_widget( 'WP_Widget_Recent_Posts' );
-					?>
-
-					<div class="widget widget_categories">
-						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'adtec' ); ?></h2>
-						<ul>
-							<?php
-							wp_list_categories(
-								array(
-									'orderby'    => 'count',
-									'order'      => 'DESC',
-									'show_count' => 1,
-									'title_li'   => '',
-									'number'     => 10,
-								)
-							);
-							?>
-						</ul>
-					</div><!-- .widget -->
-
-					<?php
-					/* translators: %1$s: smiley */
-					$adtec_archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'adtec' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$adtec_archive_content" );
-
-					the_widget( 'WP_Widget_Tag_Cloud' );
-					?>
-
-			</div><!-- .page-content -->
-		</section><!-- .error-404 -->
-
-	</main><!-- #main -->
+        <!-- 4. NÚT VỀ TRANG CHỦ THEO ĐÚNG NGÔN NGỮ HIỆN TẠI -->
+        <div class="error-404-actions">
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="btn-home-back">
+                &larr; <?php adtec_label('404_back_home'); ?>
+            </a>
+        </div>
+    </div>
+</main>
 
 <?php
 get_footer();

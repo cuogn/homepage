@@ -1673,3 +1673,298 @@ footer.site-footer {
 .location-url-link:hover {
     color: #003366;
 }
+/* ==========================================================================
+   QUÁ TRÌNH PHÁT TRIỂN (TIMELINE GIÓNG THẲNG HÀNG NĂM CHUẨN MẪU)
+   ========================================================================== */
+.history-page-container {
+max-width: 1260px;
+margin: 0 auto;
+/* padding: 20px 15px 60px; */
+}
+
+.history-page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.history-page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111;
+}
+
+.history-nav-top,
+.history-nav-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 0 30px;
+}
+
+.history-nav-btn {
+    color: #0056b3;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.history-nav-btn:hover {
+    text-decoration: underline;
+}
+
+.history-timeline-wrapper {
+    position: relative;
+    padding: 10px 0;
+}
+
+.timeline-center-axis {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 100px;
+    background: #666;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.timeline-year-group {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
+}
+
+/* CẤU TRÚC GRID 3 CỘT: TRÁI - TRỤC GIỮA - PHẢI */
+.timeline-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr; /* 80px cho dải xám ở giữa */
+    gap: 30px;
+    align-items: start; /* Ép mép trên tiêu đề thẳng hàng với số Năm */
+    margin-bottom: 35px;
+}
+
+.timeline-col-left {
+    display: flex;
+    justify-content: flex-start;
+}
+.timeline-col-left .event-content-box {
+    align-items: flex-start;
+}
+.timeline-col-left .event-title-row {
+    width: 100%;
+}
+.timeline-col-right .event-content-box {
+    align-items: flex-end;
+}
+
+.timeline-col-right .event-title-row {
+    width: 100%;
+}
+.timeline-col-center {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2px; /* Căn chỉnh nhẹ để số Năm ngang hàng chữ tiêu đề */
+}
+
+/* SỐ NĂM MÀU TRẮNG NẰM TRONG DẢI XÁM */
+.timeline-year-badge {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+/* THẺ NỘI DUNG BÀI VIẾT */
+.event-content-box {
+    width: 100%;
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+}
+.event-title-row {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.event-blue-bar {
+    display: inline-block;
+    width: 4px;
+    height: 15px;
+    background: #00469B;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+.event-date {
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.event-title {
+    font-weight: 500;
+}
+
+.event-image-holder {
+    width: 100%;
+    max-width: 380px;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #f0f0f0;
+}
+
+.event-image-holder img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+}
+
+.event-caption {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 6px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .timeline-center-axis {
+        left: 20px;
+        width: 10px;
+    }
+
+    .timeline-row-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding-left: 40px;
+    }
+
+    .timeline-col-center {
+        justify-content: flex-start;
+        margin-left: -40px;
+    }
+
+    .timeline-year-badge {
+        color: #333;
+    }
+}
+
+
+/* ==========================================================================
+   DECOR TRANG 404 (NOT FOUND)
+   ========================================================================== */
+   .error-404-container {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: #f9fbfd;
+}
+
+.error-404-wrapper {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Số 404 khổng lồ chìm nhẹ */
+.error-404-code {
+    font-size: 110px;
+    font-weight: 900;
+    line-height: 1;
+    color: #0056b3;
+    opacity: 0.15;
+    letter-spacing: 5px;
+    margin-bottom: -40px; /* Đẩy tiêu đề đè nhẹ lên số */
+}
+
+.error-404-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.error-404-desc {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Form tìm kiếm chuẩn đẹp */
+.error-404-search {
+    max-width: 450px;
+    margin: 0 auto 30px;
+}
+
+.error-404-search form {
+    display: flex;
+    gap: 8px;
+}
+
+.error-404-search input[type="search"] {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.error-404-search input[type="search"]:focus {
+    border-color: #0056b3;
+}
+
+.error-404-search input[type="submit"],
+.error-404-search button[type="submit"] {
+    padding: 10px 20px;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.error-404-search input[type="submit"]:hover {
+    background: #0056b3;
+}
+
+/* Nút quay về trang chủ */
+.btn-home-back {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #0056b3;
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.2);
+}
+
+.btn-home-back:hover {
+    background: #003d80;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 86, 179, 0.3);
+}

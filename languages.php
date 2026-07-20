@@ -304,6 +304,34 @@ function adtec_get_dictionary() {
             'en' => 'URL:',
             'ja' => 'URL:'
         ),
+
+        //Từ điển quá trình phát triển
+        'slug_qua_trinh_phat_trien' => array(
+            'vi' => 'qua-trinh-phat-trien',
+            'en' => 'company-history',
+            'ja' => 'company-history-ja'
+        ),
+        'qua_trinh_phat_trien' => array(
+            'vi' => 'Quá trình phát triển Adtec Việt Nam',
+            'en' => 'Adtec Vietnam Development History',
+            'ja' => 'Adtec Vietnam の発展史'
+        ),
+        // Từ điển cho Trang 404 Not Found
+        '404_title' => array(
+            'vi' => 'Trang bạn tìm kiếm không tồn tại',
+            'en' => 'Oops! That page can’t be found',
+            'ja' => 'お探しのページは見つかりませんでした'
+        ),
+        '404_desc' => array(
+            'vi' => 'Đường dẫn có thể đã bị đổi hoặc không còn khả dụng. Vui lòng thử tìm kiếm hoặc quay lại trang chủ.',
+            'en' => 'It looks like nothing was found at this location. Maybe try a search or return to homepage.',
+            'ja' => 'この場所には何も見つかりませんでした。検索を試してみるか、ホームページに戻ってください。'
+        ),
+        '404_back_home' => array(
+            'vi' => 'Quay về trang chủ',
+            'en' => 'Back to Homepage',
+            'ja' => 'トップページへ戻る'
+        ),
     );
 }
 
