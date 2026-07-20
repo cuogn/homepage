@@ -360,26 +360,6 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'clone' => false,
             ],
             [
-                'name'  => 'Số lượng tuyển',
-                'id'    => 'career_quantity',
-                'type'  => 'number',
-                'clone' => false,
-            ],
-            [
-                'name'  => 'Mức lương',
-                'id'    => 'career_salary',
-                'type'  => 'text',
-                'desc'  => 'Có thể nhập số hoặc ghi "Thỏa thuận"',
-                'clone' => false,
-            ],
-            [
-                'name'  => 'Địa điểm làm việc',
-                'id'    => 'career_work_location',
-                'type'  => 'text',
-                'desc'  => 'VD: KCN Biên Hòa 2, Đồng Nai',
-                'clone' => false,
-            ],
-            [
                 'name'    => 'Loại hình công việc',
                 'id'      => 'career_work_type',
                 'type'    => 'select',
@@ -391,13 +371,6 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 ],
                 'desc'   => 'Chọn loại hình công việc (Vị trí đặc biệt/Nhân viên/Công nhân/Kỹ thuật viên)',
                 'clone'   => false,
-            ],
-            [
-                'name'  => 'Yêu cầu chung',
-                'id'    => 'career_general_requirements',
-                'type'  => 'textarea',
-                'desc'  => 'Nhập các yêu cầu chung cho vị trí tuyển dụng',
-                'clone' => false,
             ],
             [
                 'name'  => 'Link Microsoft Form ứng tuyển',
@@ -426,6 +399,15 @@ function adtec_register_meta_boxes( $meta_boxes ) {
             ],
         ],
     ];
+
+    // Lưu career_work_type options vào global để sử dụng ở frontend
+    global $adtec_career_work_type_options;
+    $adtec_career_work_type_options = array(
+        'vi_tri_dac_biet' => 'Vị trí đặc biệt',
+        'nhan_vien'       => 'Nhân viên',
+        'cong_nhan'       => 'Công nhân',
+        'ky_thuat_vien'   => 'Kỹ thuật viên',
+    );
 
     // 5. Ô NHẬP LIỆU CHO CPT "CÂU CHUYỆN NHÂN VIÊN" (employee-stories)
     $meta_boxes[] = [
@@ -554,9 +536,13 @@ function adv_register_all_custom_elements() {
         'label'        => 'Tuyển dụng',
         'public'       => true,
         'show_in_rest' => true,
-        'has_archive'  => true,
+        'has_archive'  => false,
         'menu_icon'    => 'dashicons-groups',
         'supports'     => array('title', 'editor', 'thumbnail'),
+        'rewrite'      => array(
+            'slug'       => 'form-ung-tuyen',
+            'with_front' => false,
+        ),
     ));
 
     // 2. Đăng ký CPT Sự kiện (Giữ lại theo yêu cầu User)
@@ -623,22 +609,6 @@ function adv_register_all_taxonomies() {
         'hierarchical' => true,
         'show_in_rest' => true,
     ));
-
-    // Đăng ký Taxonomy Phòng ban cho CPT Tuyển dụng
-    register_taxonomy('phong_ban', 'tuyen_dung', array(
-        'label'        => 'Phòng ban',
-        'hierarchical' => true,
-        'show_in_rest' => true,
-    ));
-
-    // Đăng ký Taxonomy Loại vị trí cho CPT Tuyển dụng (Tuyển dụng đặc biệt, Nhân viên, Công nhân)
-    register_taxonomy('loai_vi_tri', 'tuyen_dung', array(
-        'label'        => 'Loại vị trí',
-        'hierarchical' => true,
-        'show_in_rest' => true,
-        'show_admin_column' => true,
-    ));
-
     // Đăng ký Taxonomy Năm cho CPT Sự kiện
     register_taxonomy('nam_su_kien', 'su_kien_nam', array(
         'label'        => 'Năm',
@@ -668,27 +638,35 @@ function adv_register_all_taxonomies() {
 }
 add_action('init', 'adv_register_all_taxonomies');
 
-// Tạo default terms cho taxonomy loai_vi_tri khi theme activate
-function adtec_create_default_job_type_terms() {
-    $terms = array(
-        'tuyen-dung-dac-biet' => 'Tuyển dụng đặc biệt',
-        'nhan-vien' => 'Nhân viên',
-        'cong-nhan' => 'Công nhân',
-    );
-
-    foreach ($terms as $slug => $name) {
-        if (!term_exists($name, 'loai_vi_tri')) {
-            wp_insert_term(
-                $name,
-                'loai_vi_tri',
-                array(
-                    'slug' => $slug,
-                )
-            );
+// Filter để sử dụng template riêng cho CPT tuyển dụng
+add_filter('single_template', function($template) {
+    global $post;
+    if ($post && $post->post_type === 'tuyen_dung') {
+        $custom_template = locate_template('single-form_ung_tuyen.php');
+        if ($custom_template) {
+            return $custom_template;
         }
     }
+    return $template;
+});
+
+/**
+ * Lấy options cho career_work_type từ global variable
+ */
+function adtec_get_career_work_type_options() {
+    global $adtec_career_work_type_options;
+    
+    if (isset($adtec_career_work_type_options) && is_array($adtec_career_work_type_options)) {
+        return $adtec_career_work_type_options;
+    }
+    
+    // Fallback nếu global chưa được set
+    return array(
+        'nhan_vien'       => 'Nhân viên',
+        'cong_nhan'       => 'Công nhân',
+        'ky_thuat_vien'   => 'Kỹ thuật viên',
+    );
 }
-add_action('after_setup_theme', 'adtec_create_default_job_type_terms');
 
 /**
  * Hàm hỗ trợ tìm kiếm phần tử cha trong mảng Menu Items
@@ -955,6 +933,112 @@ function adtec_auto_add_cpt_rewrite_rules() {
                     'index.php?lang=$matches[1]&' . $cpt . '=$matches[2]',
                     'top'
                 );
+            }
+        }
+    }
+}
+/**
+ * 1. ÉP LINK TRÊN HEADER SWITCHER: Khi ở bài viết Form ứng tuyển, tất cả nút cờ/ENG/JA trên Header đều bị ép trỏ về link Tiếng Việt hiện tại
+ */
+add_filter('pll_the_language_link', 'adtec_force_form_ung_tuyen_lang_link', 99, 3);
+function adtec_force_form_ung_tuyen_lang_link($url, $slug, $locale) {
+    if (( is_singular( array('tuyen_dung', 'form_ung_tuyen') ) || is_page('form-ung-tuyen') || is_page_template('page-tuyen-dung.php') )) {
+        // Luôn trả về permalink bản Tiếng Việt của bài viết/trang hiện tại
+        return get_permalink(get_the_ID());
+    }
+    return $url;
+}
+
+/**
+ * 2. CHUYỂN HƯỚNG CỨNG (REDIRECT): Nếu gõ URL /en/ hoặc /ja/ trên trình duyệt thì tự động đá về Tiếng Việt
+ */
+add_action('template_redirect', 'adtec_redirect_careers_to_vi', 1);
+function adtec_redirect_careers_to_vi() {
+    if ( is_admin() ) return;
+
+    $is_single = is_singular( array( 'tuyen_dung', 'form_ung_tuyen' ) ); 
+    $is_page   = is_page('form-ung-tuyen') || is_page('tuyen-dung') || is_page_template('page-tuyen-dung.php');
+
+    if ( $is_single || $is_page ) {
+        $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'vi';
+
+        // Nếu phát hiện đang ở ngôn ngữ EN hoặc JA
+        if ( $current_lang !== 'vi' ) {
+            
+            if ( $is_single ) {
+                $post_id = get_the_ID();
+                // Tìm ID bài viết bản Tiếng Việt gốc
+                $vi_post_id = function_exists('pll_get_post') ? pll_get_post($post_id, 'vi') : $post_id;
+                $redirect_url = get_permalink($vi_post_id ?: $post_id);
+            } else {
+                $redirect_url = home_url('/form-ung-tuyen/');
+            }
+
+            wp_safe_redirect($redirect_url, 301);
+            exit;
+        }
+    }
+}
+
+/**
+ * 3. HỖ TRỢ VÔ HIỆU HÓA/ẨN NÚT ĐỔI NGÔN NGỮ KHI XEM TRANG NÀY (BẰNG CSS)
+ */
+add_action('wp_head', 'adtec_disable_lang_switcher_css', 999);
+function adtec_disable_lang_switcher_css() {
+    if ( is_singular( array('tuyen_dung', 'form_ung_tuyen') ) || is_page('form-ung-tuyen') || is_page_template('page-tuyen-dung.php') ) {
+        ?>
+        <style id="disable-lang-switcher-style">
+            /* Làm chìm hoặc khóa bấm nút ngôn ngữ trên Header khi ở Tuyển dụng */
+            .lang-switcher, 
+            .polylang-switcher,
+            .header-lang-dropdown,
+            .mGlobalNaviLang,
+            .pll-parent-menu-item {
+                pointer-events: none !important; /* Vô hiệu hóa hành động click */
+                opacity: 0.6 !important; /* Làm mờ nhẹ báo hiệu không đổi được */
+                cursor: not-allowed !important;
+            }
+        </style>
+        <?php
+    }
+}
+
+
+/**
+ * TỰ ĐỘNG CHẶN TRUY CẬP TRANG CHI TIẾT TUYỂN DỤNG KHI ĐÃ QUÁ HẠN HỒ SƠ
+ */
+add_action('template_redirect', 'adtec_block_expired_careers');
+function adtec_block_expired_careers() {
+    if ( is_admin() ) return;
+
+    // Chỉ check khi vào bài viết chi tiết Tuyển dụng hoặc Form ứng tuyển
+    if ( is_singular( array('tuyen_dung', 'form_ung_tuyen') ) ) {
+        $post_id = get_the_ID();
+        
+        // 1. Lấy ngày hạn nộp từ Meta Box (Định dạng Y-m-d hoặc Ymd)
+        $deadline_raw = get_post_meta($post_id, 'career_deadline', true); // Hoặc 'events_date' tùy key Meta Box của ông
+
+        if ( ! empty($deadline_raw) ) {
+            $today = date('Y-m-d');
+            $deadline = date('Y-m-d', strtotime($deadline_raw));
+
+            // 2. So sánh: Nếu Hạn nộp < Ngày hiện tại -> Đã quá hạn!
+            if ( $deadline < $today ) {
+                
+                // Cách A: Chuyển hướng về trang danh sách tuyển dụng kèm thông báo
+                $redirect_url = home_url('/form-ung-tuyen/');
+                wp_safe_redirect($redirect_url, 302);
+                exit;
+
+                /* 
+                // Cách B: Nếu muốn bắn ra trang 404 luôn thì dùng code dưới này (thay cho Cách A)
+                global $wp_query;
+                $wp_query->set_404();
+                status_header(404);
+                nocache_headers();
+                include( get_query_template( '404' ) );
+                exit;
+                */
             }
         }
     }

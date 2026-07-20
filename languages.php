@@ -155,11 +155,6 @@ function adtec_get_dictionary() {
             'en' => 'View details',
             'ja' => '詳細を見る'
         ),
-        'salary' => array(
-            'vi' => 'Lương',
-            'en' => 'Salary',
-            'ja' => '給与'
-        ),
         'deadline' => array(
             'vi' => 'Hạn nộp',
             'en' => 'Deadline',
@@ -170,20 +165,10 @@ function adtec_get_dictionary() {
             'en' => 'Location',
             'ja' => '勤務地'
         ),
-        'quantity' => array(
-            'vi' => 'Số lượng',
-            'en' => 'Quantity',
-            'ja' => '人数'
-        ),
         'apply_now' => array(
             'vi' => 'ĐĂNG KÝ ỨNG TUYỂN',
             'en' => 'APPLY NOW',
             'ja' => '今すぐ応募'
-        ),
-        'general_requirements' => array(
-            'vi' => 'Yêu cầu chung',
-            'en' => 'General Requirements',
-            'ja' => '一般的な要件'
         ),
         'job_details' => array(
             'vi' => 'Chi tiết',
@@ -215,6 +200,11 @@ function adtec_get_dictionary() {
             'en' => 'recruitment-process',
             'ja' => 'recruitment-process-ja'
         ),
+        'slug_formungtuyen' => array(
+            'vi' => 'form-ung-tuyen',
+            'en' => 'application-form',
+            'ja' => 'application-form-ja'
+        ),
         'featured' => array(
             'vi' => 'NỔI BẬT',
             'en' => 'FEATURED',
@@ -226,9 +216,34 @@ function adtec_get_dictionary() {
             'ja' => '注目'
         ),
         'form_ung_tuyen' => array(
-            'vi' => 'Form Ứng Tuyển',
+            'vi' => 'Form ứng tuyển',
             'en' => 'Application Form',
             'ja' => '応募フォーム'
+        ),
+        'dia_diem' => array(
+            'vi' => 'Địa điểm',
+            'en' => 'Location',
+            'ja' => '勤務地'
+        ),
+        'vi_tri' => array(
+            'vi' => 'vị trí',
+            'en' => 'position',
+            'ja' => 'ポジション'
+        ),
+        'han_nop' => array(
+            'vi' => 'Hạn nộp',
+            'en' => 'Deadline',
+            'ja' => '締切'
+        ),
+        'ung_tuyen_ngay' => array(
+            'vi' => ' Quan tâm đến vị trí này?',
+            'en' => ' Interested in this position?',
+            'ja' => 'このポジションに興味がありますか？'
+        ),
+        'dang_ky_ung_tuyen' => array(
+            'vi' => 'ĐĂNG KÝ ỨNG TUYỂN NGAY',
+            'en' => 'APPLY NOW',
+            'ja' => '今すぐ応募'
         ),
     );
 }

@@ -5,20 +5,21 @@
 get_header();
 
 // Get banner settings
-$banner_image = get_theme_mod('career_banner_image', '');
-$banner_title = get_theme_mod('career_banner_title', 'TUYỂN DỤNG');
-$banner_height = get_theme_mod('career_banner_height', '400px');
+$banner_image   = get_theme_mod('career_banner_image', '');
+$banner_title   = get_theme_mod('career_banner_title', 'TUYỂN DỤNG');
+$banner_height  = get_theme_mod('career_banner_height', '400px');
 $banner_overlay = get_theme_mod('career_banner_overlay_opacity', '0.4');
 
-// Get current language
+// Get current language & Today Date
 $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'vi';
+$today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
 ?>
 
 <div class="career-page-container">
     <?php if (function_exists('adv_display_breadcrumb')) { adv_display_breadcrumb(); } ?>
 
     <!-- ========================================== -->
-    <!-- PAGE TITLE                                -->
+    <!-- PAGE TITLE                                 -->
     <!-- ========================================== -->
     <div class="career-page-header">
         <h1 class="career-page-title"><?php adtec_label('form_ung_tuyen'); ?></h1>
@@ -30,22 +31,19 @@ $current_lang = function_exists('pll_current_language') ? pll_current_language()
     <?php if ($banner_image) : ?>
     <div class="career-hero-banner" style="background-image: url(<?php echo esc_url($banner_image); ?>); height: <?php echo esc_attr($banner_height); ?>;">
         <div class="career-banner-overlay" style="opacity: <?php echo esc_attr($banner_overlay); ?>;"></div>
-        <div class="career-banner-content">
-            <h1 class="career-banner-title"><?php echo esc_html($banner_title); ?></h1>
-        </div>
     </div>
     <?php endif; ?>
 
     <!-- ========================================== -->
-    <!-- FEATURED BANNER (Featured Post)           -->
+    <!-- FEATURED BANNER (Featured Post)            -->
     <!-- ========================================== -->
     <?php
-    // Query featured job (career_featured = true, status = dangtuyen)
+    // Query featured job (career_featured = 1, status = dangtuyen, deadline >= today)
     $featured_args = array(
         'post_type'      => 'tuyen_dung',
         'posts_per_page' => 1,
         'post_status'    => 'publish',
-        'lang'           => $current_lang,
+        'lang'           => 'vi',
         'meta_query'     => array(
             'relation' => 'AND',
             array(
@@ -57,48 +55,48 @@ $current_lang = function_exists('pll_current_language') ? pll_current_language()
                 'key'     => 'career_status',
                 'value'   => 'dangtuyen',
                 'compare' => '='
+            ),
+            // ĐIỀU KIỆN MỚI: Hạn nộp phải chưa nhập HOẶC >= Ngày hôm nay
+            array(
+                'relation' => 'OR',
+                array(
+                    'key'     => 'career_deadline',
+                    'compare' => 'NOT EXISTS'
+                ),
+                array(
+                    'key'     => 'career_deadline',
+                    'value'   => $today,
+                    'compare' => '>=',
+                    'type'    => 'DATE'
+                )
             )
-        )
+        ),
+        'orderby'        => 'date',
+        'order'          => 'DESC',
     );
 
     $featured_query = new WP_Query($featured_args);
 
     if ($featured_query->have_posts()) :
         while ($featured_query->have_posts()) : $featured_query->the_post();
-            $post_id = get_the_ID();
-            $company = get_post_meta($post_id, 'career_company', true);
-            $deadline = get_post_meta($post_id, 'career_deadline', true);
-            $featured_image = get_the_post_thumbnail_url($post_id, 'large');
-            
-            if (empty($company)) {
-                $company = 'Công ty CP Điện tử ADTEC';
-            }
-            
+            $post_id          = get_the_ID();
+            $deadline         = get_post_meta($post_id, 'career_deadline', true);
             $display_deadline = !empty($deadline) ? date('d/m/Y', strtotime($deadline)) : '';
-            
-            // Fallback background if no featured image
-            $bg_style = $featured_image 
-                ? 'background-image: url(' . esc_url($featured_image) . ');' 
-                : 'background: linear-gradient(135deg, #C41E3A 0%, #8B0000 100%);';
+            $post_date        = get_the_date('d/m/Y');
     ?>
-    <div class="career-featured-banner" style="<?php echo $bg_style; ?>">
-        <div class="career-featured-overlay"></div>
-        <div class="career-featured-content">
-            <div class="career-featured-date-badge">
-                <?php 
-                $post_date = get_the_date('d/m/Y');
-                echo esc_html($post_date);
-                if (!empty($display_deadline)) {
-                    echo ' - ' . esc_html($display_deadline);
-                }
-                ?>
-            </div>
-            <h2 class="career-featured-company"><?php echo esc_html($company); ?></h2>
-            <h3 class="career-featured-position">VỊ TRÍ: <?php the_title(); ?></h3>
-            <a href="<?php the_permalink(); ?>" class="career-featured-job-desc-btn">
-                JOB DESCRIPTION - <?php the_title(); ?>
-            </a>
+    <div class="career-special-section">
+        <div class="career-special-header">
+            <h2 class="career-special-title">TUYỂN DỤNG ĐẶC BIỆT</h2>
         </div>
+        <div class="career-special-position">
+            VỊ TRÍ: <span class="position-title"><?php the_title(); ?></span>
+        </div>
+        <div class="career-special-divider"></div>
+        <div class="career-special-job-desc">
+            <span class="job-desc-label">JOB DESCRIPTION:</span>
+            <a href="<?php the_permalink(); ?>" class="job-desc-title"><?php the_title(); ?></a>
+        </div>
+        <div class="career-special-divider"></div>
     </div>
     <?php 
         endwhile;
@@ -107,59 +105,95 @@ $current_lang = function_exists('pll_current_language') ? pll_current_language()
     ?>
 
     <!-- ========================================== -->
-    <!-- JOB LIST BY POSITION TYPE (Loại vị trí)    -->
+    <!-- JOB LIST BY WORK TYPE (career_work_type)   -->
     <!-- ========================================== -->
     <div class="career-jobs-by-department">
         
         <?php
-        // Get all position types with jobs
-        $position_types = get_terms(array(
-            'taxonomy'   => 'loai_vi_tri',
-            'hide_empty' => true,
-            'lang'       => $current_lang,
-        ));
+        // Mapping work type value to label
+        $work_type_labels = array(
+            'nhan_vien'       => 'Nhân viên',
+            'cong_nhan'       => 'Công nhân',
+            'ky_thuat_vien'   => 'Kỹ thuật viên',
+        );
 
-        if (!empty($position_types) && !is_wp_error($position_types)) :
-            foreach ($position_types as $position_type) :
-                // Query jobs by position type
-                $job_args = array(
-                    'post_type'      => 'tuyen_dung',
-                    'posts_per_page' => -1,
-                    'post_status'    => 'publish',
-                    'lang'           => $current_lang,
-                    'tax_query'      => array(
-                        array(
-                            'taxonomy' => 'loai_vi_tri',
-                            'field'    => 'term_id',
-                            'terms'    => $position_type->term_id,
-                        )
+        // Get all jobs to group by career_work_type
+        $all_jobs_args = array(
+            'post_type'      => 'tuyen_dung',
+            'posts_per_page' => -1,
+            'post_status'    => 'publish',
+            'lang'           => 'vi',
+            'meta_query'     => array(
+                'relation' => 'AND',
+                array(
+                    'key'     => 'career_status',
+                    'value'   => 'dangtuyen',
+                    'compare' => '='
+                ),
+                // ĐIỀU KIỆN MỚI: Chỉ lấy các bài viết còn hạn nộp hồ sơ
+                array(
+                    'relation' => 'OR',
+                    array(
+                        'key'     => 'career_deadline',
+                        'compare' => 'NOT EXISTS'
                     ),
-                    'meta_query'     => array(
-                        array(
-                            'key'     => 'career_status',
-                            'value'   => 'dangtuyen',
-                            'compare' => '='
-                        )
-                    ),
-                    'orderby' => 'date',
-                    'order'   => 'DESC',
-                );
+                    array(
+                        'key'     => 'career_deadline',
+                        'value'   => $today,
+                        'compare' => '>=',
+                        'type'    => 'DATE'
+                    )
+                )
+            ),
+            'orderby' => 'date',
+            'order'   => 'DESC',
+        );
 
-                $job_query = new WP_Query($job_args);
+        $all_jobs_query = new WP_Query($all_jobs_args);
 
-                if ($job_query->have_posts()) :
+        // Group jobs by career_work_type
+        $jobs_by_work_type = array();
+        if ($all_jobs_query->have_posts()) :
+            while ($all_jobs_query->have_posts()) : $all_jobs_query->the_post();
+                $job_id    = get_the_ID();
+                $work_type = get_post_meta($job_id, 'career_work_type', true);
+                
+                if (empty($work_type)) {
+                    $work_type = 'nhan_vien'; // Default fallback
+                }
+                
+                if (!isset($jobs_by_work_type[$work_type])) {
+                    $jobs_by_work_type[$work_type] = array();
+                }
+                $jobs_by_work_type[$work_type][] = $job_id;
+            endwhile;
+            wp_reset_postdata();
+        endif;
+
+        // Define display order
+        $work_type_order = array('nhan_vien', 'ky_thuat_vien', 'cong_nhan');
+
+        // Output grouped jobs
+        foreach ($work_type_order as $work_type) :
+            if (!isset($jobs_by_work_type[$work_type]) || empty($jobs_by_work_type[$work_type])) {
+                continue;
+            }
+
+            $label = isset($work_type_labels[$work_type]) ? $work_type_labels[$work_type] : ucfirst(str_replace('_', ' ', $work_type));
         ?>
         
         <div class="career-department-section">
-            <h3 class="career-department-title"><?php echo esc_html($position_type->name); ?></h3>
+            <h3 class="career-department-title"><?php echo esc_html($label); ?></h3>
             
             <div class="career-job-table">
-                <?php while ($job_query->have_posts()) : $job_query->the_post(); ?>
+                <?php foreach ($jobs_by_work_type[$work_type] as $job_id) : ?>
                     <?php
-                    $job_id = get_the_ID();
-                    $job_deadline = get_post_meta($job_id, 'career_deadline', true);
+                    $job_post = get_post($job_id);
+                    setup_postdata($GLOBALS['post'] =& $job_post);
+                    
+                    $job_deadline     = get_post_meta($job_id, 'career_deadline', true);
                     $display_deadline = !empty($job_deadline) ? date('d/m/Y', strtotime($job_deadline)) : '';
-                    $post_date = get_the_date('d/m/Y');
+                    $post_date        = get_the_date('d/m/Y', $job_id);
                     ?>
                     <div class="career-job-row">
                         <div class="career-job-date">
@@ -173,53 +207,66 @@ $current_lang = function_exists('pll_current_language') ? pll_current_language()
                             </span>
                         </div>
                         <div class="career-job-link">
-                            <a href="<?php the_permalink(); ?>">
-                                <?php the_title(); ?>
+                            <a href="<?php echo get_permalink($job_id); ?>">
+                                <?php echo esc_html($job_post->post_title); ?>
                             </a>
                         </div>
                     </div>
-                <?php endwhile; wp_reset_postdata(); ?>
+                <?php endforeach; wp_reset_postdata(); ?>
             </div>
         </div>
         
-        <?php 
-                endif;
-            endforeach;
-        else :
-        ?>
+        <?php endforeach; ?>
+
+        <?php if (empty($jobs_by_work_type)) : ?>
         
-        <!-- Fallback: List all jobs without position type grouping -->
+        <!-- Fallback: List all jobs without grouping -->
         <div class="career-department-section">
             <h3 class="career-department-title"><?php adtec_label('tuyen_dung'); ?></h3>
             
             <?php
-            $all_jobs_args = array(
+            $fallback_args = array(
                 'post_type'      => 'tuyen_dung',
                 'posts_per_page' => -1,
                 'post_status'    => 'publish',
-                'lang'           => $current_lang,
+                'lang'           => 'vi',
                 'meta_query'     => array(
+                    'relation' => 'AND',
                     array(
                         'key'     => 'career_status',
                         'value'   => 'dangtuyen',
                         'compare' => '='
+                    ),
+                    // ĐIỀU KIỆN MỚI: Check quá hạn cho query fallback
+                    array(
+                        'relation' => 'OR',
+                        array(
+                            'key'     => 'career_deadline',
+                            'compare' => 'NOT EXISTS'
+                        ),
+                        array(
+                            'key'     => 'career_deadline',
+                            'value'   => $today,
+                            'compare' => '>=',
+                            'type'    => 'DATE'
+                        )
                     )
                 ),
                 'orderby' => 'date',
                 'order'   => 'DESC',
             );
 
-            $all_jobs_query = new WP_Query($all_jobs_args);
+            $fallback_query = new WP_Query($fallback_args);
 
-            if ($all_jobs_query->have_posts()) :
+            if ($fallback_query->have_posts()) :
             ?>
             <div class="career-job-table">
-                <?php while ($all_jobs_query->have_posts()) : $all_jobs_query->the_post(); ?>
+                <?php while ($fallback_query->have_posts()) : $fallback_query->the_post(); ?>
                     <?php
-                    $job_id = get_the_ID();
-                    $job_deadline = get_post_meta($job_id, 'career_deadline', true);
+                    $job_id           = get_the_ID();
+                    $job_deadline     = get_post_meta($job_id, 'career_deadline', true);
                     $display_deadline = !empty($job_deadline) ? date('d/m/Y', strtotime($job_deadline)) : '';
-                    $post_date = get_the_date('d/m/Y');
+                    $post_date        = get_the_date('d/m/Y');
                     ?>
                     <div class="career-job-row">
                         <div class="career-job-date">

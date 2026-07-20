@@ -25,7 +25,7 @@ get_header(); ?>
             'url'   => $lang_news_url
         ),
         array(
-            'title' => adtec_get_label('su_kien_nam'),
+            'title' => adtec_get_label('tin_tuc'),
             'url'   => $lang_news_url
         )
     );
@@ -55,7 +55,7 @@ get_header(); ?>
 
     <!-- Tiêu đề lớn (Đã dọn dẹp sạch sẽ đống if/else lằng nhằng bằng từ điển) -->
     <h1 class="news-detail-main-header">
-        <?php adtec_label('su_kien_nam'); ?>
+        <?php adtec_label('tin_tuc'); ?>
     </h1>
 
     <?php
