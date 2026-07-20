@@ -143,3 +143,29 @@ function adtec_customize_preview_js() {
 	wp_enqueue_script( 'adtec-custom-newsizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), _S_VERSION, true );
 }
 add_action( 'customize_preview_init', 'adtec_customize_preview_js' );
+
+/**
+ * TẠO CẤU HÌNH BANNER BẢN ĐỒ ADTEC GROUP TRONG CUSTOMIZER
+ */
+function adtec_customize_register_group_banner( $wp_customize ) {
+    // Section Adtec Group
+    $wp_customize->add_section( 'adtec_group_section', array(
+        'title'    => __( 'Banner Adtec Group (Địa điểm)', 'adtec' ),
+        'priority' => 35,
+    ) );
+
+    // Setting upload ảnh map banner
+    $wp_customize->add_setting( 'adtec_group_map_banner', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+
+    // Control chọn ảnh
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'adtec_group_map_banner', array(
+        'label'    => __( 'Ảnh Bản đồ Mạng lưới toàn cầu', 'adtec' ),
+        'section'  => 'adtec_group_section',
+        'settings' => 'adtec_group_map_banner',
+        'description' => __( 'Tải lên ảnh bản đồ mạng lưới các chi nhánh trên thế giới.', 'adtec' ),
+    ) ) );
+}
+add_action( 'customize_register', 'adtec_customize_register_group_banner' );

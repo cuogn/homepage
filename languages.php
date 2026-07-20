@@ -245,6 +245,65 @@ function adtec_get_dictionary() {
             'en' => 'APPLY NOW',
             'ja' => '今すぐ応募'
         ),
+        // --- TỪ ĐIỂN CHO TRANG ĐỊA ĐIỂM ---
+        'slug_diadiem' => array(
+            'vi' => 'dia-diem',
+            'en' => 'locations',
+            'ja' => 'locations-ja'
+        ),
+        'dia_diem' => array(
+            'vi' => 'Hệ thống chi nhánh',
+            'en' => 'Global Locations',
+            'ja' => '拠点一覧'
+        ),
+        'address' => array(
+            'vi' => 'Địa chỉ:',
+            'en' => 'Address:',
+            'ja' => '住所:'
+        ),
+        'tel' => array(
+            'vi' => 'Điện thoại:',
+            'en' => 'TEL:',
+            'ja' => '電話:'
+        ),
+        'website' => array(
+            'vi' => 'Website:',
+            'en' => 'Website:',
+            'ja' => 'ウェブサイト:'
+        ),
+        // --- TỪ ĐIỂN MỚI CHO TRANG ADTEC GROUP (ĐỊA ĐIỂM) ---
+        'slug_diadiem' => array(
+            'vi' => 'adtec-group',
+            'en' => 'adtec-group',
+            'ja' => 'adtec-group-ja'
+        ),
+        'dia_diem' => array(
+            'vi' => 'ADTEC GROUP',
+            'en' => 'ADTEC GROUP',
+            'ja' => 'ADTEC GROUP'
+        ),
+
+        // Từ điển cho các nhãn thông tin Địa điểm
+        'address' => array(
+            'vi' => 'Địa chỉ:',
+            'en' => 'Address:',
+            'ja' => '所在地:'
+        ),
+        'tel_label' => array(
+            'vi' => 'TEL:',
+            'en' => 'TEL:',
+            'ja' => 'TEL:'
+        ),
+        'fax_label' => array(
+            'vi' => 'FAX:',
+            'en' => 'FAX:',
+            'ja' => 'FAX:'
+        ),
+        'url_label' => array(
+            'vi' => 'URL:',
+            'en' => 'URL:',
+            'ja' => 'URL:'
+        ),
     );
 }
 

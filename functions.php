@@ -471,6 +471,14 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         'post_types' => ['dia_diem'],
         'fields'     => [
             [
+                'name'  => 'Thứ tự hiển thị (Order)',
+                'id'    => 'dia_diem_order',
+                'type'  => 'number',
+                'std'   => 0,
+                'desc'  => 'Nhập số (1, 2, 3...). Số nhỏ hơn sẽ hiển thị trước (VD: 1 hiển thị đầu tiên)',
+                'clone' => false,
+            ],
+            [
                 'name'    => 'Phân loại địa điểm',
                 'id'      => 'dia_diem_type',
                 'type'    => 'select',
@@ -493,13 +501,15 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'name'  => 'Số điện thoại (TEL)',
                 'id'    => 'dia_diem_tel',
                 'type'  => 'text',
-                'clone' => false,
+                'clone' => true,
+                'desc'  => 'Bấm "+ Add more" để thêm nhiều TEL',
             ],
             [
                 'name'  => 'Số Fax (FAX)',
                 'id'    => 'dia_diem_fax',
                 'type'  => 'text',
-                'clone' => false,
+                'clone' => true,
+                'desc'  => 'Bấm "+ Add more" để thêm nhiều số FAX',
             ],
             [
                 'name'  => 'Đường dẫn Website (URL)',
@@ -581,10 +591,14 @@ function adv_register_all_custom_elements() {
 
     //5. Đăng ký CPT địa điểm (Adtec Group)
     register_post_type('dia_diem', array(
-        'label'        => 'Địa điểm',
+        'label'        => 'Adtec Group',
         'public'       => true,
         'show_in_rest' => true,
         'has_archive'  => false,
+        'rewrite'      => array(
+            'slug'       => 'adtec-group',
+            'with_front' => false,
+        ),
         'menu_icon'    => 'dashicons-location',
         'supports'     => array('title', 'editor', 'thumbnail'),
     ));
