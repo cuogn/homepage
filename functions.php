@@ -514,6 +514,22 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         ],
     ];
 
+    // META BOX CHO CPT CÂU CHUYỆN NHÂN VIÊN (cau_chuyen)
+    $meta_boxes[] = [
+        'id'         => 'mb_employee_stories_details',
+        'title'      => 'Thông Tin Nhân Viên',
+        'post_types' => ['cau_chuyen'],
+        'fields'     => [
+            [
+                'name'  => 'Vị trí / Chức danh',
+                'id'    => 'employee_role',
+                'type'  => 'text',
+                'desc'  => 'Ví dụ: Trưởng phòng Kho, Trưởng phòng Điều chỉnh tổng hợp',
+                'clone' => false,
+            ],
+        ],
+    ];
+
     return $meta_boxes;
 }
 
@@ -1058,3 +1074,26 @@ function adtec_block_expired_careers() {
         }
     }
 }
+
+// Banner Câu chuyện nhân viên
+function adtec_customize_register_employee_banner( $wp_customize ) {
+    // 1. Tạo Section "Banner Câu chuyện nhân viên"
+    $wp_customize->add_section( 'adtec_employee_story_banner_section', array(
+        'title'    => __( 'Banner Câu chuyện nhân viên', 'adtec' ),
+        'priority' => 32,
+    ) );
+
+    // 2. Tạo Setting lưu đường dẫn ảnh
+    $wp_customize->add_setting( 'adtec_employee_story_banner_img', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ) );
+
+    // 3. Tạo Control chọn ảnh từ Media
+    $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'adtec_employee_story_banner_img_control', array(
+        'label'    => __( 'Ảnh Banner Câu chuyện nhân viên', 'adtec' ),
+        'section'  => 'adtec_employee_story_banner_section',
+        'settings' => 'adtec_employee_story_banner_img',
+    ) ) );
+}
+add_action( 'customize_register', 'adtec_customize_register_employee_banner' );

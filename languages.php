@@ -332,6 +332,32 @@ function adtec_get_dictionary() {
             'en' => 'Back to Homepage',
             'ja' => 'トップページへ戻る'
         ),
+        // Từ điển cho Trang Câu chuyện nhân viên
+        'slug_cauchuyen' => array(
+            'vi' => 'cau-chuyen-nhan-vien',
+            'en' => 'employee-stories',
+            'ja' => 'employee-stories-ja'
+        ),
+        'cau_chuyen_nhan_vien' => array(
+            'vi' => 'Câu chuyện nhân viên',
+            'en' => 'Employee Stories',
+            'ja' => '社員インタビュー'
+        ),
+        'employee_years_label' => array(
+            'vi' => 'Thâm niên:',
+            'en' => 'Experience:',
+            'ja' => '勤続年数:'
+        ),
+        'read_story' => array(
+            'vi' => 'Đọc câu chuyện',
+            'en' => 'Read Story',
+            'ja' => ' câu chuyện'
+        ),
+        'share_story' => array(
+            'vi' => 'Chia sẻ câu chuyện, chia sẻ giá trị',
+            'en' => 'Share Story, Share Value',
+            'ja' => ' ストーリーを共有し、価値を共有する'
+        ),
     );
 }
 
