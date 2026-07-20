@@ -358,6 +358,17 @@ function adtec_get_dictionary() {
             'en' => 'Share Story, Share Value',
             'ja' => ' ストーリーを共有し、価値を共有する'
         ),
+        // Từ điển cho Trang Thiết bị
+        'slug_trangthietbi' => array(
+            'vi' => 'trang-thiet-bi',
+            'en' => 'factory-equipment',
+            'ja' => 'factory-equipment-ja'
+        ),
+        'trang_thiet_bi' => array(
+            'vi' => 'Trang thiết bị',
+            'en' => 'Facilities & Equipment',
+            'ja' => '設備紹介'
+        ),
     );
 }
 

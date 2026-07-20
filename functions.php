@@ -530,6 +530,41 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         ],
     ];
 
+    // META BOX CHO CPT TRANG THIẾT BỊ (trang_thiet_bi)
+    $meta_boxes[] = [
+        'id'         => 'mb_trang_thiet_bi_details',
+        'title'      => 'Chọn ảnh & Chọn Vùng',
+        'post_types' => ['trang_thiet_bi'],
+        'fields'     => [
+            [
+                'name'             => 'Thư viện ảnh trang thiết bị',
+                'id'               => 'trang_thiet_bi_gallery',
+                'type'             => 'image_advanced',
+                'max_file_uploads' => 30, 
+                'force_delete'     => true,
+                'clone'            => false,
+            ],
+        ],
+    ];
+
+    // META BOX THƯ VIỆN ẢNH SLIDER CHO TRANG THIẾT BỊ (PAGE)
+    $meta_boxes[] = [
+        'id'         => 'mb_page_equipment_slider',
+        'title'      => 'Thư Viện Ảnh Slider Banner Trên',
+        'post_types' => ['page'],
+        'show'       => [
+            'template' => ['page-trang-thiet-bi.php'],
+        ],
+        'fields'     => [
+            [
+                'name'             => 'Album Ảnh Slider',
+                'id'               => 'factory_slider_images',
+                'type'             => 'image_advanced',
+                'max_file_uploads' => 10,
+            ],
+        ],
+    ];
+
     return $meta_boxes;
 }
 
@@ -617,8 +652,8 @@ function adv_register_all_custom_elements() {
     ));
 
     //6. Đăng ký CPT môi trường làm việc (Adtec )
-    register_post_type('moi_truong_lam_viec', array(
-        'label'        => 'Môi trường làm việc',
+    register_post_type('trang_thiet_bi', array(
+        'label'        => 'Trang thiết bị',
         'public'       => true,
         'show_in_rest' => true,
         'has_archive'  => false,
@@ -661,8 +696,8 @@ function adv_register_all_taxonomies() {
     ));
 
     // Đăng ký Taxonomy Loại cho CPT Môi trường làm việc
-    register_taxonomy('khu_vuc_nha_may', 'moi_truong_lam_viec', array(
-        'label'        => 'Khu vực nhà máy',
+    register_taxonomy('khu_vuc_nha_may', 'trang_thiet_bi', array(
+        'label'        => 'Khu vực',
         'hierarchical' => true,
         'show_in_rest' => true,
     ));

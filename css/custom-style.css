@@ -2113,3 +2113,206 @@ margin: 0 auto;
         padding: 20px;
     }
 }
+
+/* ==========================================================================
+   TRANG THIẾT BỊ / MÔI TRƯỜNG LÀM VIỆC
+   ========================================================================== */
+.factory-page-container {
+max-width: 1260px;
+margin: 0 auto;
+/* padding: 20px 15px 60px; */
+}
+
+.factory-page-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.factory-page-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #111;
+}
+
+/* ==========================================================================
+   DECOR SLIDER BANNER THIẾT BỊ (SWIPER SLIDER CHUẨN MOCKUP)
+   ========================================================================== */
+   .factory-slider-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+/* GIỚI HẠN CHIỀU CAO KHUNG SLIDER BANNER */
+.factorySwiper {
+    width: 100%;
+    height: 380px; /* Chiều cao cố định khung Slider */
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.factory-slide-img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.factory-slide-img img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover; /* Tự động cắt/căn giữa ảnh không bị co giãn */
+    object-position: center;
+    display: block;
+}
+
+/* KHỐI ĐIỀU HƯỚNG DƯỚI BANNER */
+.factory-slider-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding: 0 5px;
+}
+
+/* Thanh gạch ngang nhấp nháy (Pagination Lines) */
+.factory-pagination.swiper-pagination-bullets {
+    position: static;
+    display: flex;
+    gap: 8px;
+    width: auto;
+    justify-content: center;
+}
+
+.factory-pagination .swiper-pagination-bullet {
+    width: 35px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ccc;
+    opacity: 0.6;
+    margin: 0 !important;
+    transition: all 0.3s ease;
+}
+
+.factory-pagination .swiper-pagination-bullet-active {
+    background: #0056b3;
+    opacity: 1;
+    width: 45px;
+}
+
+/* Nút bấm < và > góc phải */
+.factory-nav-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.factory-prev-btn,
+.factory-next-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333; /* Màu mặc định của icon SVG (nhờ stroke="currentColor") */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+}
+
+.factory-prev-btn svg,
+.factory-next-btn svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    pointer-events: none;
+}
+
+.factory-prev-btn:hover,
+.factory-next-btn:hover {
+    border-color: #0056b3;
+    color: #0056b3;
+    background: #f0f7ff;
+}
+
+/* NÚT TABS FILTER KHOANH TRÒN GÓC NỔI BẬT */
+.factory-tabs-wrapper {
+    margin-bottom: 35px;
+}
+
+.factory-tabs-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.factory-tabs-list .tab-item button {
+    background: #fff;
+    color: #333;
+    border: 1px solid #0056b3;
+    padding: 10px 24px;
+    border-radius: 0 12px 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.factory-tabs-list .tab-item.active button,
+.factory-tabs-list .tab-item button:hover {
+    background: #0056b3; /* Nút Active màu xanh đậm */
+    color: #fff;
+}
+
+/* LƯỚI GRID 3 CỘT NỔI BẬT */
+.factory-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.gallery-item-card {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item-card:hover {
+    transform: translateY(-4px);
+}
+
+.gallery-img-holder {
+    width: 100%;
+    height: 240px; /* Chiều cao ảnh cố định */
+    overflow: hidden;
+}
+
+.gallery-img-holder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 768px) {
+    .factory-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    .factorySwiper {
+        height: 240px; /* Hạ chiều cao trên màn hình điện thoại */
+    }
+}
+
+@media (max-width: 480px) {
+    .factory-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+}
