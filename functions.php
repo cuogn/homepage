@@ -1261,3 +1261,272 @@ add_action( 'admin_footer', function() {
     </script>
     <?php
 } );
+
+// METABOX BANNER SLIDER TRANG CHỦ
+function adtec_home_slider_metabox() {
+    add_meta_box(
+        'adtec_home_slider_mb',
+        'Quản Lý Banner Slider Trang Chủ',
+        'adtec_render_home_slider_mb',
+        'page',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'adtec_home_slider_metabox');
+
+function adtec_render_home_slider_mb($post) {
+    wp_enqueue_media();
+    $slider_ids = get_post_meta($post->ID, '_adtec_home_slider_ids', true);
+    $slider_ids_arr = $slider_ids ? explode(',', $slider_ids) : array();
+    wp_nonce_field('adtec_save_home_slider', 'adtec_home_slider_nonce');
+    ?>
+    <div class="sec-field-group">
+        <label style="font-weight:bold; display:block; margin-bottom:8px;">Chọn danh sách ảnh Banner Slider:</label>
+        <input type="hidden" id="home_slider_ids" name="home_slider_ids" value="<?php echo esc_attr($slider_ids); ?>">
+        <button type="button" class="button button-primary" id="btn-upload-slider">📸 Chọn / Upload Nhiều Ảnh Slider</button>
+        
+        <div id="slider-preview-list" style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
+            <?php 
+            if (!empty($slider_ids_arr)) {
+                foreach ($slider_ids_arr as $img_id) {
+                    $url = wp_get_attachment_image_url($img_id, 'thumbnail');
+                    if ($url) {
+                        echo '<div style="position:relative;" data-id="'.$img_id.'">
+                                <img src="'.esc_url($url).'" style="width:100px; height:70px; object-fit:cover; border:1px solid #ccc; border-radius:3px;" />
+                              </div>';
+                    }
+                }
+            }
+            ?>
+        </div>
+    </div>
+
+    <script>
+    jQuery(document).ready(function($) {
+        $('#btn-upload-slider').click(function(e) {
+            e.preventDefault();
+            var frame = wp.media({
+                title: 'Chọn các ảnh Banner cho Trang Chủ',
+                button: { text: 'Thêm vào Slider' },
+                multiple: true
+            });
+
+            frame.on('select', function() {
+                var selection = frame.state().get('selection');
+                var ids = [];
+                $('#slider-preview-list').html('');
+                selection.map(function(attachment) {
+                    attachment = attachment.toJSON();
+                    ids.push(attachment.id);
+                    $('#slider-preview-list').append('<div style="position:relative;"><img src="' + attachment.url + '" style="width:100px; height:70px; object-fit:cover; border:1px solid #ccc; border-radius:3px;" /></div>');
+                });
+                $('#home_slider_ids').val(ids.join(','));
+            });
+
+            frame.open();
+        });
+    });
+    </script>
+    <?php
+}
+
+function adtec_save_home_slider_data($post_id) {
+    if (!isset($_POST['adtec_home_slider_nonce']) || !wp_verify_nonce($_POST['adtec_home_slider_nonce'], 'adtec_save_home_slider')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (isset($_POST['home_slider_ids'])) {
+        update_post_meta($post_id, '_adtec_home_slider_ids', sanitize_text_field($_POST['home_slider_ids']));
+    }
+}
+add_action('save_post', 'adtec_save_home_slider_data');
+
+// METABOX REPEATER TRANG CHỦ - BÓC TOÀN BỘ CÁC MỤC MENU DỄ DÀNG
+function adtec_add_home_sections_metabox() {
+    add_meta_box(
+        'adtec_home_sections_mb',
+        'Quản Lý Các Section Trang Chủ',
+        'adtec_render_home_sections_mb',
+        'page',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'adtec_add_home_sections_metabox');
+
+function adtec_render_home_sections_mb($post) {
+    wp_enqueue_media();
+
+    $sections = get_post_meta($post->ID, '_adtec_home_sections_data', true);
+    if (!is_array($sections)) $sections = [];
+    wp_nonce_field('adtec_save_home_sections', 'adtec_home_sections_nonce');
+
+    // LẤY TẤT CẢ CÁC MENU ITEM CẤP 1 TỪ TẤT CẢ CÁC MENU TRONG WEBSITE
+    $parent_menus = array();
+    $all_menus    = wp_get_nav_menus();
+
+    if (!empty($all_menus)) {
+        foreach ($all_menus as $menu_obj) {
+            $items = wp_get_nav_menu_items($menu_obj->term_id);
+            if ($items) {
+                foreach ($items as $item) {
+                    // Lấy các menu cha (cấp 1)
+                    if (empty($item->menu_item_parent) || $item->menu_item_parent == '0') {
+                        $parent_menus[$item->ID] = '[' . $menu_obj->name . '] ' . $item->title;
+                    }
+                }
+            }
+        }
+    }
+    ?>
+    <style>
+        .sec-repeater-box { border: 1px solid #ccd0d4; background: #fff; margin-bottom: 15px; padding: 15px; border-radius: 4px; }
+        .sec-repeater-header { font-weight: bold; font-size: 14px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        .sec-field-group { margin-bottom: 12px; }
+        .sec-field-group label { display: block; font-weight: 600; margin-bottom: 5px; color: #222; }
+        .sec-field-group select, .sec-field-group input[type="text"] { width: 100%; max-width: 600px; height: 36px; }
+        .btn-remove-sec { color: #d63638; cursor: pointer; text-decoration: underline; font-size: 13px; }
+        .img-preview-box { margin-top: 8px; display: inline-block; }
+        .img-preview-box img { max-width: 180px; height: auto; border: 1px solid #ddd; padding: 3px; border-radius: 3px; display: block; }
+    </style>
+
+    <div id="sec-repeater-wrapper">
+        <?php foreach ($sections as $index => $sec) : 
+            $selected_menu = isset($sec['menu_item_id']) ? $sec['menu_item_id'] : '';
+            $subtitle      = isset($sec['subtitle']) ? $sec['subtitle'] : '';
+            $bg_img_id     = isset($sec['bg_img_id']) ? $sec['bg_img_id'] : '';
+            $bg_img_url    = $bg_img_id ? wp_get_attachment_image_url($bg_img_id, 'medium') : '';
+        ?>
+            <div class="sec-repeater-box">
+                <div class="sec-repeater-header">
+                    <span>Section #<?php echo $index + 1; ?></span>
+                    <span class="btn-remove-sec" onclick="jQuery(this).closest('.sec-repeater-box').remove();">Xóa Section</span>
+                </div>
+
+                <!-- 1. CHỌN MENU TƯƠNG ỨNG -->
+                <div class="sec-field-group">
+                    <label>Chọn Mục Menu tương ứng (Lấy Tiêu đề & Submenu tự động):</label>
+                    <select name="home_sec[<?php echo $index; ?>][menu_item_id]">
+                        <option value="">-- Chọn danh mục Menu --</option>
+                        <?php foreach ($parent_menus as $m_id => $m_title) : ?>
+                            <option value="<?php echo $m_id; ?>" <?php selected($selected_menu, $m_id); ?>>
+                                <?php echo esc_html($m_title); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <!-- 2. SLOGAN -->
+                <div class="sec-field-group">
+                    <label>Slogan / Mô tả ngắn phụ trợ:</label>
+                    <input type="text" name="home_sec[<?php echo $index; ?>][subtitle]" value="<?php echo esc_attr($subtitle); ?>" placeholder="VD: Đổi mới - Sáng tạo - Hiệu quả">
+                </div>
+
+                <!-- 3. CHỌN ẢNH TỪ MEDIA -->
+                <div class="sec-field-group">
+                    <label>Ảnh nền Section (Cột bên phải):</label>
+                    <input type="hidden" class="img-id-input" name="home_sec[<?php echo $index; ?>][bg_img_id]" value="<?php echo esc_attr($bg_img_id); ?>">
+                    <button type="button" class="button btn-upload-img">📸 Chọn / Tải ảnh lên</button>
+                    <button type="button" class="button btn-remove-img" style="<?php echo $bg_img_id ? '' : 'display:none;'; ?>">Xóa ảnh</button>
+                    <div class="img-preview-box">
+                        <?php if ($bg_img_url) : ?>
+                            <img src="<?php echo esc_url($bg_img_url); ?>" alt="Preview">
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <button type="button" class="button button-primary" id="add-new-sec-btn">+ Thêm Section Mới</button>
+
+    <script>
+    jQuery(document).ready(function($) {
+        // 1. SỰ KIỆN UPLOAD ẢNH BẰNG MEDIA POPUP
+        $(document).on('click', '.btn-upload-img', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var $box = $btn.closest('.sec-field-group');
+            var $input = $box.find('.img-id-input');
+            var $preview = $box.find('.img-preview-box');
+            var $removeBtn = $box.find('.btn-remove-img');
+
+            var frame = wp.media({
+                title: 'Chọn ảnh nền cho Section',
+                button: { text: 'Dùng ảnh này' },
+                multiple: false
+            });
+
+            frame.on('select', function() {
+                var attachment = frame.state().get('selection').first().toJSON();
+                $input.val(attachment.id);
+                $preview.html('<img src="' + attachment.url + '" style="max-width:180px;height:auto;" />');
+                $removeBtn.show();
+            });
+
+            frame.open();
+        });
+
+        // 2. SỰ KIỆN XÓA ẢNH
+        $(document).on('click', '.btn-remove-img', function(e) {
+            e.preventDefault();
+            var $box = $(this).closest('.sec-field-group');
+            $box.find('.img-id-input').val('');
+            $box.find('.img-preview-box').html('');
+            $(this).hide();
+        });
+
+        // 3. THÊM SECTION MỚI - TỰ ĐỘNG LẤY OPTIONS MENU DỄ DÀNG
+        $('#add-new-sec-btn').click(function() {
+            var count = $('#sec-repeater-wrapper .sec-repeater-box').length;
+            var menuOptions = `<?php 
+                echo '<option value="">-- Chọn danh mục Menu --</option>';
+                foreach ($parent_menus as $m_id => $m_title) {
+                    echo '<option value="' . $m_id . '">' . esc_js($m_title) . '</option>';
+                }
+            ?>`;
+
+            var html = `
+                <div class="sec-repeater-box">
+                    <div class="sec-repeater-header">
+                        <span>Section Mới</span>
+                        <span class="btn-remove-sec" onclick="$(this).closest('.sec-repeater-box').remove();">Xóa Section</span>
+                    </div>
+                    <div class="sec-field-group">
+                        <label>Chọn Mục Menu tương ứng:</label>
+                        <select name="home_sec[${count}][menu_item_id]">
+                            ${menuOptions}
+                        </select>
+                    </div>
+                    <div class="sec-field-group">
+                        <label>Slogan / Mô tả ngắn phụ trợ:</label>
+                        <input type="text" name="home_sec[${count}][subtitle]" placeholder="VD: Đổi mới - Sáng tạo - Hiệu quả">
+                    </div>
+                    <div class="sec-field-group">
+                        <label>Ảnh nền Section (Cột bên phải):</label>
+                        <input type="hidden" class="img-id-input" name="home_sec[${count}][bg_img_id]">
+                        <button type="button" class="button btn-upload-img">📸 Chọn / Tải ảnh lên</button>
+                        <button type="button" class="button btn-remove-img" style="display:none;">Xóa ảnh</button>
+                        <div class="img-preview-box"></div>
+                    </div>
+                </div>`;
+            $('#sec-repeater-wrapper').append(html);
+        });
+    });
+    </script>
+    <?php
+}
+
+// LƯU DỮ LIỆU
+function adtec_save_home_sections_data($post_id) {
+    if (!isset($_POST['adtec_home_sections_nonce']) || !wp_verify_nonce($_POST['adtec_home_sections_nonce'], 'adtec_save_home_sections')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    if (isset($_POST['home_sec']) && is_array($_POST['home_sec'])) {
+        $clean_data = array_values($_POST['home_sec']);
+        update_post_meta($post_id, '_adtec_home_sections_data', $clean_data);
+    } else {
+        delete_post_meta($post_id, '_adtec_home_sections_data');
+    }
+}
+add_action('save_post', 'adtec_save_home_sections_data');
