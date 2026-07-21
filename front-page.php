@@ -133,7 +133,8 @@ if (!empty($all_menus)) {
         </div>
     <?php endif; ?>
 
-    <!-- KHỐI TIN TỨC NỔI BẬT -->
+    <!-- KHỐI TIN TỨC NỔI BẬT (BỌC FULL ĐIỀU KIỆN - RỖNG LÀ BẤT HOẠT CẢ KHỐI XANH) -->
+<?php if ($news_query->have_posts()) : ?>
     <div class="home-news-section">
         <div class="home-section-row">
             <!-- CỘT TRÁI: TIÊU ĐỀ TIN TỨC -->
@@ -164,26 +165,25 @@ if (!empty($all_menus)) {
 
             <!-- CỘT PHẢI: 3 CARD TIN TỨC -->
             <div class="news-cards-container">
-                <?php if ($news_query->have_posts()) : ?>
-                    <div class="news-cards-grid">
-                        <?php while ($news_query->have_posts()) : $news_query->the_post(); 
-                            $thumb = get_the_post_thumbnail_url(get_the_ID(), 'medium') ?: 'https://via.placeholder.com/300x200';
-                        ?>
-                            <a href="<?php the_permalink(); ?>" class="news-card-item">
-                                <div class="news-card-thumb">
-                                    <img src="<?php echo esc_url($thumb); ?>" alt="<?php the_title_attribute(); ?>">
-                                </div>
-                                <div class="news-card-info">
-                                    <span class="news-card-date"><?php echo get_the_date('j/n/Y'); ?></span>
-                                    <h3 class="news-card-title"><?php the_title(); ?></h3>
-                                </div>
-                            </a>
-                        <?php endwhile; wp_reset_postdata(); ?>
-                    </div>
-                <?php endif; ?>
+                <div class="news-cards-grid">
+                    <?php while ($news_query->have_posts()) : $news_query->the_post(); 
+                        $thumb = get_the_post_thumbnail_url(get_the_ID(), 'medium') ?: 'https://via.placeholder.com/300x200';
+                    ?>
+                        <a href="<?php the_permalink(); ?>" class="news-card-item">
+                            <div class="news-card-thumb">
+                                <img src="<?php echo esc_url($thumb); ?>" alt="<?php the_title_attribute(); ?>">
+                            </div>
+                            <div class="news-card-info">
+                                <span class="news-card-date"><?php echo get_the_date('j/n/Y'); ?></span>
+                                <h3 class="news-card-title"><?php the_title(); ?></h3>
+                            </div>
+                        </a>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </div>
             </div>
         </div>
     </div>
+<?php endif; ?>
 
     <!-- ==========================================
          KHỐI 3: CÁC SECTION DYNAMIC (VỀ ADV, SẢN PHẨM...)

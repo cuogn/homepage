@@ -1,5 +1,29 @@
 </div><!-- #content -->
 
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var header = document.getElementById('masthead');
+        var headerTopRow = header.querySelector('.header-top-row');
+        var lastScrollY = window.scrollY;
+
+        function handleStickyHeader() {
+            var currentScrollY = window.scrollY;
+
+            if (currentScrollY > 50) {
+                header.classList.add('sticky-header');
+            } else {
+                header.classList.remove('sticky-header');
+            }
+
+            lastScrollY = currentScrollY;
+        }
+
+        window.addEventListener('scroll', handleStickyHeader, { passive: true });
+
+        handleStickyHeader();
+    });
+    </script>
+
     <footer id="colophon" class="site-footer">
         <div class="footer-container">
             

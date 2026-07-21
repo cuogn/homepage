@@ -722,7 +722,7 @@ function adv_register_all_custom_elements() {
 
     //6. Đăng ký CPT Các sản phẩm khác
     register_post_type('cac_san_pham_khac', array(
-        'label'        => 'Các sản phẩm khác',
+        'label'        => 'Sản phẩm',
         'public'       => true,
         'show_in_rest' => true,
         'has_archive'  => false,

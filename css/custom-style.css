@@ -25,29 +25,17 @@ body {
 
 /* Khung ngoài cùng của header: #masthead bọc 2 hàng
    (.header-top-row + .header-navigation-row) xếp chồng theo chiều dọc */
-#masthead {
-    display: flex;
-    flex-flow: column nowrap;
-    width: 100%;
-    max-width: 1260px;
-    background-color: #ffffff;
-    padding: 20px 30px;
-    margin: 0 auto;
-    /* position: sticky; */
-    top: 0;
-    z-index: 9999;
-    /* Giữ header luôn cố định ở đỉnh khi cuộn trang */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-}
 
 /* Hàng 1: Logo + nút chuyển ngôn ngữ */
 .header-top-row {
     padding-top: 16px;
+    transition: all 0.3s ease;
 }
 
 /* Hàng 2: Menu chính, tách biệt khỏi hàng logo bằng viền mỏng phía trên */
 .header-navigation-row {
     padding-top: 4px;
+    transition: all 0.3s ease;
 }
 
 /* ---------- Logo / Tên thương hiệu ---------- */
@@ -113,13 +101,34 @@ body {
     width: 100%;
     max-width: none !important;
     background-color: #ffffff;
-    /* border-bottom: 1px solid #EDEDED; */
     padding: 0;
-    /* Bỏ padding ở đây để đưa vào container-header */
     margin: 0 auto;
-    top: 0;
     z-index: 9999;
-    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02); */
+    transition: all 0.3s ease;
+}
+
+/* Sticky Header khi scroll */
+#masthead.sticky-header {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+#masthead.sticky-header .header-top-row {
+    display: none;
+}
+
+#masthead.sticky-header .header-navigation-row {
+    padding-top: 0;
+}
+
+#masthead.sticky-header .container-header {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#masthead.sticky-header .site-logo img {
+    max-height: 36px;
 }
 
 .container-header {
