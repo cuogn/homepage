@@ -1688,7 +1688,7 @@ margin: 0 auto;
 }
 
 .history-page-title {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 700;
     color: #111;
 }
@@ -1984,7 +1984,7 @@ margin: 0 auto;
 }
 
 .employee-page-title {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 700;
     color: #111;
 }
@@ -2129,7 +2129,7 @@ margin: 0 auto;
 }
 
 .factory-page-title {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 700;
     color: #111;
 }
@@ -2314,5 +2314,249 @@ margin: 0 auto;
 @media (max-width: 480px) {
     .factory-gallery-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   GIAO DIỆN MÁY NGUỒN CAO TẦN (page-may-nguon-cao-tan.php)
+   ========================================================================== */
+   .generator-page-container {
+    max-width: 1260px;
+    margin: 0 auto;
+    /* padding: 20px 15px 60px; */
+}
+
+.generator-page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.generator-page-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #111;
+}
+
+/* KHỐI ẢNH ĐẠI DIỆN MÁY */
+.generator-main-image {
+    width: 100%;
+    margin-bottom: 35px;
+    border-radius: 4px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.generator-main-image img {
+    width: 100%;
+    /* max-width: 900px; */
+    height: auto;
+    display: inline-block;
+    object-fit: cover;
+}
+
+/* NỘI DUNG */
+.generator-content-box {
+    max-width: 100%;
+    margin: 0 auto;
+    color: #222;
+}
+
+.generator-prod-name {
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    line-height: 1.4;
+    color: #111;
+}
+
+.generator-description {
+    font-size: 30px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* DANH SÁCH CÁC DÒNG THÔNG SỐ */
+.generator-specs-list {
+    list-style: disc;
+    padding-left: 20px;
+    margin: 0 0 15px 0;
+}
+
+.generator-specs-list li {
+    font-size: 20px;
+    line-height: 1.8;
+    color: #222;
+}
+
+.generator-specs-list li strong {
+    color: #000;
+}
+
+/* GHI CHÚ CHỮ IN NGHIÊNG BEN DƯỚI */
+.generator-note p {
+    font-size: 20px;
+    color: #222;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .generator-page-title {
+        font-size: 26px;
+    }
+    .generator-prod-name {
+        font-size: 20px;
+    }
+    .generator-description {
+        font-size: 16px;
+    }
+}
+
+/* ==========================================================================
+   TRANG CÁC SẢN PHẨM KHÁC
+   ========================================================================== */
+   .other-products-page-container {
+    max-width: 1260px;
+    margin: 0 auto;
+    /* padding: 30px 20px 80px; */
+}
+
+.other-products-page-header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 40px 0 30px 0;
+}
+
+.other-products-page-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* DANH SÁCH SẢN PHẨM */
+.other-products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* Khoảng cách giữa các sản phẩm */
+}
+
+/* MỘT HÀNG SẢN PHẨM */
+.other-product-item {
+    display: flex;
+    flex-direction: row; /* Ép chữ bên trái, ảnh bên phải */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+/* CỘT NỘI DUNG CHỮ (BÊN TRÁI) */
+.other-product-content {
+    flex: 1;
+    min-width: 0; /* Anti-overflow */
+}
+
+.other-product-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.other-product-title a {
+    color: #111;
+    text-decoration: none;
+}
+
+.other-product-title a:hover {
+    color: #0056b3;
+}
+
+/* KHỐI NỘI DUNG VĂN BẢN (BULLET POINTS) */
+.other-product-description {
+    font-size: 15px;
+    color: #222;
+    line-height: 1.6;
+}
+
+.other-product-description p {
+    margin: 0 0 10px 30px;
+}
+
+.other-product-description ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0 0 10px;
+}
+
+.other-product-description li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.other-product-description li strong {
+    color: #000;
+}
+
+/* CỘT ẢNH (BÊN PHẢI) */
+.other-product-image {
+    width: 360px;
+    height: 240px;
+    aspect-ratio: 3 / 2;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.other-product-image a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.other-product-image img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* RESPONSIVE CHO MÀN HÌNH NHỎ / MOBILE */
+@media (max-width: 768px) {
+    .other-product-item {
+        flex-direction: column-reverse;
+        gap: 20px;
+    }
+    
+    .other-product-image {
+        width: 100%;
+        height: auto;
+        max-height: 260px;
+    }
+    
+    .other-product-image img {
+        height: auto;
+        max-height: 260px;
     }
 }

@@ -565,6 +565,65 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         ],
     ];
 
+    // META BOX CHO 2 TRANG MÁY NGUỒN CAO TẦN & BỘ PHỐI HỢP TRỞ KHÁNG
+    $meta_boxes[] = [
+        'id'         => 'mb_may_nguon_cao_tan_details',
+        'title'      => 'Thông Tin Chi Tiết Máy Nguồn Cao Tần',
+        'post_types' => ['page'],
+        'show'       => [
+            'template' => [
+                'page-may-nguon-cao-tan.php',
+                'page-bo-phoi-hop-tro-khang.php',
+            ],
+        ],
+        'fields'     => [
+            [
+                'name'  => 'Tên đầy đủ / Mã sản phẩm nổi bật',
+                'id'    => 'generator_product_title',
+                'type'  => 'text',
+                'desc'  => 'Ví dụ: 24949 ADTEC RF PLASMA GENERATOR AXR-600III',
+                'clone' => false,
+            ],
+            [
+                'name'  => 'Đoạn mô tả giới thiệu thiết bị',
+                'id'    => 'generator_description',
+                'type'  => 'textarea',
+                'rows'  => 4,
+                'clone' => false,
+            ],
+            [
+                'name'       => 'Danh sách thông số / Tình trạng máy (Ví dụ: Thương hiệu: ADTEC)',
+                'id'         => 'generator_specs_list',
+                'type'       => 'text',
+                'clone'      => true, // Cho phép thêm nhiều dòng thông số
+                'sort_clone' => true,
+                'add_button' => '+ Thêm dòng thông số mới',
+                'desc'       => 'Nhập theo dạng: "Thương hiệu: ADTEC" hoặc "Mã sản phẩm: AXR-600III"',
+            ],
+            [
+                'name'  => 'Ghi chú / Lưu ý bổ sung (Chữ in nghiêng bên dưới)',
+                'id'    => 'generator_note',
+                'type'  => 'textarea',
+                'rows'  => 2,
+                'desc'  => 'Ví dụ: (Linh kiện chưa được kiểm tra và bán nguyên trạng, không bảo hành hoặc đổi trả)',
+                'clone' => false,
+            ],
+        ],
+    ];
+    // 2. Meta Box cho CPT "Các sản phẩm khác"
+    $meta_boxes[] = [
+        'id'         => 'mb_other_products_details',
+        'title'      => 'Danh Sách Các Sản Phẩm Phụ Trợ / Khác',
+        'post_types' => ['cac_san_pham_khac'],
+        'fields'     => [
+            [
+                'name' => 'Đường dẫn sản phẩm',
+                'id'   => 'other_product_url',
+                'type' => 'url',
+            ],
+        ],
+    ];
+
     return $meta_boxes;
 }
 
@@ -658,6 +717,16 @@ function adv_register_all_custom_elements() {
         'show_in_rest' => true,
         'has_archive'  => false,
         'menu_icon'    => 'dashicons-images-alt2',
+        'supports'     => array('title', 'editor', 'thumbnail'),
+    ));
+
+    //6. Đăng ký CPT Các sản phẩm khác
+    register_post_type('cac_san_pham_khac', array(
+        'label'        => 'Các sản phẩm khác',
+        'public'       => true,
+        'show_in_rest' => true,
+        'has_archive'  => false,
+        'menu_icon'    => 'dashicons-products',
         'supports'     => array('title', 'editor', 'thumbnail'),
     ));
 }
@@ -1132,3 +1201,63 @@ function adtec_customize_register_employee_banner( $wp_customize ) {
     ) ) );
 }
 add_action( 'customize_register', 'adtec_customize_register_employee_banner' );
+
+// TỰ ĐỘNG ĐIỀU HƯỚNG HIỂN THỊ METABOX THEO PAGE TEMPLATE (Classic & Gutenberg)
+add_action( 'admin_footer', function() {
+    $screen = get_current_screen();
+    // Chỉ chạy trong trang soạn thảo Page
+    if ( ! $screen || $screen->base !== 'post' || $screen->post_type !== 'page' ) {
+        return;
+    }
+    ?>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        // Bản đồ liên kết: "Tên file Template" => [ "ID của Meta Box" ]
+        const templateMetaMap = {
+            'page-trang-thiet-bi.php': ['#mb_page_equipment_slider'],
+            'page-may-nguon-cao-tan.php': ['#mb_may_nguon_cao_tan_details'],
+            'page-bo-phoi-hop-tro-khang.php': ['#mb_may_nguon_cao_tan_details']
+        };
+
+        function handleTemplateMetaBoxes(currentTemplate) {
+            // 1. Mặc định ẩn tất cả các Metabox đặc thù
+            Object.values(templateMetaMap).forEach(function(selectors) {
+                selectors.forEach(function(selector) {
+                    $(selector).hide();
+                });
+            });
+
+            // 2. Chỉ hiển thị metabox thuộc về Template đang được chọn
+            if (templateMetaMap[currentTemplate]) {
+                templateMetaMap[currentTemplate].forEach(function(selector) {
+                    $(selector).show();
+                });
+            }
+        }
+
+        // --- HỖ TRỢ TRÌNH SOẠN THẢO CLASSIC EDITOR ---
+        if ($('#page_template').length) {
+            handleTemplateMetaBoxes($('#page_template').val());
+            $('#page_template').on('change', function() {
+                handleTemplateMetaBoxes($(this).val());
+            });
+        }
+
+        // --- HỖ TRỢ TRÌNH SOẠN THẢO GUTEBERG (BLOCK EDITOR) REAL-TIME ---
+        if (typeof wp !== 'undefined' && wp.data && wp.data.subscribe) {
+            let lastTemplate = null;
+            wp.data.subscribe(function() {
+                const editor = wp.data.select('core/editor');
+                if (editor) {
+                    const currentTemplate = editor.getEditedPostAttribute('template');
+                    if (currentTemplate !== lastTemplate) {
+                        lastTemplate = currentTemplate;
+                        handleTemplateMetaBoxes(currentTemplate);
+                    }
+                }
+            });
+        }
+    });
+    </script>
+    <?php
+} );
