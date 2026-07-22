@@ -28,6 +28,16 @@ function adtec_get_slider_cpts_config() {
                 'breadcrumb' => 'tin_tuc_su_kien',
             ),
         ),
+        'thong_tin_tuyen_dung' => array(
+            'slug_key'   => 'slug_thongtintuyendung',
+            'date_meta'  => 'recruitment_date',
+            'gallery_meta' => 'recruitment_gallery',
+            'labels'     => array(
+                'singular'   => 'thong_tin_tuyen_dung',
+                'plural'     => 'tin_moi',
+                'breadcrumb' => 'thong_tin_tuyen_dung',
+            ),
+        ),
         // --------------------------------------------------
         // HƯỚNG DẪN THÊM CPT MỚI:
         // 1. Copy block trên và đổi 'tin_tuc' thành tên CPT mới
@@ -122,7 +132,7 @@ function adtec_get_dictionary() {
             'en' => 'Latest Annual Events',
             'ja' => '最新の年間行事'
         ),
-        'collapse' => array('vi' => 'Thu gọn', 'en' => 'Collapse', 'ja' => '折りたたむ'),
+        'collapse' => array('vi' => 'THU GỌN', 'en' => 'COLLAPSE', 'ja' => '折りたたむ'),
 
         // --- TỪ ĐIỂN CHO PHẦN TUYỂN DỤNG ---
         'tuyen_dung' => array(
@@ -368,6 +378,22 @@ function adtec_get_dictionary() {
             'vi' => 'Trang thiết bị',
             'en' => 'Facilities & Equipment',
             'ja' => '設備紹介'
+        ),
+        // Từ điển cho Trang Thông tin tuyển dụng
+        'slug_thongtintuyendung' => array(
+            'vi' => 'thong-tin-tuyen-dung',
+            'en' => 'recruitment-information',
+            'ja' => 'recruitment-information-ja'
+        ),
+        'thong_tin_tuyen_dung' => array(
+            'vi' => 'Thông tin tuyển dụng',
+            'en' => 'Recruitment Information',
+            'ja' => '採用情報'
+        ),
+        'tin_moi' => array(
+            'vi' => 'Tin mới',
+            'en' => 'News',
+            'ja' => '新しいニュース'
         ),
     );
 }

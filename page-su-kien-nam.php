@@ -87,7 +87,16 @@ get_header(); ?>
                 'meta_key'       => 'events_date',
                 'orderby'        => 'meta_value',
                 'order'          => 'DESC',
-                'lang'           => $current_lang
+                'lang'           => $current_lang,
+                'post_status'    => 'publish',
+                'meta_query'     => array(
+                    array(
+                        'key'     => 'events_date',
+                        'value'   => date('Y-m-d'),
+                        'compare' => '<=',
+                        'type'    => 'DATE',
+                    ),
+                ),
             ));
             
             $count = 0; // Biến đếm vị trí bài viết

@@ -41,11 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-jQuery(document).ready(function ($) {
-    // DEBUG: Kiểm tra số lượng items
-    console.log('DEBUG: is-hidden items:', $('.news-list-rows .is-hidden').length);
-    console.log('DEBUG: btn-toggle-posts:', $('.btn-toggle-posts').length);
-    
+jQuery(document).ready(function ($) {    
     // Lắng nghe sự kiện click trên class chung btn-toggle-posts
     // Hỗ trợ tất cả các trang slider (Tin tức, Sự kiện, v.v.)
     $('.btn-toggle-posts').on('click', function () {
@@ -53,9 +49,8 @@ jQuery(document).ready(function ($) {
         // Tìm container chứa danh sách bài viết (dùng .news-page-container làm cha chung)
         var container = btn.closest('.news-page-container').find('.news-list-rows');
         var state = btn.attr('data-state');
-        
-        // DEBUG
-        console.log('DEBUG click: state=', state, 'container=', container.length, 'hidden=', container.find('.is-hidden').length);
+
+        // console.log('DEBUG click: state=', state, 'container=', container.length, 'hidden=', container.find('.is-hidden').length);
 
         // Lấy nhãn dịch đa ngôn ngữ từ thuộc tính data-
         var textMore = btn.attr('data-text-more');

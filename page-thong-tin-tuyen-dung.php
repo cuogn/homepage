@@ -1,24 +1,24 @@
 <?php
 /**
- * Template Name: Giao diện Trang Tin Tức
+ * Template Name: Giao diện Trang Thông tin tuyển dụng
  */
 get_header(); ?>
 
 <div class="news-page-container">
     <?php if (function_exists('adv_display_breadcrumb')) { adv_display_breadcrumb(); } ?>
-    <h1 class="news-page-title"><?php adtec_label('tin_tuc'); ?></h1>
+    <h1 class="news-page-title"><?php adtec_label('thong_tin_tuyen_dung'); ?></h1>
 
     <!-- ========================================== -->
-    <!-- PHẦN 1: SLIDER TIN NỔI BẬT (CPT: tin_tuc)  -->
+    <!-- PHẦN 1: SLIDER THÔNG TIN TUYỂN DỤNG NỔI BẬT (CPT: thong_tin_tuyen_dung)  -->
     <!-- ========================================== -->
     <?php
     $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'vi';
 
     $featured_query = new WP_Query(array(
-        'post_type'      => 'tin_tuc',
+        'post_type'      => 'thong_tin_tuyen_dung',
         'posts_per_page' => 9,
         'lang'           => $current_lang,
-        'meta_key'       => 'news_date', 
+        'meta_key'       => 'recruitment_date', 
         'orderby'        => 'meta_value', 
         'order'          => 'DESC', 
     ));
@@ -39,7 +39,7 @@ get_header(); ?>
                                 </div>
                                 <div class="slide-right-info">
                                     <?php 
-                                    $custom_date = get_post_meta(get_the_ID(), 'news_date', true);
+                                    $custom_date = get_post_meta(get_the_ID(), 'recruitment_date', true);
                                     $display_date = !empty($custom_date) ? date('d/m/Y', strtotime($custom_date)) : get_the_date('d/m/Y');
                                     ?>
                                     <span class="slide-date"><?php echo esc_html($display_date); ?></span>
@@ -73,25 +73,25 @@ get_header(); ?>
     <?php endif; ?>
 
     <!-- ========================================== -->
-    <!-- PHẦN 2: DANH SÁCH TIN TỨC MỚI (CPT: tin_tuc)-->
+    <!-- PHẦN 2: DANH SÁCH THÔNG TIN TUYỂN DỤNG (CPT: thong_tin_tuyen_dung)-->
     <!-- ========================================== -->
     <div class="latest-news-section">
-        <h2 class="section-news-title"><?php adtec_label('tin_tuc_moi'); ?></h2>
+        <h2 class="section-news-title"><?php adtec_label('tin_moi'); ?></h2>
 
         <div class="news-list-rows" id="local-news-container">
             <?php
             // Lấy toàn bộ bài viết ra ngay từ đầu (-1)
             $news_query = new WP_Query(array(
-                'post_type'      => 'tin_tuc',
+                'post_type'      => 'thong_tin_tuyen_dung',
                 'posts_per_page' => -1, // <--- Lấy sạch sẽ toàn bộ bài viết
-                'meta_key'       => 'news_date',
+                'meta_key'       => 'recruitment_date',
                 'orderby'        => 'meta_value',
                 'order'          => 'DESC',
                 'lang'           => $current_lang,
                 'post_status'    => 'publish',
                 'meta_query'     => array(
                     array(
-                        'key'     => 'news_date',
+                        'key'     => 'recruitment_date',
                         'value'   => date('Y-m-d'),
                         'compare' => '<=',
                         'type'    => 'DATE',
@@ -99,13 +99,10 @@ get_header(); ?>
                 ),
             ));
             
-            // DEBUG: Log số lượng bài viết (sau khi init $count)
-            $count = 0;
-            error_log('tin_tuc: total=' . $news_query->found_posts . ', count_var=' . $count);
-            ?>
-            <?php if ( $news_query->have_posts() ) :
+            $count = 0; // Biến đếm vị trí bài viết
+            if ( $news_query->have_posts() ) :
                 while ( $news_query->have_posts() ) : $news_query->the_post(); 
-                    $custom_date = get_post_meta(get_the_ID(), 'news_date', true);
+                    $custom_date = get_post_meta(get_the_ID(), 'recruitment_date', true);
                     $display_date = !empty($custom_date) ? date('d/m/Y', strtotime($custom_date)) : get_the_date('d/m/Y');
                     
                     // Nếu là bài viết thứ 3 trở đi ($count >= 2), thêm class "is-hidden" để giấu đi
@@ -129,6 +126,7 @@ get_header(); ?>
             ?>
         </div>
 
+        <!-- Nút Tải thêm / Thu gọn (Chỉ hiển thị nếu tổng số bài viết lớn hơn 2) -->
         <?php if ( $count > 2 ) : ?>
             <div class="load-more-wrapper">
                 <button class="load-more-btn btn-toggle-posts" 

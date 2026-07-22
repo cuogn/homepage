@@ -624,12 +624,42 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         ],
     ];
 
+    // Ô NHẬP LIỆU CHO CPT "THÔNG TIN TUYỂN DỤNG" (thong_tin_tuyen_dung)
+    $meta_boxes[] = [
+        'id'         => 'mb_recruitment_details',
+        'title'      => 'Chi tiết Thông tin tuyển dụng',
+        'post_types' => ['thong_tin_tuyen_dung'],
+        'context'    => 'normal',
+        'priority'   => 'high',
+        'fields'     => [
+            [
+                'name'       => 'Ngày hiển thị',
+                'id'         => 'recruitment_date',
+                'type'       => 'date',
+                'js_options' => [
+                    'dateFormat'      => 'yy-mm-dd',
+                    'changeMonth'     => true,
+                    'changeYear'      => true,
+                    'showButtonPanel' => true,
+                ],
+                'clone'      => false,
+            ],
+            [
+                'name'             => 'Thư viện ảnh thông tin tuyển dụng',
+                'id'               => 'recruitment_gallery',
+                'type'             => 'image_advanced',
+                'max_file_uploads' => 30, 
+                'force_delete'     => false,
+                'clone'            => false,
+            ],
+        ],
+    ];
+
     return $meta_boxes;
 }
 
 //Khai báo các Custom Post Type (CPT-Khung chứa) và Taxonomy cho website
 function adv_register_all_custom_elements() {
-    // Đăng ký các custom element cho Elementor tại đây
     
     // 0. Đăng ký CPT Tin tức
     register_post_type('tin_tuc', array(
@@ -729,6 +759,20 @@ function adv_register_all_custom_elements() {
         'menu_icon'    => 'dashicons-products',
         'supports'     => array('title', 'editor', 'thumbnail'),
     ));
+
+    // 7. Đăng ký CPT Thông tin tuyển dụng (Giữ lại theo yêu cầu User)
+    register_post_type('thong_tin_tuyen_dung', array(
+        'label'        => 'Thông tin tuyển dụng',
+        'public'       => true,
+        'show_in_rest' => true,
+        'has_archive'  => false,
+        'rewrite'             => array(
+            'slug'       => 'thong-tin-tuyen-dung',
+            'with_front' => false,
+            ),
+        'menu_icon'    => 'dashicons-groups',
+        'supports'     => array('title', 'editor', 'thumbnail'),
+    ));
 }
 add_action('init', 'adv_register_all_custom_elements');
 
@@ -746,7 +790,6 @@ function adv_register_all_taxonomies() {
         'hierarchical' => true,
         'show_in_rest' => true,
     ));
-
     // Đăng ký Taxonomy Năm cho CPT Cột mốc
     register_taxonomy('nam_qua_trinh_phat_trien', 'cot_moc', array(
         'label'        => 'Năm',
@@ -1530,3 +1573,34 @@ function adtec_save_home_sections_data($post_id) {
     }
 }
 add_action('save_post', 'adtec_save_home_sections_data');
+
+// TỰ ĐỘNG ẨN METABOX BẰNG ADMIN CSS NẾU TRANG KHÔNG PHẢI LÀ TRANG CHỦ
+function adtec_hide_metabox_on_other_pages() {
+    $screen = get_current_screen();
+    if ($screen && $screen->post_type === 'page') {
+        $post_id = isset($_GET['post']) ? (int)$_GET['post'] : 0;
+        $front_page_id = (int) get_option('page_on_front');
+        
+        $is_homepage = false;
+        if ($post_id && $front_page_id) {
+            // Check trùng ID trang chủ hoặc bản dịch Polylang
+            if ($post_id === $front_page_id) $is_homepage = true;
+            if (function_exists('pll_get_post')) {
+                foreach (array('en', 'ja', 'vi') as $lang) {
+                    if ($post_id === pll_get_post($front_page_id, $lang)) $is_homepage = true;
+                }
+            }
+        }
+
+        // NẾU KHÔNG PHẢI TRANG CHỦ -> HÀM CSS ẨN CẢ 2 METABOX
+        if (!$is_homepage) {
+            echo '<style>
+                #adtec_home_slider_mb, 
+                #adtec_home_sections_mb { 
+                    display: none !important; 
+                }
+            </style>';
+        }
+    }
+}
+add_action('admin_head', 'adtec_hide_metabox_on_other_pages');
