@@ -98,7 +98,7 @@ body {
     width: 100%;
     max-width: none !important;
     background-color: #ffffff;
-    padding: 0;
+    /* padding-bottom: 10px; */
     margin: 0 auto;
     z-index: 9999;
     transition: all 0.3s ease;
@@ -145,6 +145,7 @@ body {
 /* ---------- Menu chính (cấp 1) ---------- */
 .main-navigation {
     width: 100%;
+    max-width: 1280px;
     position: relative !important;
     /* Điểm neo gốc duy nhất */
 }
@@ -157,13 +158,20 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 28px;
+    gap: 20px;
     width: 100%;
 }
 
 /* QUAN TRỌNG TỐI THƯỢNG: Ép thẻ li thả tự do, không làm điểm neo nữa */
 .main-navigation ul#primary-menu>li {
     position: static !important;
+    padding: 0 10px;
+    padding-bottom: 10px;
+
+}
+
+.main-navigation ul#primary-menu>li:hover {
+    background-color: #D8E6FF !important;
 }
 
 /*Menu Cấp 1 */
@@ -195,10 +203,14 @@ body {
     transition: width 0.2s ease;
 }
 
-.main-navigation ul#primary-menu>li:hover>a::after,
-.main-navigation ul#primary-menu>li.current-menu-item>a::after {
+.main-navigation ul#primary-menu>li:hover>a::after{
     width: 100%;
 }
+
+/* .main-navigation ul#primary-menu>li:hover>a::after,
+.main-navigation ul#primary-menu>li.current-menu-item>a::after {
+    width: 100%;
+} */
 
 
 /* ---------- Sub-menu (cấp 2, Mega Menu tràn viền với vỏ div) ---------- */
@@ -2480,7 +2492,7 @@ margin: 0 auto;
 .menu-toggle.is-active .bar-2 { opacity: 0; }
 .menu-toggle.is-active .bar-3 { top: 17px; transform: rotate(-45deg); }
 
-@media (max-width: 1084px) {
+@media (max-width: 1200px) {
     /* Ẩn EN ở top-row, hiện hamburger đúng vị trí đó */
     .header-language-switch {
         display: none;

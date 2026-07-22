@@ -28,7 +28,7 @@ if (function_exists('rwmb_meta')) {
     }
 }
 
-// 3. FALLBACK: NẾU CHƯA UP ALBUM SLIDER THÌ LẤY FEATURED IMAGE CỦA TRANG HIỆN TẠI HOẶC TRANG GỐC
+// 3. FALLBACK: NẾU CHƯA UP ALBUM SLIDER THÌ LẤY FEATURED IMAGE
 if (empty($slider_img_ids)) {
     $thumb_id = get_post_thumbnail_id($slider_page_id) ? get_post_thumbnail_id($slider_page_id) : get_post_thumbnail_id($current_page_id);
     if ($thumb_id) {
@@ -37,7 +37,7 @@ if (empty($slider_img_ids)) {
 }
 ?>
 
-<!-- ĐƯỜNG DẪN BẮT BUỘC SWIPER CSS & JS (Thêm vào nếu theme chưa có) -->
+<!-- ĐƯỜNG DẪN SWIPER CSS & JS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -48,8 +48,8 @@ if (empty($slider_img_ids)) {
     <div class="factory-page-header">
         <h1 class="factory-page-title"><?php adtec_label('trang_thiet_bi'); ?></h1>
     </div>
-<!--Kích cỡ banner 1920x600px -->
-    <!-- 2. KHỐI SLIDER BANNER PHÍA TRÊN CHUẨN MOCKUP -->
+
+    <!-- 2. KHỐI SLIDER BANNER PHÍA TRÊN -->
     <?php if ( ! empty($slider_img_ids) ) : ?>
         <div class="factory-slider-wrapper">
             <div class="swiper factorySwiper">
@@ -66,7 +66,7 @@ if (empty($slider_img_ids)) {
                 </div>
             </div>
 
-            <!-- THANH ĐIỀU HƯỚNG VÀ NÚT MŨI TÊN CHUẨN MẸO THIẾT KẾ -->
+            <!-- THANH ĐIỀU HƯỚNG BANNER -->
             <div class="factory-slider-controls">
                 <div class="swiper-pagination factory-pagination"></div>
                 <div class="factory-nav-btns">
@@ -85,12 +85,13 @@ if (empty($slider_img_ids)) {
         </div>
     <?php endif; ?>
 
-    <!-- ... GIỮ NGUYÊN PHẦN 3 VÀ 4 CỦA CÁC TAB VÀ GALLERY BÊN DƯỚI ... -->
-    
     <?php
+    // =========================================================================
+    // XỬ LÝ LẤY VÀ LỌC KHU VỰC NHA MÁY (CHỈ LẤY CÁC TAB CÓ HÌNH ẢNH)
+    // =========================================================================
     $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'vi';
 
-    $terms = get_terms(array(
+    $raw_terms = get_terms(array(
         'taxonomy'   => 'khu_vuc_nha_may',
         'hide_empty' => false,
         'orderby'    => 'term_id',
@@ -98,111 +99,115 @@ if (empty($slider_img_ids)) {
         'lang'       => $current_lang
     ));
 
-    if (empty($terms) || is_wp_error($terms)) {
-        $terms = get_terms(array(
+    if (empty($raw_terms) || is_wp_error($raw_terms)) {
+        $raw_terms = get_terms(array(
             'taxonomy'   => 'khu_vuc_nha_may',
             'hide_empty' => false,
             'orderby'    => 'term_id',
             'order'      => 'ASC'
         ));
     }
+
+    // TẬP HỢP DỮ LIỆU CÁC TAB CÓ CHỨA ẢNH (BỎ QUA CÁC TAB RỖNG)
+    $valid_terms = array();
+
+    if (!empty($raw_terms) && !is_wp_error($raw_terms)) {
+        foreach ($raw_terms as $term) {
+            $equipment_args = array(
+                'post_type'      => 'trang_thiet_bi',
+                'posts_per_page' => -1,
+                'post_status'    => 'publish',
+                'tax_query'      => array(
+                    array(
+                        'taxonomy' => 'khu_vuc_nha_may',
+                        'field'    => 'term_id',
+                        'terms'    => $term->term_id,
+                    )
+                ),
+            );
+
+            $equipment_query = new WP_Query($equipment_args);
+            $all_gallery_image_ids = array();
+
+            if ($equipment_query->have_posts()) {
+                while ($equipment_query->have_posts()) {
+                    $equipment_query->the_post();
+                    $post_id = get_the_ID();
+
+                    if (function_exists('rwmb_meta')) {
+                        $images = rwmb_meta('trang_thiet_bi_gallery', array('size' => 'full'), $post_id);
+                        if (!empty($images) && is_array($images)) {
+                            foreach ($images as $img) {
+                                if (isset($img['ID'])) {
+                                    $all_gallery_image_ids[] = $img['ID'];
+                                }
+                            }
+                        }
+                    }
+
+                    if (empty($all_gallery_image_ids)) {
+                        $raw_meta = get_post_meta($post_id, 'trang_thiet_bi_gallery', true);
+                        if (is_array($raw_meta)) {
+                            $all_gallery_image_ids = array_merge($all_gallery_image_ids, $raw_meta);
+                        } else if (!empty($raw_meta)) {
+                            $all_gallery_image_ids = array_merge($all_gallery_image_ids, explode(',', $raw_meta));
+                        }
+                    }
+                }
+                wp_reset_postdata();
+            }
+
+            $all_gallery_image_ids = array_unique(array_filter($all_gallery_image_ids));
+
+            // NẾU CÓ ẢNH -> MỚI LƯU VÀO DANH SÁCH TAB HIỂN THỊ
+            if (!empty($all_gallery_image_ids)) {
+                $valid_terms[] = array(
+                    'term'      => $term,
+                    'image_ids' => $all_gallery_image_ids
+                );
+            }
+        }
+    }
     ?>
 
-    <?php if ( ! empty($terms) && ! is_wp_error($terms) ) : ?>
-        <!-- 3. NÚT TABS CHỌN KHU VỰC -->
+    <?php if (!empty($valid_terms)) : ?>
+        <!-- 3. NÚT TABS CHỌN KHU VỰC (CHỈ HIỆN CÁC TAB CÓ HÌNH ẢNH) -->
         <div class="factory-tabs-wrapper">
             <ul class="factory-tabs-list">
-                <?php 
-                $tab_index = 0;
-                foreach ($terms as $term) : 
-                    $active_class = ($tab_index === 0) ? 'active' : '';
+                <?php foreach ($valid_terms as $index => $data) : 
+                    $term = $data['term'];
+                    $active_class = ($index === 0) ? 'active' : '';
                 ?>
                     <li class="tab-item <?php echo esc_attr($active_class); ?>" data-target="category-<?php echo esc_attr($term->term_id); ?>">
                         <button type="button"><?php echo esc_html($term->name); ?></button>
                     </li>
-                <?php 
-                    $tab_index++;
-                endforeach; 
-                ?>
+                <?php endforeach; ?>
             </ul>
         </div>
 
         <!-- 4. LƯỚI ALBUM ẢNH THIẾT BỊ -->
         <div class="factory-gallery-container">
-            <?php 
-            $content_index = 0;
-            foreach ($terms as $term) : 
-                $display_style = ($content_index === 0) ? 'display: grid;' : 'display: none;';
-
-                $equipment_args = array(
-                    'post_type'      => 'trang_thiet_bi',
-                    'posts_per_page' => -1,
-                    'post_status'    => 'publish',
-                    'tax_query'      => array(
-                        array(
-                            'taxonomy' => 'khu_vuc_nha_may',
-                            'field'    => 'term_id',
-                            'terms'    => $term->term_id,
-                        )
-                    ),
-                );
-
-                $equipment_query = new WP_Query($equipment_args);
-                $all_gallery_image_ids = array();
-
-                if ($equipment_query->have_posts()) {
-                    while ($equipment_query->have_posts()) {
-                        $equipment_query->the_post();
-                        $post_id = get_the_ID();
-
-                        if ( function_exists('rwmb_meta') ) {
-                            $images = rwmb_meta('trang_thiet_bi_gallery', array('size' => 'full'), $post_id);
-                            if (!empty($images) && is_array($images)) {
-                                foreach ($images as $img) {
-                                    if (isset($img['ID'])) {
-                                        $all_gallery_image_ids[] = $img['ID'];
-                                    }
-                                }
-                            }
-                        } 
-                        
-                        if (empty($all_gallery_image_ids)) {
-                            $raw_meta = get_post_meta($post_id, 'trang_thiet_bi_gallery', true);
-                            if (is_array($raw_meta)) {
-                                $all_gallery_image_ids = array_merge($all_gallery_image_ids, $raw_meta);
-                            } else if (!empty($raw_meta)) {
-                                $all_gallery_image_ids = array_merge($all_gallery_image_ids, explode(',', $raw_meta));
-                            }
-                        }
-                    }
-                    wp_reset_postdata();
-                }
-
-                $all_gallery_image_ids = array_unique(array_filter($all_gallery_image_ids));
+            <?php foreach ($valid_terms as $index => $data) : 
+                $term = $data['term'];
+                $image_ids = $data['image_ids'];
+                $display_style = ($index === 0) ? 'display: grid;' : 'display: none;';
             ?>
                 <div class="factory-gallery-grid tab-content" id="category-<?php echo esc_attr($term->term_id); ?>" style="<?php echo $display_style; ?>">
-                    <?php if ( ! empty($all_gallery_image_ids) ) : ?>
-                        <?php foreach ( $all_gallery_image_ids as $img_id ) : 
-                            $img_full_url  = wp_get_attachment_image_url($img_id, 'full');
-                            $img_thumb_url = wp_get_attachment_image_url($img_id, 'large');
-                            $img_alt       = get_post_meta($img_id, '_wp_attachment_image_alt', true);
-                        ?>
-                            <div class="gallery-item-card">
-                                <div class="gallery-img-holder">
-                                    <a href="<?php echo esc_url($img_full_url); ?>" class="lightbox-link" target="_blank">
-                                        <img src="<?php echo esc_url($img_thumb_url); ?>" alt="<?php echo esc_attr($img_alt); ?>">
-                                    </a>
-                                </div>
+                    <?php foreach ($image_ids as $img_id) : 
+                        $img_full_url  = wp_get_attachment_image_url($img_id, 'full');
+                        $img_thumb_url = wp_get_attachment_image_url($img_id, 'large');
+                        $img_alt       = get_post_meta($img_id, '_wp_attachment_image_alt', true);
+                    ?>
+                        <div class="gallery-item-card">
+                            <div class="gallery-img-holder">
+                                <a href="<?php echo esc_url($img_full_url); ?>" class="lightbox-link" target="_blank">
+                                    <img src="<?php echo esc_url($img_thumb_url); ?>" alt="<?php echo esc_attr($img_alt); ?>">
+                                </a>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p class="no-data-text" style="grid-column: 1/-1; text-align: center; color: #777;">Chưa có hình ảnh thiết bị nào trong khu vực này.</p>
-                    <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php 
-                $content_index++;
-            endforeach; 
-            ?>
+            <?php endforeach; ?>
         </div>
     <?php endif; ?>
 </div>

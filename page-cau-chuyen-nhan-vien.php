@@ -91,7 +91,7 @@ $final_banner_url = !empty($customizer_banner) ? $customizer_banner : $page_bann
             wp_reset_postdata();
         else :
         ?>
-            <p class="no-data-text" style="text-align: center; color: #666; margin: 40px 0;">Đang cập nhật nội dung...</p>
+            <p class="no-data-text" style="text-align: center; color: #666; margin: 40px 0;">Nội dung đang được cập nhật.</p>
         <?php endif; ?>
     </div>
 </div>
