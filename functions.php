@@ -397,6 +397,24 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'desc'  => 'Tick chọn để hiển thị ở mục "Tuyển dụng đặc biệt"',
                 'clone' => false,
             ],
+            [
+                'name'  => 'Yêu cầu chung',
+                'id'    => 'career_requirements',
+                'type'  => 'textarea',
+                'clone' => false,
+            ],
+            [
+                'name'  => 'Chi tiết yêu cầu',
+                'id'    => 'career_details',
+                'type'  => 'textarea',
+                'clone' => false,
+            ],
+            [
+                'name'  => 'Quy trình ứng tuyển',
+                'id'    => 'career_process',
+                'type'  => 'textarea',
+                'clone' => false,
+            ]
         ],
     ];
 

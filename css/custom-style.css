@@ -730,461 +730,99 @@ footer.site-footer {
 }
 
 /* ==========================================================================
-   CAREER DETAIL PAGE STYLES
+   SINGLE CAREER / FORM UNG TUYEN DETAIL PAGE
    ========================================================================== */
+   .career-single-container {
+    max-width: 1260px;
+    margin: 0 auto;
+    /* padding: 20px 20px 60px; */
+    font-family: inherit;
+    color: #111111;
+}
 
-/* Detail Header */
+/* TIÊU ĐỀ BÀI VIẾT CHÍNH */
 .career-detail-header {
-    padding: 30px 0 40px 0;
-    margin-bottom: 40px;
-}
-
-.career-back-link {
-    margin-bottom: 25px;
-}
-
-.career-back-link a {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    color: #1F3B73;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.career-back-link a:hover {
-    color: #0D2347;
-}
-
-.career-back-link svg {
-    width: 16px;
-    height: 16px;
-}
-
-.career-detail-info {
-    max-width: 900px;
-}
-
-.career-detail-badge {
-    display: inline-block;
-    background-color: #1F3B73;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
+    text-align: center;
+    margin: 30px 0 40px;
 }
 
 .career-detail-title {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
-    color: #1A1A1A;
-    margin: 0 0 10px 0;
-    line-height: 1.3;
+    color: #000000;
+    margin: 0;
 }
 
-.career-detail-company {
-    font-size: 16px;
-    color: #666;
-    margin: 0 0 25px 0;
-}
-
-.career-detail-meta {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    padding: 20px;
-    background-color: #F8F9FF;
-    border-radius: 8px;
-    margin-bottom: 25px;
-}
-
-.career-meta-row {
-    display: flex;
-    gap: 10px;
-    font-size: 15px;
-}
-
-.career-meta-label {
-    font-weight: 600;
-    color: #1A1A1A;
-}
-
-.career-meta-value {
-    color: #4A4A4A;
-}
-
-/* Apply Button */
-.career-apply-button-wrapper {
-    margin-top: 10px;
-}
-
-.career-apply-button {
-    display: inline-block;
-    background-color: #1F3B73;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    padding: 12px 30px;
-    border-radius: 4px;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease;
-}
-
-.career-apply-button:hover {
-    background-color: #0D2347;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(31, 59, 115, 0.3);
-}
-
-/* Content Sections */
-.career-detail-content {
-    padding: 0 0 40px 0;
-}
-
-.career-section {
+/* TỪNG KHỐI SECTION (YÊU CẦU CHUNG / CHI TIẾT / QUY TRÌNH) */
+.career-detail-section {
     margin-bottom: 40px;
 }
 
 .career-section-heading {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
-    color: #1A1A1A;
-    margin: 0 0 20px 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #1F3B73;
-    display: inline-block;
+    color: #000000;
+    margin: 0 0 8px 0;
 }
 
+/* VỆT GẠCH XANH NỔI BẬT DƯỚI TIÊU ĐỀ */
+.career-section-line {
+    width: 60px;
+    height: 4px;
+    background-color: #0056b3;
+    margin-bottom: 20px;
+}
+
+/* KHỐI NỘI DUNG VĂN BẢN (TEXTAREA) */
 .career-section-content {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #4A4A4A;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #222222;
 }
 
 .career-section-content p {
-    margin: 0 0 15px 0;
+    margin-bottom: 12px;
+    padding-left: 40px;
 }
 
-.career-section-content ul,
-.career-section-content ol {
-    margin: 0 0 15px 0;
-    padding-left: 25px;
-}
-
-.career-section-content li {
-    margin-bottom: 8px;
-}
-
-/* Process Link */
-.career-process-link {
-    margin: 10px 0;
-}
-
-.career-process-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #1F3B73;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.career-process-button:hover {
-    color: #0D2347;
-}
-
-.career-process-button svg {
-    transition: transform 0.2s ease;
-}
-
-.career-process-button:hover svg {
-    transform: translateX(4px);
-}
-
-.career-apply-button-large {
-    display: inline-block;
-    background-color: #1F3B73;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    padding: 18px 50px;
-    border-radius: 6px;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-}
-
-.career-apply-button-large:hover {
-    background-color: #0D2347;
-    color: #fff;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(31, 59, 115, 0.4);
-}
-
-/* Related Jobs */
-.career-related-section {
-    padding: 40px 0 60px 0;
-}
-
-.career-related-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.career-related-divider {
-    width: 60px;
-    height: 3px;
-    background-color: #1F3B73;
-    margin: 0 0 30px 0;
-}
-
-.career-related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-}
-
-.career-related-card {
-    background-color: #fff;
-    border: 1px solid #E8E8E8;
-    border-radius: 8px;
-    padding: 25px;
-    transition: all 0.3s ease;
-}
-
-.career-related-card:hover {
-    border-color: #1F3B73;
-    box-shadow: 0 4px 15px rgba(31, 59, 115, 0.1);
-}
-
-.career-related-card-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 10px 0;
-    line-height: 1.4;
-}
-
-.career-related-card-title a {
-    color: #1A1A1A;
-    text-decoration: none;
-    transition: color 0.2s ease;
-}
-
-.career-related-card-title a:hover {
-    color: #1F3B73;
-}
-
-.career-related-card-company {
-    font-size: 14px;
-    color: #666;
-    margin: 0 0 15px 0;
-}
-
-.career-related-card-meta {
-    display: flex;
-    gap: 15px;
-    font-size: 13px;
-    color: #4A4A4A;
-}
-
-/* No Jobs Message */
-.career-no-jobs {
-    text-align: center;
-    padding: 60px 20px;
-    color: #666;
-    font-size: 16px;
-}
-
-/* ==========================================================================
-   RESPONSIVE STYLES
-   ========================================================================== */
-
-@media (max-width: 768px) {
-    .career-page-container,
-    .career-detail-page-container {
-        padding: 0 15px;
-    }
-
-    .career-banner-title {
-        font-size: 32px;
-        letter-spacing: 2px;
-    }
-
-    .career-banner-subtitle {
-        font-size: 14px;
-    }
-
-    .career-section-title {
-        font-size: 24px;
-    }
-
-    .career-category-title {
-        font-size: 20px;
-    }
-
-    .career-job-item {
-        padding: 20px;
-    }
-
-    .career-job-title {
-        font-size: 18px;
-    }
-
-    .career-detail-title {
-        font-size: 28px;
-    }
-
-    .career-detail-meta {
-        grid-template-columns: 1fr;
-    }
-
-    .career-apply-button-large {
-        font-size: 16px;
-        padding: 15px 35px;
-    }
-
-    .career-related-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* ==========================================================================
-   CAREER PAGE V2 - NEW DESIGN
-   ========================================================================== */
-
-/* Page Header */
-.career-page-header {
-    text-align: center;
-    padding: 40px 0 30px 0;
-}
-
-.career-page-title {
-    font-size: 36px;
+.career-section-content strong {
     font-weight: 700;
     color: #000000;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 3px;
 }
 
-/* ==========================================================================
-   CAREER SPECIAL SECTION - TEXT DOCUMENT STYLE
-   ========================================================================== */
-.career-special-section {
-    margin-bottom: 50px;
-    padding: 0 15px;
-}
-
-.career-special-header {
-    text-align: left;
-    margin-bottom: 15px;
-}
-
-.career-special-title {
-    color: #004B87;
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.career-special-position {
-    font-size: 20px;
-    font-weight: 700;
-    color: #004B87;
-    margin-bottom: 15px;
-}
-
-.career-special-position .position-title {
-    text-decoration: underline;
-}
-
-.career-special-divider {
-    border-bottom: 1px solid #ccc;
-    margin: 15px 0;
-}
-
-.career-special-job-desc {
+/* LINK ĐĂNG KÝ THI TUYỂN/ỨNG TUYỂN DẠNG ANCHOR TEXT */
+.career-form-link-row {
+    margin-top: 25px;
+    font-size: 15px;
     display: flex;
     align-items: center;
-    padding-left: 20px;
-    margin-bottom: 0;
+    gap: 8px;
 }
 
-.job-desc-label {
-    color: #004B87;
-    font-weight: 400;
-    margin-right: 10px;
-    font-size: 18px;
+.career-form-label {
+    color: #222222;
 }
 
-.job-desc-title {
-    color: #004B87;
+.career-form-link-anchor {
+    color: #0056b3;
     font-weight: 700;
     text-decoration: underline;
-    font-size: 18px;
+    transition: color 0.2s ease;
 }
 
-.job-desc-title:hover {
-    text-decoration: none;
-    opacity: 0.8;
+.career-form-link-anchor:hover {
+    color: #003366;
 }
 
-/* Responsive - Career Special Section */
+/* RESPONSIVE ON MOBILE */
 @media (max-width: 768px) {
-    .career-special-section {
-        padding: 0 10px;
+    .career-detail-title {
+        font-size: 24px;
     }
-
-    .career-special-title {
+    .career-section-heading {
         font-size: 20px;
     }
-
-    .career-special-position {
-        font-size: 18px;
-    }
-
-    .career-special-job-desc {
-        flex-direction: column;
-        align-items: flex-start;
-        padding-left: 0;
-        gap: 5px;
-    }
-
-    .job-desc-label,
-    .job-desc-title {
-        font-size: 16px;
-        margin-left: 7em;
-    }
 }
-
-@media (max-width: 480px) {
-    .career-special-title {
-        font-size: 18px;
-    }
-
-    .career-special-position {
-        font-size: 16px;
-    }
-}
-
 /* ==========================================================================
    FEATURED BANNER - LEGACY STYLE (kept for reference)
    ========================================================================== */
@@ -1289,327 +927,6 @@ footer.site-footer {
     .career-page-title {
         font-size: 24px;
     }
-}
-
-/* ==========================================================================
-   CAREER DETAIL PAGE V2 - NEW DESIGN
-   ========================================================================== */
-
-/* Detail Header */
-.career-detail-header {
-    text-align: center;
-    padding: 30px 0 40px 0;
-}
-
-.career-detail-title {
-    font-size: 36px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 0;
-    line-height: 1.3;
-}
-
-/* Detail Content */
-.career-detail-content {
-    max-width: 900px;
-    margin: 0 auto 40px auto;
-    padding: 0 20px;
-}
-
-.career-detail-content h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 30px 0 15px 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #00469B;
-}
-
-.career-detail-content h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin: 25px 0 12px 0;
-}
-
-.career-detail-content p {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #4A4A4A;
-    margin: 0 0 15px 0;
-}
-
-.career-detail-content ul,
-.career-detail-content ol {
-    margin: 0 0 20px 0;
-    padding-left: 25px;
-}
-
-.career-detail-content li {
-    font-size: 15px;
-    line-height: 1.7;
-    color: #4A4A4A;
-    margin-bottom: 8px;
-}
-
-.career-detail-content strong {
-    color: #1A1A1A;
-    font-weight: 600;
-}
-
-/* Apply Link Section */
-.career-apply-link-wrapper {
-    text-align: center;
-    padding: 40px 20px 60px 20px;
-    background-color: #F8F9FF;
-    border-top: 1px solid #E8E8E8;
-}
-
-.career-apply-link-label {
-    font-size: 16px;
-    color: #666;
-    margin: 0 0 10px 0;
-}
-
-.career-apply-link {
-    font-size: 18px;
-    font-weight: 700;
-    color: #1F3B73;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    transition: color 0.2s ease;
-}
-
-.career-apply-link:hover {
-    color: #00469B;
-}
-
-/* Responsive - Detail Page V2 */
-@media (max-width: 768px) {
-    .career-detail-title {
-        font-size: 28px;
-    }
-
-    .career-detail-content {
-        padding: 0 15px;
-    }
-
-    .career-detail-content h2 {
-        font-size: 18px;
-    }
-
-    .career-apply-link {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .career-detail-header {
-        padding: 20px 0 30px 0;
-    }
-
-    .career-detail-title {
-        font-size: 24px;
-    }
-
-    .career-detail-content h2 {
-        font-size: 16px;
-    }
-
-    .career-detail-content p,
-    .career-detail-content li {
-        font-size: 14px;
-    }
-}
-
-/* ==========================================================================
-   CAREER DETAIL PAGE V3 - INFO GRID DESIGN
-   ========================================================================== */
-
-.career-detail-status {
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.career-detail-work-type {
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #00469B;
-    background-color: #E8F0FE;
-    border: 1px solid #C5D5FF;
-}
-
-/* Info Grid */
-.career-detail-info-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto 40px auto;
-    padding: 0 20px;
-}
-
-.career-info-card {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.career-info-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-}
-
-.career-info-icon {
-    flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #00469B 0%, #1A5BA8 100%);
-    border-radius: 10px;
-    color: #fff;
-}
-
-.career-info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-}
-
-.career-info-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.career-info-value {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1A1A1A;
-    word-break: break-word;
-}
-
-.career-requirements-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 0 0 20px 0;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #E0E5F0;
-}
-
-.career-requirements-content {
-    font-size: 15px;
-    line-height: 1.8;
-    color: #4A4A4A;
-}
-
-.career-requirements-content p {
-    margin: 0 0 12px 0;
-}
-
-.career-requirements-content ul,
-.career-requirements-content ol {
-    margin: 0 0 15px 0;
-    padding-left: 25px;
-}
-
-.career-requirements-content li {
-    margin-bottom: 8px;
-}
-
-
-.career-apply-intro {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 20px 0;
-}
-
-.career-apply-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 40px;
-    background: #fff;
-    color: #00469B;
-    font-size: 16px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.career-apply-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    color: #003380;
-}
-
-.career-apply-btn svg {
-    flex-shrink: 0;
-}
-
-/* Responsive - Info Grid */
-@media (max-width: 992px) {
-    .career-detail-info-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .career-detail-info-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 0 15px;
-    }
-
-    .career-info-card {
-        padding: 15px;
-    }
-
-    .career-info-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .career-apply-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 30px;
-    }
-}
-
-.career-form-link-wrapper {
-    max-width: 1260px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    align-self: center;
-}
-
-.career-form-link a{
-    text-decoration: none;
 }
 
 /* Container Trang Adtec Group */
