@@ -2180,6 +2180,15 @@ margin: 0 auto;
     .employee-text-box {
         padding: 20px;
     }
+
+    .adv-breadcrumb {
+        padding: 0 20px;
+    }
+
+    .generator-content-box {
+        padding: 0 20px;
+    }
+    
 }
 
 /* ==========================================================================
@@ -3088,6 +3097,12 @@ margin: 0 auto;
     .section-submenu-overlay {
         padding: 30px 50px;
     }
+    .generator-content-box {
+        padding: 0 20px;
+    }
+    .adv-breadcrumb {
+        padding: 0 20px;
+    }
 }
 
 /* MOBILE: < 768px — stack dọc, submenu chuyển sang tap-to-open */
@@ -3148,7 +3163,7 @@ margin: 0 auto;
 .menu-toggle.is-active .bar-2 { opacity: 0; }
 .menu-toggle.is-active .bar-3 { top: 17px; transform: rotate(-45deg); }
 
-@media (max-width: 767px) {
+@media (max-width: 1084px) {
     /* Ẩn EN ở top-row, hiện hamburger đúng vị trí đó */
     .header-language-switch {
         display: none;
