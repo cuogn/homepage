@@ -313,4 +313,41 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- SCRIPT TAP-TO-OPEN CHO SUBMENU TRÊN MOBILE -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const isMobile = () => window.innerWidth < 768;
+
+    document.querySelectorAll('.home-dynamic-sections .home-section-row').forEach(row => {
+        row.addEventListener('click', function (e) {
+            if (!isMobile()) return;
+
+            // Nếu bấm trúng link con trong submenu, cho đi thẳng
+            if (e.target.closest('.section-submenu-list a')) return;
+
+            // Nếu bấm trúng nút "XEM CHI TIẾT" trong section-left-box
+            if (e.target.closest('.section-btn-more')) return;
+
+            const alreadyOpen = row.classList.contains('is-open');
+
+            // Đóng các row khác đang mở (chỉ cho phép 1 submenu mở tại 1 thời điểm)
+            document.querySelectorAll('.home-dynamic-sections .home-section-row.is-open')
+                .forEach(r => r.classList.remove('is-open'));
+
+            if (!alreadyOpen) {
+                row.classList.add('is-open');
+            }
+        });
+    });
+
+    // Đóng submenu khi resize ra khỏi mobile
+    window.addEventListener('resize', function() {
+        if (!isMobile()) {
+            document.querySelectorAll('.home-dynamic-sections .home-section-row.is-open')
+                .forEach(r => r.classList.remove('is-open'));
+        }
+    });
+});
+</script>
+
 <?php get_footer(); ?>

@@ -23,9 +23,6 @@ body {
    2. HEADER & MENU ĐIỀU HƯỚNG (NAV BAR)
    ========================================================================== */
 
-/* Khung ngoài cùng của header: #masthead bọc 2 hàng
-   (.header-top-row + .header-navigation-row) xếp chồng theo chiều dọc */
-
 /* Hàng 1: Logo + nút chuyển ngôn ngữ */
 .header-top-row {
     padding-top: 16px;
@@ -140,6 +137,7 @@ body {
     margin: 0 auto;
     /* padding-top: 15px; */
     box-sizing: border-box;
+    /* padding: 12px 20px; */
 }
 
 /* ========================================================================== */
@@ -244,13 +242,15 @@ body {
     height: 20px;
 }
 
-/* KÍCH HOẠT HIỂN THỊ KHI HOVER (Đã bỏ dấu > để bắt dính 100%) */
-.main-navigation li:hover .mGlobalNaviChild__container,
-.main-navigation li:focus-within .mGlobalNaviChild__container {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateX(-50%) translateY(0) !important;
+/* KÍCH HOẠT HIỂN THỊ KHI HOVER (chỉ áp dụng khi thiết bị có con trỏ chuột + màn hình ≥768px) */
+@media (hover: hover) and (min-width: 768px) {
+    .main-navigation li:hover .mGlobalNaviChild__container,
+    .main-navigation li:focus-within .mGlobalNaviChild__container {
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        transform: translateX(-50%) translateY(0) !important;
+    }
 }
 
 /* 2. LỚP LÕI UL: Gom nội dung vào giữa thẳng hàng với Logo (1260px) */
@@ -467,6 +467,65 @@ footer.site-footer {
     color: #A9C7FF;
     font-size: 13px;
     opacity: 0.8;
+}
+
+/* ==========================================================================
+   3.1. FOOTER RESPONSIVE
+   ========================================================================== */
+/* TABLET: 768px – 1279px — giữ layout ngang 2 cột, thu hẹp min-width + gap
+   để tránh wrap sớm do tổng min-width (300+450+40 = 790px) vượt vùng
+   khả dụng đầu dải tablet (768 - 60 padding = 708px). */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .site-footer .footer-company-info {
+        min-width: 220px;
+        max-width: 360px;
+    }
+    .site-footer .footer-links-grid {
+        min-width: 320px;
+        max-width: 460px;
+    }
+    .site-footer .footer-container {
+        gap: 24px;
+    }
+    .site-footer ul.adtec-footer-menu {
+        column-gap: 40px;
+        row-gap: 14px;
+    }
+}
+
+/* MOBILE: < 768px — stack dọc hoàn toàn, menu chính sách 1 cột. */
+@media (max-width: 767px) {
+    .site-footer .footer-container {
+        flex-direction: column;
+        gap: 28px;
+        padding: 0 20px;
+    }
+    .site-footer .footer-company-info {
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
+    }
+    .site-footer .footer-links-grid {
+        min-width: 0;
+        max-width: 100%;
+        width: 100%;
+    }
+    .site-footer ul.adtec-footer-menu {
+        grid-template-columns: 1fr;
+        row-gap: 16px;
+    }
+    .site-footer .footer-logo img {
+        max-height: 56px;
+    }
+    .site-footer .footer-socials {
+        gap: 10px;
+    }
+    .site-footer .site-info-container {
+        padding: 0 20px;
+    }
+    .site-footer .site-info p {
+        text-align: center;
+    }
 }
 
 /* ==========================================================================
@@ -2688,6 +2747,32 @@ margin: 0 auto;
 .slider-btn.next-btn:hover svg {
     transform: translateX(2px);
 }
+
+/* MOBILE: < 768px — Slider controls responsive */
+@media (max-width: 767px) {
+    .slider-controls-bar {
+        padding: 12px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .slider-indicators {
+        position: static;
+        transform: none;
+        order: 2;
+        width: 100%;
+        justify-content: center;
+    }
+    .slider-arrow-btns {
+        order: 1;
+        margin-left: 0;
+        gap: 12px;
+    }
+    .slider-btn {
+        width: 38px;
+        height: 38px;
+    }
+}
+
 /* ==========================================================================
    2. KHỐI TIN TỨC NỔI BẬT (BACKGROUND XANH PASTEL D8E6FF)
    ========================================================================== */
@@ -2781,8 +2866,26 @@ margin: 0 auto;
     overflow: hidden;
 }
 
-/* RESPONSIVE MOBILE/TABLET */
-@media (max-width: 992px) {
+/* ==========================================================================
+   2. NEWS SECTION RESPONSIVE
+   ========================================================================== */
+/* TABLET: 768px – 1279px — giữ layout ngang, chỉ thu hẹp tỷ lệ + grid 3→2 cột */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .news-cards-container {
+        width: 55%;
+        margin-left: 42%;
+        padding: 30px 60px 30px 20px;
+    }
+    .news-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .section-left-content {
+        margin-left: 2em;
+    }
+}
+
+/* MOBILE: < 768px — stack dọc hoàn toàn */
+@media (max-width: 767px) {
     .home-news-section .home-section-row {
         flex-direction: column;
         min-height: auto;
@@ -2807,12 +2910,12 @@ margin: 0 auto;
 }
 
 /* ==========================================================================
-   3. HOMEPAGE DYNAMIC SECTIONS & HOVER SUBMENU (BẢN TỐI ƯU THEO CSS CỦA BẠN)
+   3. HOMEPAGE DYNAMIC SECTIONS & HOVER SUBMENU
    ========================================================================== */
 .home-dynamic-sections {
     display: flex;
     flex-direction: column;
-    gap: 0px; /* Dính liền các section giống thiết kế mẫu */
+    gap: 0px;
 }
 
 .home-section-row {
@@ -2853,7 +2956,7 @@ margin: 0 auto;
 .section-divider {
     width: 100px;
     height: 4px;
-    background-color: #0056b3; /* Vệt xanh Adtec */
+    background-color: #0056b3;
     margin-bottom: 20px;
 }
 
@@ -2904,19 +3007,31 @@ margin: 0 auto;
     right: 0;
     width: 100%;
     height: 100%;
-    background-color: #D8E6FF; /* Màu nền xanh nhạt chuẩn mockup */
+    background-color: #D8E6FF;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     padding: 40px 100px;
     box-sizing: border-box;
-    opacity: 0; /* Mặc định ẩn */
+    opacity: 0;
     visibility: hidden;
     transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
-/* KHI HOVER VÀO ROW -> HIỆN SUBMENU */
-.home-section-row:hover .section-submenu-overlay {
+/* Chỉ bật hiệu ứng hover trên thiết bị thực sự có con trỏ chuột */
+@media (hover: hover) and (min-width: 768px) {
+    .home-section-row:hover .section-submenu-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* Mobile tap-to-open: submenu ẩn mặc định, hiện khi có class .is-open */
+.section-submenu-overlay {
+    opacity: 0;
+    visibility: hidden;
+}
+.home-section-row.is-open .section-submenu-overlay {
     opacity: 1;
     visibility: visible;
 }
@@ -2956,14 +3071,27 @@ margin: 0 auto;
     font-size: 18px;
 }
 
-/* RESPONSIVE MOBILE & TABLET */
-@media (max-width: 1200px) {
+/* ==========================================================================
+   4. DYNAMIC SECTIONS RESPONSIVE
+   ========================================================================== */
+/* TABLET: 768px – 1279px — giữ nguyên bố cục ngang, chỉ thu nhỏ tỷ lệ */
+@media (min-width: 768px) and (max-width: 1279px) {
     .section-left-content {
-        margin-left: 2em; /* Thu nhỏ margin trên màn hình trung bình */
+        margin-left: 2em;
+    }
+    .section-main-title {
+        font-size: 30px;
+    }
+    .section-left-box {
+        padding: 30px 40px;
+    }
+    .section-submenu-overlay {
+        padding: 30px 50px;
     }
 }
 
-@media (max-width: 992px) {
+/* MOBILE: < 768px — stack dọc, submenu chuyển sang tap-to-open */
+@media (max-width: 767px) {
     .home-section-row {
         flex-direction: column;
         min-height: auto;
@@ -2979,10 +3107,128 @@ margin: 0 auto;
     .section-right-box {
         min-height: 280px;
     }
-    .news-cards-container {
-        padding: 20px 20px 40px;
+
+    /* Submenu: bỏ cơ chế hover, chờ JS toggle class .is-open */
+    .section-submenu-overlay {
+        opacity: 0;
+        visibility: hidden;
     }
-    .news-cards-grid {
-        grid-template-columns: 1fr;
+    .home-section-row.is-open .section-submenu-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+/* ==========================================================================
+   MOBILE MENU TOGGLE (HAMBURGER ⇄ X)
+   ========================================================================== */
+.menu-toggle {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: none;
+}
+.menu-toggle-bar {
+    position: absolute;
+    left: 6px;
+    width: 22px;
+    height: 2px;
+    background-color: #1F3B73;
+    transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
+}
+.bar-1 { top: 11px; }
+.bar-2 { top: 17px; }
+.bar-3 { top: 23px; }
+
+.menu-toggle.is-active .bar-1 { top: 17px; transform: rotate(45deg); }
+.menu-toggle.is-active .bar-2 { opacity: 0; }
+.menu-toggle.is-active .bar-3 { top: 17px; transform: rotate(-45deg); }
+
+@media (max-width: 767px) {
+    /* Ẩn EN ở top-row, hiện hamburger đúng vị trí đó */
+    .header-language-switch {
+        display: none;
+    }
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Padding cho header + menu ở mobile */
+    .header-top-row.container-header {
+        padding: 16px 20px !important;
+    }
+    .main-navigation ul#primary-menu > li > a {
+        padding: 16px 20px !important;
+    }
+    .main-navigation .mGlobalNaviChild__holder a {
+        padding: 8px 20px !important;
+    }
+
+    /* Nav cha (container-header) đang flex-row khiến các con lệch ngang,
+       ép về block để ul menu và EN xếp dọc đúng thứ tự trong HTML */
+    .main-navigation.container-header {
+        display: block !important;
+    }
+
+    /* EN trong menu: mặc định ẨN, chỉ hiện khi bấm hamburger mở menu ra */
+    .mobile-lang-switch {
+        display: none;
+        padding: 16px 20px;
+        border-top: 1px solid #EDEDED;
+        margin-top: 8px;
+    }
+    .main-navigation.toggled .mobile-lang-switch {
+        display: block;
+    }
+
+    .main-navigation ul#primary-menu {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 0;
+    }
+    .main-navigation.toggled ul#primary-menu {
+        display: flex;
+    }
+    .main-navigation ul#primary-menu > li {
+        width: 100%;
+        border-bottom: 1px solid #EDEDED;
+    }
+
+    /* Submenu (mega menu) chuyển thành accordion, bỏ overlay full-width */
+    .main-navigation .mGlobalNaviChild__container {
+        position: static !important;
+        width: 100% !important;
+        transform: none !important;
+        left: auto !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        display: none !important;
+    }
+    .main-navigation li.submenu-open > .mGlobalNaviChild__container {
+        display: block !important;
+    }
+    .main-navigation .mGlobalNaviChild__holder {
+        flex-direction: column !important;
+        padding: 8px 16px !important;
+        gap: 4px !important;
+        max-width: 100% !important;
+    }
+
+    /* Sửa lỗi tràn ngang: chữ submenu đang bị ép nowrap từ rule desktop */
+    .main-navigation .mGlobalNaviChild__holder a {
+        white-space: normal !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-lang-switch {
+        display: none;
     }
 }
