@@ -21,6 +21,15 @@ get_header(); ?>
         'meta_key'       => 'events_date', 
         'orderby'        => 'meta_value', 
         'order'          => 'DESC', 
+        'post_status'    => 'publish',
+        'meta_query'     => array(
+            array(
+                'key'     => 'events_date',
+                'value'   => date('Y-m-d'),
+                'compare' => '<=',
+                'type'    => 'DATE',
+            ),
+        ),
     ));
     
     if ( $featured_query->have_posts() ) : ?>

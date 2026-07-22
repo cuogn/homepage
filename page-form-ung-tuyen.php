@@ -43,7 +43,7 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
         'post_type'      => 'tuyen_dung',
         'posts_per_page' => 1,
         'post_status'    => 'publish',
-        'lang'           => 'vi',
+        'lang'           => $current_lang,
         'meta_query'     => array(
             'relation' => 'AND',
             array(
@@ -56,7 +56,7 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
                 'value'   => 'dangtuyen',
                 'compare' => '='
             ),
-            // ĐIỀU KIỆN MỚI: Hạn nộp phải chưa nhập HOẶC >= Ngày hôm nay
+            // Hạn nộp phải chưa nhập HOẶC >= Ngày hôm nay
             array(
                 'relation' => 'OR',
                 array(
@@ -86,10 +86,17 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
     ?>
     <div class="career-special-section">
         <div class="career-special-header">
-            <h2 class="career-special-title">TUYỂN DỤNG ĐẶC BIỆT</h2>
+            <h2 class="career-special-title">
+                <?php 
+                    if ($current_lang === 'en') echo 'SPECIAL RECRUITMENT';
+                    elseif ($current_lang === 'ja') echo ' me 特別採用';
+                    else echo 'TUYỂN DỤNG ĐẶC BIỆT';
+                ?>
+            </h2>
         </div>
         <div class="career-special-position">
-            VỊ TRÍ: <span class="position-title"><?php the_title(); ?></span>
+            <?php echo ($current_lang === 'en') ? 'POSITION:' : (($current_lang === 'ja') ? '職種:' : 'VỊ TRÍ:'); ?> 
+            <span class="position-title"><?php the_title(); ?></span>
         </div>
         <div class="career-special-divider"></div>
         <div class="career-special-job-desc">
@@ -112,9 +119,9 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
         <?php
         // Mapping work type value to label
         $work_type_labels = array(
-            'nhan_vien'       => 'Nhân viên',
-            'cong_nhan'       => 'Công nhân',
-            'ky_thuat_vien'   => 'Kỹ thuật viên',
+            'nhan_vien'       => ($current_lang === 'en' ? 'Staff' : ($current_lang === 'ja' ? '正社員' : 'Nhân viên')),
+            'cong_nhan'       => ($current_lang === 'en' ? 'Worker' : ($current_lang === 'ja' ? '作業員' : 'Công nhân')),
+            'ky_thuat_vien'   => ($current_lang === 'en' ? 'Technician' : ($current_lang === 'ja' ? '技術者' : 'Kỹ thuật viên')),
         );
 
         // Get all jobs to group by career_work_type
@@ -122,7 +129,7 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
             'post_type'      => 'tuyen_dung',
             'posts_per_page' => -1,
             'post_status'    => 'publish',
-            'lang'           => 'vi',
+            'lang'           => $current_lang,
             'meta_query'     => array(
                 'relation' => 'AND',
                 array(
@@ -130,7 +137,6 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
                     'value'   => 'dangtuyen',
                     'compare' => '='
                 ),
-                // ĐIỀU KIỆN MỚI: Chỉ lấy các bài viết còn hạn nộp hồ sơ
                 array(
                     'relation' => 'OR',
                     array(
@@ -172,14 +178,16 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
 
         // Define display order
         $work_type_order = array('nhan_vien', 'ky_thuat_vien', 'cong_nhan');
+        $has_jobs_rendered = false;
 
         // Output grouped jobs
-        foreach ($work_type_order as $work_type) :
-            if (!isset($jobs_by_work_type[$work_type]) || empty($jobs_by_work_type[$work_type])) {
-                continue;
-            }
-
-            $label = isset($work_type_labels[$work_type]) ? $work_type_labels[$work_type] : ucfirst(str_replace('_', ' ', $work_type));
+        if (!empty($jobs_by_work_type)) :
+            foreach ($work_type_order as $work_type) :
+                if (!isset($jobs_by_work_type[$work_type]) || empty($jobs_by_work_type[$work_type])) {
+                    continue;
+                }
+                $has_jobs_rendered = true;
+                $label = isset($work_type_labels[$work_type]) ? $work_type_labels[$work_type] : ucfirst(str_replace('_', ' ', $work_type));
         ?>
         
         <div class="career-department-section">
@@ -216,80 +224,26 @@ $today        = date('Y-m-d'); // Ngày hiện tại để so sánh hạn nộp
             </div>
         </div>
         
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-        <?php if (empty($jobs_by_work_type)) : ?>
-        
-        <!-- Fallback: List all jobs without grouping -->
-        <div class="career-department-section">
-            <h3 class="career-department-title"><?php adtec_label('tuyen_dung'); ?></h3>
-            
-            <?php
-            $fallback_args = array(
-                'post_type'      => 'tuyen_dung',
-                'posts_per_page' => -1,
-                'post_status'    => 'publish',
-                'lang'           => 'vi',
-                'meta_query'     => array(
-                    'relation' => 'AND',
-                    array(
-                        'key'     => 'career_status',
-                        'value'   => 'dangtuyen',
-                        'compare' => '='
-                    ),
-                    // ĐIỀU KIỆN MỚI: Check quá hạn cho query fallback
-                    array(
-                        'relation' => 'OR',
-                        array(
-                            'key'     => 'career_deadline',
-                            'compare' => 'NOT EXISTS'
-                        ),
-                        array(
-                            'key'     => 'career_deadline',
-                            'value'   => $today,
-                            'compare' => '>=',
-                            'type'    => 'DATE'
-                        )
-                    )
-                ),
-                'orderby' => 'date',
-                'order'   => 'DESC',
-            );
-
-            $fallback_query = new WP_Query($fallback_args);
-
-            if ($fallback_query->have_posts()) :
-            ?>
-            <div class="career-job-table">
-                <?php while ($fallback_query->have_posts()) : $fallback_query->the_post(); ?>
-                    <?php
-                    $job_id           = get_the_ID();
-                    $job_deadline     = get_post_meta($job_id, 'career_deadline', true);
-                    $display_deadline = !empty($job_deadline) ? date('d/m/Y', strtotime($job_deadline)) : '';
-                    $post_date        = get_the_date('d/m/Y');
+        <!-- ========================================== -->
+        <!-- BÁO TRỐNG: NẾU KHÔNG CÓ BÀI VIẾT NÀO       -->
+        <!-- ========================================== -->
+        <?php if (!$has_jobs_rendered && empty($jobs_by_work_type)) : ?>
+            <div class="career-no-jobs-box" style="padding: 40px 20px; text-align: center; background: #f9f9f9; border-radius: 6px; margin: 30px 0;">
+                <p style="font-size: 16px; color: #555; margin: 0; font-weight: 500;">
+                    <?php 
+                        if ($current_lang === 'en') {
+                            echo 'Currently, the company personnel is stable, there are no new job openings.';
+                        } elseif ($current_lang === 'ja') {
+                            echo '現在、人員は安定しており、新しい求人はありません。';
+                        } else {
+                            echo 'Hiện tại công ty đang ổn định nhân sự, chưa có vị trí tuyển dụng mới.';
+                        }
                     ?>
-                    <div class="career-job-row">
-                        <div class="career-job-date">
-                            <span class="career-date-range">
-                                <?php 
-                                echo esc_html($post_date);
-                                if (!empty($display_deadline)) {
-                                    echo ' - ' . esc_html($display_deadline);
-                                }
-                                ?>
-                            </span>
-                        </div>
-                        <div class="career-job-link">
-                            <a href="<?php the_permalink(); ?>">
-                                <?php the_title(); ?>
-                            </a>
-                        </div>
-                    </div>
-                <?php endwhile; wp_reset_postdata(); ?>
+                </p>
             </div>
-            <?php endif; ?>
-        </div>
-        
         <?php endif; ?>
 
     </div>
