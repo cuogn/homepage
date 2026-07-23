@@ -261,6 +261,11 @@ if (!empty($all_menus)) {
                             </div>
                         <?php endif; ?>
                     </div>
+
+                    <!-- Tablet + Mobile: phủ toàn bộ row thành 1 link, dẫn tới submenu đầu tiên -->
+                    <a href="<?php echo esc_url($first_detail_link); ?>"
+                       class="section-row-link-mobile"
+                       aria-label="<?php echo esc_attr($title_text); ?>"></a>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -310,43 +315,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Tự động chuyển slide sau 5s
     setInterval(() => showSlide(currentIndex + 1), 5000);
-});
-</script>
-
-<!-- SCRIPT TAP-TO-OPEN CHO SUBMENU TRÊN MOBILE -->
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const isMobile = () => window.innerWidth < 768;
-
-    document.querySelectorAll('.home-dynamic-sections .home-section-row').forEach(row => {
-        row.addEventListener('click', function (e) {
-            if (!isMobile()) return;
-
-            // Nếu bấm trúng link con trong submenu, cho đi thẳng
-            if (e.target.closest('.section-submenu-list a')) return;
-
-            // Nếu bấm trúng nút "XEM CHI TIẾT" trong section-left-box
-            if (e.target.closest('.section-btn-more')) return;
-
-            const alreadyOpen = row.classList.contains('is-open');
-
-            // Đóng các row khác đang mở (chỉ cho phép 1 submenu mở tại 1 thời điểm)
-            document.querySelectorAll('.home-dynamic-sections .home-section-row.is-open')
-                .forEach(r => r.classList.remove('is-open'));
-
-            if (!alreadyOpen) {
-                row.classList.add('is-open');
-            }
-        });
-    });
-
-    // Đóng submenu khi resize ra khỏi mobile
-    window.addEventListener('resize', function() {
-        if (!isMobile()) {
-            document.querySelectorAll('.home-dynamic-sections .home-section-row.is-open')
-                .forEach(r => r.classList.remove('is-open'));
-        }
-    });
 });
 </script>
 

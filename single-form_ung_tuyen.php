@@ -12,6 +12,29 @@ $details      = get_post_meta($post_id, 'career_details', true);
 $process      = get_post_meta($post_id, 'career_process', true);
 $form_link    = get_post_meta($post_id, 'career_form_link', true);
 
+if (empty($form_link)) {
+    $backup_query = new WP_Query(array(
+        'post_type'      => 'tuyen_dung',
+        'posts_per_page' => 1, 
+        'post__not_in'   => array($post_id), 
+        'meta_query'     => array(
+            array(
+                'key'     => 'career_form_link',
+                'value'   => '',
+                'compare' => '!=' 
+            )
+        )
+    ));
+
+    if ($backup_query->have_posts()) {
+        while ($backup_query->have_posts()) {
+            $backup_query->the_post();
+            $form_link = get_post_meta(get_the_ID(), 'career_form_link', true);
+        }
+        wp_reset_postdata();
+    }
+}
+
 // Get current language
 $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'vi';
 

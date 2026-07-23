@@ -2364,14 +2364,12 @@ margin: 0 auto;
     }
 }
 
-/* Mobile tap-to-open: submenu ẩn mặc định, hiện khi có class .is-open */
-.section-submenu-overlay {
-    opacity: 0;
-    visibility: hidden;
-}
-.home-section-row.is-open .section-submenu-overlay {
-    opacity: 1;
-    visibility: visible;
+/* Desktop hover: submenu hiện khi hover (chỉ áp dụng khi có chuột) */
+@media (hover: hover) and (min-width: 1280px) {
+    .home-section-row:hover .section-submenu-overlay {
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 /* DANH SÁCH SUBMENU */
@@ -2423,18 +2421,9 @@ margin: 0 auto;
     .section-left-box {
         padding: 30px 40px;
     }
-    .section-submenu-overlay {
-        padding: 30px 50px;
-    }
-    .generator-content-box {
-        padding: 0 20px;
-    }
-    .adv-breadcrumb {
-        padding: 0 20px;
-    }
 }
 
-/* MOBILE: < 768px — stack dọc, submenu chuyển sang tap-to-open */
+/* MOBILE: < 768px — stack dọc */
 @media (max-width: 767px) {
     .home-section-row {
         flex-direction: column;
@@ -2451,20 +2440,36 @@ margin: 0 auto;
     .section-right-box {
         min-height: 280px;
     }
-
-    /* Submenu: bỏ cơ chế hover, chờ JS toggle class .is-open */
-    .section-submenu-overlay {
-        opacity: 0;
-        visibility: hidden;
-    }
-    .home-section-row.is-open .section-submenu-overlay {
-        opacity: 1;
-        visibility: visible;
-    }
 }
 
 /* ==========================================================================
-   MOBILE MENU TOGGLE (HAMBURGER ⇄ X)
+   TABLET + MOBILE: Link phủ toàn row thay overlay submenu
+   ========================================================================== */
+.section-row-link-mobile {
+    display: none;
+}
+
+@media (max-width: 1279px) {
+    /* Bỏ hẳn overlay hiện submenu ở cả tablet lẫn mobile */
+    .section-submenu-overlay {
+        display: none !important;
+    }
+
+    /* Toàn bộ row (chữ + ảnh) trở thành 1 vùng bấm được */
+    .section-row-link-mobile {
+        display: block;
+        position: absolute;
+        inset: 0;
+        z-index: 5;
+    }
+
+    /* Đưa nút "XEM CHI TIẾT" nổi lên trên link phủ toàn row,
+       để vẫn giữ được hiệu ứng hover/focus riêng của nó (dù cùng 1 đích đến) */
+    .section-btn-more {
+        position: relative;
+        z-index: 6;
+    }
+}
    ========================================================================== */
 .menu-toggle {
     position: relative;
