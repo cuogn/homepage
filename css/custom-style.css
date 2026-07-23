@@ -910,7 +910,9 @@ footer.site-footer {
     color: #00469B;
     border: none;
 }
-
+.career-page-title {
+    text-align: center;
+}
 /* Responsive - Career Page V2 */
 @media (max-width: 768px) {
     .career-page-title {
@@ -1809,16 +1811,6 @@ margin: 0 auto;
     color: #222;
 }
 
-.generator-prod-name {
-    font-size: 30px;
-    font-weight: 800;
-    text-align: center;
-    text-transform: uppercase;
-    margin-bottom: 25px;
-    line-height: 1.4;
-    color: #111;
-}
-
 .generator-description {
     font-size: 30px;
     line-height: 1.6;
@@ -1855,9 +1847,6 @@ margin: 0 auto;
 @media (max-width: 768px) {
     .generator-page-title {
         font-size: 26px;
-    }
-    .generator-prod-name {
-        font-size: 20px;
     }
     .generator-description {
         font-size: 16px;
@@ -2482,6 +2471,9 @@ margin: 0 auto;
     .section-right-box {
         min-height: 280px;
     }
+    .wp-block-paragraph{
+        margin: 0 !important;
+    }
 }
 
 /* ==========================================================================
@@ -2513,6 +2505,12 @@ margin: 0 auto;
     }
 
     .history-page-container {
+        padding: 0 20px;
+    }
+    .adv-breadcrumb {
+        padding: 0 20px !important;
+    }
+    .other-products-list{
         padding: 0 20px;
     }
 }

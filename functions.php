@@ -629,18 +629,18 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         ],
     ];
     // 2. Meta Box cho CPT "Các sản phẩm khác"
-    $meta_boxes[] = [
-        'id'         => 'mb_other_products_details',
-        'title'      => 'Danh Sách Các Sản Phẩm Phụ Trợ / Khác',
-        'post_types' => ['cac_san_pham_khac'],
-        'fields'     => [
-            [
-                'name' => 'Đường dẫn sản phẩm',
-                'id'   => 'other_product_url',
-                'type' => 'url',
-            ],
-        ],
-    ];
+    // $meta_boxes[] = [
+    //     'id'         => 'mb_other_products_details',
+    //     'title'      => 'Danh Sách Các Sản Phẩm Phụ Trợ / Khác',
+    //     'post_types' => ['cac_san_pham_khac'],
+    //     'fields'     => [
+    //         [
+    //             'name' => 'Đường dẫn sản phẩm',
+    //             'id'   => 'other_product_url',
+    //             'type' => 'url',
+    //         ],
+    //     ],
+    // ];
 
     // Ô NHẬP LIỆU CHO CPT "THÔNG TIN TUYỂN DỤNG" (thong_tin_tuyen_dung)
     $meta_boxes[] = [
@@ -795,29 +795,6 @@ function adv_register_all_custom_elements() {
 add_action('init', 'adv_register_all_custom_elements');
 
 function adv_register_all_taxonomies() {
-
-    // Đăng ký Taxonomy Năm cho CPT Tin tức
-    register_taxonomy('nam_tin_tuc', 'tin_tuc', array(
-        'label'        => 'Năm',
-        'hierarchical' => true,
-        'show_in_rest' => true,
-    ));
-    // Đăng ký Taxonomy Năm cho CPT Sự kiện
-    register_taxonomy('nam_su_kien', 'su_kien_nam', array(
-        'label'        => 'Năm',
-        'hierarchical' => true,
-        'show_in_rest' => true,
-    ));
-    // Đăng ký Taxonomy Năm cho CPT Cột mốc
-    register_taxonomy('nam_qua_trinh_phat_trien', 'cot_moc', array(
-        'label'        => 'Năm',
-        'hierarchical' => true,
-        'show_in_rest' => true,
-        'rewrite'      => array(
-            'slug'       => 'qua-trinh-phat-trien',
-            'with_front' => false,
-        ),
-    ));
 
     register_taxonomy('quoc_gia', 'dia_diem', array(
         'label'        => 'Quốc gia',

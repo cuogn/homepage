@@ -70,7 +70,6 @@ $display_title = !empty($prod_title) ? $prod_title : get_the_title();
 
     <!-- 3. KHỐI THÔNG TIN CHI TIẾT SẢN PHẨM -->
     <div class="generator-content-box">
-        <h2 class="generator-prod-name"><?php echo esc_html($display_title); ?></h2>
 
         <?php if ($prod_desc) : ?>
             <div class="generator-description">
