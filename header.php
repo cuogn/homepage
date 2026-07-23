@@ -100,7 +100,7 @@ $lang_switch_html = ob_get_clean();
 
         document.querySelectorAll('.main-navigation li.menu-item-has-children > a').forEach(link => {
             link.addEventListener('click', function (e) {
-                if (window.innerWidth >= 1085) return;
+                if (window.innerWidth >= 1499) return;
                 e.preventDefault();
 
                 const parentLi = this.parentElement;

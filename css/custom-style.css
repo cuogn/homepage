@@ -506,7 +506,7 @@ footer.site-footer {
 }
 
 /* MOBILE: < 768px — stack dọc hoàn toàn, menu chính sách 1 cột. */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .site-footer .footer-container {
         flex-direction: column;
         gap: 28px;
@@ -537,6 +537,9 @@ footer.site-footer {
     }
     .site-footer .site-info p {
         text-align: center;
+    }
+    .timeline-center-axis {
+        display: none;
     }
 }
 
@@ -1236,26 +1239,61 @@ margin: 0 auto;
     margin-top: 6px;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE MOBILE - CĂN GIỮA 1 DÒNG */
 @media (max-width: 768px) {
+    .history-timeline-wrapper {
+        padding: 0;
+    }
+
     .timeline-center-axis {
-        left: 20px;
-        width: 10px;
+        display: none;
     }
 
     .timeline-row-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
-        padding-left: 40px;
+        gap: 25px;
+        padding-left: 0;
+    }
+
+    .timeline-col-left,
+    .timeline-col-right {
+        justify-content: center;
+        text-align: center;
     }
 
     .timeline-col-center {
-        justify-content: flex-start;
-        margin-left: -40px;
+        order: -1;
+        justify-content: center;
+        margin-left: 0;
+        padding-top: 0;
+        margin-bottom: 5px;
     }
 
     .timeline-year-badge {
-        color: #333;
+        color: #0056b3;
+        font-size: 18px;
+    }
+
+    .timeline-col-left .event-content-box,
+    .timeline-col-right .event-content-box {
+        align-items: center;
+    }
+
+    .timeline-col-left .event-title-row,
+    .timeline-col-right .event-title-row {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .event-image-holder {
+        margin: 0 auto;
+        height: auto;
+        max-height: 200px;
+    }
+
+    .event-caption {
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
@@ -1440,6 +1478,14 @@ margin: 0 auto;
     flex-direction: row-reverse;
 }
 
+.employee-story-row.no-image {
+    flex-direction: row;
+}
+
+.employee-story-row.no-image .employee-text-box {
+    flex: 1;
+}
+
 /* KHỐI NỘI DUNG CHỮ (NỀN XANH NHẠT CHUẨN MẪU) */
 .employee-text-box {
     flex: 1;
@@ -1508,10 +1554,6 @@ margin: 0 auto;
 
     .employee-text-box {
         padding: 20px;
-    }
-
-    .adv-breadcrumb {
-        padding: 0 20px;
     }
 
     .generator-content-box {
@@ -2469,7 +2511,14 @@ margin: 0 auto;
         position: relative;
         z-index: 6;
     }
+
+    .history-page-container {
+        padding: 0 20px;
+    }
 }
+
+/* ==========================================================================
+   MOBILE MENU TOGGLE (HAMBURGER ⇄ X)
    ========================================================================== */
 .menu-toggle {
     position: relative;
@@ -2479,7 +2528,7 @@ margin: 0 auto;
     border: none;
     cursor: pointer;
     padding: 0;
-    display: none;
+    display: none !important;
 }
 .menu-toggle-bar {
     position: absolute;
@@ -2503,7 +2552,7 @@ margin: 0 auto;
         display: none;
     }
     .menu-toggle {
-        display: block;
+        display: block !important;
     }
 
     /* Padding cho header + menu ở mobile */
@@ -2573,6 +2622,10 @@ margin: 0 auto;
     /* Sửa lỗi tràn ngang: chữ submenu đang bị ép nowrap từ rule desktop */
     .main-navigation .mGlobalNaviChild__holder a {
         white-space: normal !important;
+    }
+
+    .adtec-group-container{
+        padding: 0 20px;
     }
 }
 

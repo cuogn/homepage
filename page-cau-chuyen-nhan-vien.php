@@ -59,12 +59,13 @@ $final_banner_url = !empty($customizer_banner) ? $customizer_banner : $page_bann
                 $post_id   = get_the_ID();
                 $role      = get_post_meta($post_id, 'employee_role', true);
                 $thumb_id  = get_post_thumbnail_id($post_id);
+                $has_image = !empty($thumb_id);
 
                 $align_class = ($index % 2 === 0) ? 'img-right' : 'img-left';
                 $index++;
         ?>
             <!-- MỘT ITEM CÂU CHUYỆN -->
-            <div class="employee-story-row <?php echo esc_attr($align_class); ?>">
+            <div class="employee-story-row <?php echo esc_attr($align_class); ?><?php echo $has_image ? '' : ' no-image'; ?>">
                 <!-- KHỐI CHỮ NỀN XANH NHẠT -->
                 <div class="employee-text-box">
                     <h3 class="employee-name"><?php the_title(); ?></h3>
@@ -77,14 +78,12 @@ $final_banner_url = !empty($customizer_banner) ? $customizer_banner : $page_bann
                     </div>
                 </div>
 
-                <!-- KHỐI ẢNH CHÂN DUNG -->
+                <!-- KHỐI ẢNH CHÂN DUNG (CHỈ HIỂN THỊ KHI CÓ ẢNH) -->
+                <?php if ($has_image) : ?>
                 <div class="employee-image-box">
-                    <?php if ( $thumb_id ) : ?>
-                        <?php echo wp_get_attachment_image($thumb_id, 'medium_large'); ?>
-                    <?php else : ?>
-                        <img src="https://via.placeholder.com/600x400" alt="<?php the_title(); ?>">
-                    <?php endif; ?>
+                    <?php echo wp_get_attachment_image($thumb_id, 'medium_large'); ?>
                 </div>
+                <?php endif; ?>
             </div>
         <?php 
             endwhile; 
