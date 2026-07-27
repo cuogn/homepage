@@ -1,7 +1,7 @@
 /* ==========================================================================
    1. ĐỊNH DẠNG CHUNG & KHUNG TRANG (RESET & LAYOUT)
    ========================================================================== */
-   body {
+body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #1A1A1A;
     margin: 0;
@@ -203,7 +203,7 @@
     transition: width 0.2s ease;
 }
 
-.main-navigation ul#primary-menu>li:hover>a::after{
+.main-navigation ul#primary-menu>li:hover>a::after {
     width: 100%;
 }
 
@@ -256,6 +256,7 @@
 
 /* KÍCH HOẠT HIỂN THỊ KHI HOVER (chỉ áp dụng khi thiết bị có con trỏ chuột + màn hình ≥768px) */
 @media (hover: hover) and (min-width: 768px) {
+
     .main-navigation li:hover .mGlobalNaviChild__container,
     .main-navigation li:focus-within .mGlobalNaviChild__container {
         opacity: 1 !important;
@@ -492,13 +493,16 @@ footer.site-footer {
         min-width: 220px;
         max-width: 360px;
     }
+
     .site-footer .footer-links-grid {
         min-width: 320px;
         max-width: 460px;
     }
+
     .site-footer .footer-container {
         gap: 24px;
     }
+
     .site-footer ul.adtec-footer-menu {
         column-gap: 40px;
         row-gap: 14px;
@@ -512,32 +516,40 @@ footer.site-footer {
         gap: 28px;
         padding: 0 20px;
     }
+
     .site-footer .footer-company-info {
         min-width: 0;
         max-width: 100%;
         width: 100%;
     }
+
     .site-footer .footer-links-grid {
         min-width: 0;
         max-width: 100%;
         width: 100%;
     }
+
     .site-footer ul.adtec-footer-menu {
         grid-template-columns: 1fr;
         row-gap: 16px;
     }
+
     .site-footer .footer-logo img {
         max-height: 56px;
     }
+
     .site-footer .footer-socials {
         gap: 10px;
     }
+
     .site-footer .site-info-container {
         padding: 0 20px;
     }
+
     .site-footer .site-info p {
         text-align: center;
     }
+
     .timeline-center-axis {
         display: none;
     }
@@ -597,7 +609,7 @@ footer.site-footer {
     margin: 0;
     letter-spacing: 4px;
     text-transform: uppercase;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .career-banner-subtitle {
@@ -747,7 +759,7 @@ footer.site-footer {
 /* ==========================================================================
    SINGLE CAREER / FORM UNG TUYEN DETAIL PAGE
    ========================================================================== */
-   .career-single-container {
+.career-single-container {
     max-width: 1260px;
     margin: 0 auto;
     /* padding: 20px 20px 60px; */
@@ -834,10 +846,12 @@ footer.site-footer {
     .career-detail-title {
         font-size: 24px;
     }
+
     .career-section-heading {
         font-size: 20px;
     }
 }
+
 /* ==========================================================================
    FEATURED BANNER - LEGACY STYLE (kept for reference)
    ========================================================================== */
@@ -910,9 +924,11 @@ footer.site-footer {
     color: #00469B;
     border: none;
 }
+
 .career-page-title {
     text-align: center;
 }
+
 /* Responsive - Career Page V2 */
 @media (max-width: 768px) {
     .career-page-title {
@@ -1010,7 +1026,8 @@ footer.site-footer {
 
 /* Cấu trúc Thẻ Card */
 .adtec-location-card {
-    background: #eef3fb; /* Màu nền xanh nhạt giống ảnh mẫu */
+    background: #eef3fb;
+    /* Màu nền xanh nhạt giống ảnh mẫu */
     border-radius: 4px;
     overflow: hidden;
     display: flex;
@@ -1075,13 +1092,14 @@ footer.site-footer {
 .location-url-link:hover {
     color: #003366;
 }
+
 /* ==========================================================================
    QUÁ TRÌNH PHÁT TRIỂN (TIMELINE GIÓNG THẲNG HÀNG NĂM CHUẨN MẪU)
    ========================================================================== */
 .history-page-container {
-max-width: 1260px;
-margin: 0 auto;
-/* padding: 20px 15px 60px; */
+    max-width: 1260px;
+    margin: 0 auto;
+    /* padding: 20px 15px 60px; */
 }
 
 .history-page-header {
@@ -1141,9 +1159,11 @@ margin: 0 auto;
 /* CẤU TRÚC GRID 3 CỘT: TRÁI - TRỤC GIỮA - PHẢI */
 .timeline-row-grid {
     display: grid;
-    grid-template-columns: 1fr 80px 1fr; /* 80px cho dải xám ở giữa */
+    grid-template-columns: 1fr 80px 1fr;
+    /* 80px cho dải xám ở giữa */
     gap: 30px;
-    align-items: start; /* Ép mép trên tiêu đề thẳng hàng với số Năm */
+    align-items: start;
+    /* Ép mép trên tiêu đề thẳng hàng với số Năm */
     margin-bottom: 35px;
 }
 
@@ -1151,12 +1171,15 @@ margin: 0 auto;
     display: flex;
     justify-content: flex-start;
 }
+
 .timeline-col-left .event-content-box {
     align-items: flex-start;
 }
+
 .timeline-col-left .event-title-row {
     width: 100%;
 }
+
 .timeline-col-right .event-content-box {
     align-items: flex-end;
 }
@@ -1164,11 +1187,13 @@ margin: 0 auto;
 .timeline-col-right .event-title-row {
     width: 100%;
 }
+
 .timeline-col-center {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 2px; /* Căn chỉnh nhẹ để số Năm ngang hàng chữ tiêu đề */
+    padding-top: 2px;
+    /* Căn chỉnh nhẹ để số Năm ngang hàng chữ tiêu đề */
 }
 
 /* SỐ NĂM MÀU TRẮNG NẰM TRONG DẢI XÁM */
@@ -1187,6 +1212,7 @@ margin: 0 auto;
     display: flex;
     flex-direction: column;
 }
+
 .event-title-row {
     font-size: 16px;
     line-height: 1.5;
@@ -1303,7 +1329,7 @@ margin: 0 auto;
 /* ==========================================================================
    DECOR TRANG 404 (NOT FOUND)
    ========================================================================== */
-   .error-404-container {
+.error-404-container {
     min-height: 65vh;
     display: flex;
     align-items: center;
@@ -1326,7 +1352,8 @@ margin: 0 auto;
     color: #0056b3;
     opacity: 0.15;
     letter-spacing: 5px;
-    margin-bottom: -40px; /* Đẩy tiêu đề đè nhẹ lên số */
+    margin-bottom: -40px;
+    /* Đẩy tiêu đề đè nhẹ lên số */
 }
 
 .error-404-title {
@@ -1409,7 +1436,7 @@ margin: 0 auto;
 /* ==========================================================================
    CÂU CHUYỆN NHÂN VIÊN (EMPLOYEE STORIES - DẠNG XE N KẼ CHUẨN MOCKUP)
    ========================================================================== */
-   .employee-stories-page-container {
+.employee-stories-page-container {
     max-width: 1260px;
     margin: 0 auto;
     /* padding: 20px 15px 60px; */
@@ -1464,7 +1491,8 @@ margin: 0 auto;
 /* MỖI DÒNG THẺ NHÂN VIÊN */
 .employee-story-row {
     display: flex;
-    align-items: stretch; /* Đảm bảo khối chữ và khối ảnh cao bằng nhau */
+    align-items: stretch;
+    /* Đảm bảo khối chữ và khối ảnh cao bằng nhau */
     width: 100%;
     border-radius: 4px;
     overflow: hidden;
@@ -1491,7 +1519,8 @@ margin: 0 auto;
 /* KHỐI NỘI DUNG CHỮ (NỀN XANH NHẠT CHUẨN MẪU) */
 .employee-text-box {
     flex: 1;
-    background: #e8f0fe; /* Màu xanh nhạt chuẩn theo thiết kế mockup */
+    background: #e8f0fe;
+    /* Màu xanh nhạt chuẩn theo thiết kế mockup */
     padding: 30px 35px;
     display: flex;
     flex-direction: column;
@@ -1544,9 +1573,11 @@ margin: 0 auto;
 
 /* RESPONSIVE TRÊN ĐIỆN THOẠI */
 @media (max-width: 768px) {
+
     .employee-story-row,
     .employee-story-row.img-left {
-        flex-direction: column-reverse; /* Đưa ảnh lên trước chữ trên Mobile */
+        flex-direction: column-reverse;
+        /* Đưa ảnh lên trước chữ trên Mobile */
     }
 
     .employee-image-box {
@@ -1561,16 +1592,16 @@ margin: 0 auto;
     .generator-content-box {
         padding: 0 20px;
     }
-    
+
 }
 
 /* ==========================================================================
    TRANG THIẾT BỊ / MÔI TRƯỜNG LÀM VIỆC
    ========================================================================== */
 .factory-page-container {
-max-width: 1260px;
-margin: 0 auto;
-/* padding: 20px 15px 60px; */
+    max-width: 1260px;
+    margin: 0 auto;
+    /* padding: 20px 15px 60px; */
 }
 
 .factory-page-header {
@@ -1587,7 +1618,7 @@ margin: 0 auto;
 /* ==========================================================================
    DECOR SLIDER BANNER THIẾT BỊ (SWIPER SLIDER CHUẨN MOCKUP)
    ========================================================================== */
-   .factory-slider-wrapper {
+.factory-slider-wrapper {
     position: relative;
     width: 100%;
     margin-bottom: 35px;
@@ -1596,7 +1627,8 @@ margin: 0 auto;
 /* GIỚI HẠN CHIỀU CAO KHUNG SLIDER BANNER */
 .factorySwiper {
     width: 100%;
-    height: 380px; /* Chiều cao cố định khung Slider */
+    height: 380px;
+    /* Chiều cao cố định khung Slider */
     border-radius: 4px;
     overflow: hidden;
 }
@@ -1610,7 +1642,8 @@ margin: 0 auto;
 .factory-slide-img img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: cover; /* Tự động cắt/căn giữa ảnh không bị co giãn */
+    object-fit: cover;
+    /* Tự động cắt/căn giữa ảnh không bị co giãn */
     object-position: center;
     display: block;
 }
@@ -1661,7 +1694,8 @@ margin: 0 auto;
     height: 32px;
     border: 1px solid #ccc;
     background: #fff;
-    color: #333; /* Màu mặc định của icon SVG (nhờ stroke="currentColor") */
+    color: #333;
+    /* Màu mặc định của icon SVG (nhờ stroke="currentColor") */
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -1715,7 +1749,8 @@ margin: 0 auto;
 
 .factory-tabs-list .tab-item.active button,
 .factory-tabs-list .tab-item button:hover {
-    background: #0056b3; /* Nút Active màu xanh đậm */
+    background: #0056b3;
+    /* Nút Active màu xanh đậm */
     color: #fff;
 }
 
@@ -1739,7 +1774,8 @@ margin: 0 auto;
 
 .gallery-img-holder {
     width: 100%;
-    height: 240px; /* Chiều cao ảnh cố định */
+    height: 240px;
+    /* Chiều cao ảnh cố định */
     overflow: hidden;
 }
 
@@ -1756,8 +1792,10 @@ margin: 0 auto;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
     }
+
     .factorySwiper {
-        height: 240px; /* Hạ chiều cao trên màn hình điện thoại */
+        height: 240px;
+        /* Hạ chiều cao trên màn hình điện thoại */
     }
 }
 
@@ -1770,7 +1808,7 @@ margin: 0 auto;
 /* ==========================================================================
    GIAO DIỆN MÁY NGUỒN CAO TẦN (page-may-nguon-cao-tan.php)
    ========================================================================== */
-   .generator-page-container {
+.generator-page-container {
     max-width: 1260px;
     margin: 0 auto;
     /* padding: 20px 15px 60px; */
@@ -1848,6 +1886,7 @@ margin: 0 auto;
     .generator-page-title {
         font-size: 26px;
     }
+
     .generator-description {
         font-size: 16px;
     }
@@ -1856,7 +1895,7 @@ margin: 0 auto;
 /* ==========================================================================
    TRANG CÁC SẢN PHẨM KHÁC
    ========================================================================== */
-   .other-products-page-container {
+.other-products-page-container {
     max-width: 1260px;
     margin: 0 auto;
     /* padding: 30px 20px 80px; */
@@ -1881,13 +1920,15 @@ margin: 0 auto;
 .other-products-list {
     display: flex;
     flex-direction: column;
-    gap: 50px; /* Khoảng cách giữa các sản phẩm */
+    gap: 50px;
+    /* Khoảng cách giữa các sản phẩm */
 }
 
 /* MỘT HÀNG SẢN PHẨM */
 .other-product-item {
     display: flex;
-    flex-direction: row; /* Ép chữ bên trái, ảnh bên phải */
+    flex-direction: row;
+    /* Ép chữ bên trái, ảnh bên phải */
     justify-content: space-between;
     align-items: flex-start;
     gap: 40px;
@@ -1896,7 +1937,8 @@ margin: 0 auto;
 /* CỘT NỘI DUNG CHỮ (BÊN TRÁI) */
 .other-product-content {
     flex: 1;
-    min-width: 0; /* Anti-overflow */
+    min-width: 0;
+    /* Anti-overflow */
 }
 
 .other-product-title {
@@ -1985,13 +2027,13 @@ margin: 0 auto;
         flex-direction: column-reverse;
         gap: 20px;
     }
-    
+
     .other-product-image {
         width: 100%;
         height: auto;
         max-height: 260px;
     }
-    
+
     .other-product-image img {
         height: auto;
         max-height: 260px;
@@ -2001,7 +2043,7 @@ margin: 0 auto;
 /* ==========================================================================
    1. BANNER SLIDER SECTION (PHÍA TRÊN CÙNG)
    ========================================================================== */
-   .home-slider-wrapper {
+.home-slider-wrapper {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -2030,7 +2072,8 @@ margin: 0 auto;
 .slide-item.active {
     z-index: 2;
     opacity: 1;
-    clip-path: polygon(0 0, 200vw 0, 0 200vh, 0 0); /* Dùng vw/vh để quét hết toàn màn hình */
+    clip-path: polygon(0 0, 200vw 0, 0 200vh, 0 0);
+    /* Dùng vw/vh để quét hết toàn màn hình */
 }
 
 .slide-item img {
@@ -2048,7 +2091,8 @@ margin: 0 auto;
     padding: 18px;
     background-color: #ffffff;
     border-bottom: 1px solid #eaeaea;
-    position: relative; /* Tạo mốc để căn giữa indicator */
+    position: relative;
+    /* Tạo mốc để căn giữa indicator */
 }
 
 .slider-indicators {
@@ -2109,6 +2153,7 @@ margin: 0 auto;
     color: #0056b3;
     background-color: #f4f8fc;
 }
+
 .slider-btn.prev-btn:hover svg {
     transform: translateX(-2px);
 }
@@ -2124,6 +2169,7 @@ margin: 0 auto;
         flex-wrap: wrap;
         gap: 10px;
     }
+
     .slider-indicators {
         position: static;
         transform: none;
@@ -2131,11 +2177,13 @@ margin: 0 auto;
         width: 100%;
         justify-content: center;
     }
+
     .slider-arrow-btns {
         order: 1;
         margin-left: 0;
         gap: 12px;
     }
+
     .slider-btn {
         width: 38px;
         height: 38px;
@@ -2145,8 +2193,9 @@ margin: 0 auto;
 /* ==========================================================================
    2. KHỐI TIN TỨC NỔI BẬT (BACKGROUND XANH PASTEL D8E6FF)
    ========================================================================== */
-   .home-news-section {
-    background-color: #D8E6FF; /* Màu xanh nhạt phủ toàn bộ khối */
+.home-news-section {
+    background-color: #D8E6FF;
+    /* Màu xanh nhạt phủ toàn bộ khối */
     position: relative;
     margin-top: 20px;
 }
@@ -2168,10 +2217,12 @@ margin: 0 auto;
 
 .news-cards-container {
     width: 60%;
-    margin-left: 40%; /* Đẩy cột phải sang đúng 40% để nhường vị trí cho cột trái */
+    margin-left: 40%;
+    /* Đẩy cột phải sang đúng 40% để nhường vị trí cho cột trái */
     padding: 40px 160px 40px 20px;
     display: flex;
-    align-items: center; /* Căn giữa 3 Card tin theo chiều dọc */
+    align-items: center;
+    /* Căn giữa 3 Card tin theo chiều dọc */
     box-sizing: border-box;
     z-index: 2;
 }
@@ -2245,9 +2296,11 @@ margin: 0 auto;
         margin-left: 42%;
         padding: 30px 60px 30px 20px;
     }
+
     .news-cards-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .section-left-content {
         margin-left: 2em;
     }
@@ -2259,20 +2312,24 @@ margin: 0 auto;
         flex-direction: column;
         min-height: auto;
     }
+
     .news-left-bg {
         position: relative !important;
         width: 100% !important;
         height: auto !important;
         padding: 30px 20px 10px !important;
     }
+
     .news-left-bg .section-left-content {
         margin-left: 0 !important;
     }
+
     .news-cards-container {
         width: 100%;
         margin-left: 0;
         padding: 10px 20px 40px;
     }
+
     .news-cards-grid {
         grid-template-columns: 1fr;
     }
@@ -2446,9 +2503,11 @@ margin: 0 auto;
     .section-left-content {
         margin-left: 2em;
     }
+
     .section-main-title {
         font-size: 30px;
     }
+
     .section-left-box {
         padding: 30px 40px;
     }
@@ -2460,18 +2519,22 @@ margin: 0 auto;
         flex-direction: column;
         min-height: auto;
     }
+
     .section-left-box {
         position: relative;
         width: 100%;
         height: auto;
     }
+
     .section-left-content {
         margin-left: 0;
     }
+
     .section-right-box {
         min-height: 280px;
     }
-    .wp-block-paragraph{
+
+    .wp-block-paragraph {
         margin: 0 !important;
     }
 }
@@ -2484,6 +2547,7 @@ margin: 0 auto;
 }
 
 @media (max-width: 1279px) {
+
     /* Bỏ hẳn overlay hiện submenu ở cả tablet lẫn mobile */
     .section-submenu-overlay {
         display: none !important;
@@ -2507,10 +2571,13 @@ margin: 0 auto;
     .history-page-container {
         padding: 0 20px;
     }
+
     .adv-breadcrumb {
         padding: 0 20px !important;
     }
-    .other-products-list{
+
+    .other-products-list,
+    .employee-section-subtitle {
         padding: 0 20px;
     }
 }
@@ -2528,6 +2595,7 @@ margin: 0 auto;
     padding: 0;
     display: none !important;
 }
+
 .menu-toggle-bar {
     position: absolute;
     left: 6px;
@@ -2536,19 +2604,40 @@ margin: 0 auto;
     background-color: #1F3B73;
     transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
 }
-.bar-1 { top: 11px; }
-.bar-2 { top: 17px; }
-.bar-3 { top: 23px; }
 
-.menu-toggle.is-active .bar-1 { top: 17px; transform: rotate(45deg); }
-.menu-toggle.is-active .bar-2 { opacity: 0; }
-.menu-toggle.is-active .bar-3 { top: 17px; transform: rotate(-45deg); }
+.bar-1 {
+    top: 11px;
+}
+
+.bar-2 {
+    top: 17px;
+}
+
+.bar-3 {
+    top: 23px;
+}
+
+.menu-toggle.is-active .bar-1 {
+    top: 17px;
+    transform: rotate(45deg);
+}
+
+.menu-toggle.is-active .bar-2 {
+    opacity: 0;
+}
+
+.menu-toggle.is-active .bar-3 {
+    top: 17px;
+    transform: rotate(-45deg);
+}
 
 @media (max-width: 1200px) {
+
     /* Ẩn EN ở top-row, hiện hamburger đúng vị trí đó */
     .header-language-switch {
         display: none;
     }
+
     .menu-toggle {
         display: block !important;
     }
@@ -2557,9 +2646,11 @@ margin: 0 auto;
     .header-top-row.container-header {
         padding: 16px 20px !important;
     }
-    .main-navigation ul#primary-menu > li > a {
+
+    .main-navigation ul#primary-menu>li>a {
         padding: 16px 20px !important;
     }
+
     .main-navigation .mGlobalNaviChild__holder a {
         padding: 8px 20px !important;
     }
@@ -2577,6 +2668,7 @@ margin: 0 auto;
         border-top: 1px solid #EDEDED;
         margin-top: 8px;
     }
+
     .main-navigation.toggled .mobile-lang-switch {
         display: block;
     }
@@ -2588,10 +2680,12 @@ margin: 0 auto;
         width: 100%;
         gap: 0;
     }
+
     .main-navigation.toggled ul#primary-menu {
         display: flex;
     }
-    .main-navigation ul#primary-menu > li {
+
+    .main-navigation ul#primary-menu>li {
         width: 100%;
         border-bottom: 1px solid #EDEDED;
     }
@@ -2607,9 +2701,11 @@ margin: 0 auto;
         pointer-events: auto !important;
         display: none !important;
     }
-    .main-navigation li.submenu-open > .mGlobalNaviChild__container {
+
+    .main-navigation li.submenu-open>.mGlobalNaviChild__container {
         display: block !important;
     }
+
     .main-navigation .mGlobalNaviChild__holder {
         flex-direction: column !important;
         padding: 8px 16px !important;
@@ -2622,7 +2718,7 @@ margin: 0 auto;
         white-space: normal !important;
     }
 
-    .adtec-group-container{
+    .adtec-group-container {
         padding: 0 20px;
     }
 }
