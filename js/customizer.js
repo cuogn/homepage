@@ -39,4 +39,57 @@
 			}
 		} );
 	} );
+
+	// ─── FOOTER PREVIEW ───
+
+	// Slogan (3 ngôn ngữ → cùng 1 element)
+	wp.customize( 'footer_slogan_vi', function( value ) {
+		value.bind( function( to ) {
+			$( '.footer-slogan' ).text( to );
+		} );
+	} );
+	wp.customize( 'footer_slogan_en', function( value ) {
+		value.bind( function( to ) {
+			$( '.footer-slogan' ).text( to );
+		} );
+	} );
+	wp.customize( 'footer_slogan_ja', function( value ) {
+		value.bind( function( to ) {
+			$( '.footer-slogan' ).text( to );
+		} );
+	} );
+
+	// Bản quyền
+	wp.customize( 'footer_copyright_vi', function( value ) {
+		value.bind( function( to ) {
+			var year = new Date().getFullYear();
+			$( '.site-info p' ).html( to.replace( '{year}', year ) );
+		} );
+	} );
+	wp.customize( 'footer_copyright_en', function( value ) {
+		value.bind( function( to ) {
+			var year = new Date().getFullYear();
+			$( '.site-info p' ).html( to.replace( '{year}', year ) );
+		} );
+	} );
+	wp.customize( 'footer_copyright_ja', function( value ) {
+		value.bind( function( to ) {
+			var year = new Date().getFullYear();
+			$( '.site-info p' ).html( to.replace( '{year}', year ) );
+		} );
+	} );
+
+	// Logo - refresh để cập nhật ảnh
+	wp.customize( 'footer_logo', function( value ) {
+		value.bind( function( to ) {
+			$( '.footer-logo img' ).attr( 'src', to );
+		} );
+	} );
+
+	// Hiển/ẩn socials
+	wp.customize( 'footer_show_socials', function( value ) {
+		value.bind( function( to ) {
+			$( '.footer-socials' ).toggle( !! to );
+		} );
+	} );
 }( jQuery ) );

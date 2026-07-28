@@ -317,7 +317,7 @@ body {
 }
 
 /* ==========================================================================
-   3. FOOTER (CHÂN TRANG CHUYÊN NGHIỆP ADTEC)
+   3. FOOTER (CHÂN TRANG CHUYÊN NGHIỆP ADTEC) - 3 CỘT
    ========================================================================== */
 footer.site-footer {
     background-color: #004B87;
@@ -329,45 +329,46 @@ footer.site-footer {
     width: 100%;
 }
 
-/* Khung chứa 1260px phân bổ 2 cụm: Info bên trái, Links bên phải */
+/* 3 cột: Info | Liên hệ | Menu */
 .site-footer .footer-container {
     max-width: 1260px;
     margin: 0 auto;
     padding: 0 30px;
     box-sizing: border-box;
-
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
-    /* Tự xuống dòng mượt mà trên mobile */
     gap: 40px;
 }
 
-/* --- Cột bên trái: Logo & Slogan & Socials --- */
+/* --- Cột 1: Logo & Slogan & Socials --- */
 .site-footer .footer-company-info {
-    flex: 1;
-    min-width: 300px;
-    max-width: 480px;
+    flex: 1 1 260px;
+    min-width: 220px;
+}
+
+.site-footer .footer-logo {
+    margin-bottom: 12px;
 }
 
 .site-footer .footer-logo img {
     max-height: 68px;
     width: auto;
     display: block;
-    margin-bottom: 10px;
 }
 
 .site-footer .footer-slogan {
     color: #A9C7FF;
     font-size: 14px;
     line-height: 1.6;
-    margin: 0 0 10px 0;
+    margin: 0 0 14px 0;
 }
 
 .site-footer .footer-socials {
     display: flex;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .site-footer .social-icon {
@@ -375,8 +376,8 @@ footer.site-footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border: 1px solid rgba(169, 199, 255, 0.3);
     border-radius: 4px;
     transition: all 0.25s ease;
@@ -389,26 +390,57 @@ footer.site-footer {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.site-footer .footer-links-grid {
-    min-width: 450px;
-    flex: 1;
+/* --- Cột 2: Liên hệ --- */
+.site-footer .footer-contact {
+    flex: 1 1 220px;
+    min-width: 200px;
 }
 
-/* --- Cụm bên phải: Menu chính sách chạy động --- */
+.site-footer .footer-address,
+.site-footer .footer-phone,
+.site-footer .footer-email,
+.site-footer .footer-hours {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13.5px;
+    line-height: 1.7;
+    margin: 0 0 8px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.site-footer .footer-contact-icon {
+    flex-shrink: 0;
+    color: #A9C7FF;
+    margin-top: 2px;
+}
+
+.site-footer .footer-phone a,
+.site-footer .footer-email a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.site-footer .footer-phone a:hover,
+.site-footer .footer-email a:hover {
+    color: #FFFFFF;
+}
+
+/* --- Cột 3: Menu liên kết --- */
 .site-footer .footer-links-grid {
-    flex: 1;
-    max-width: 600px;
+    flex: 1 1 280px;
+    min-width: 240px;
 }
 
 .site-footer ul.adtec-footer-menu {
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
-
     display: grid !important;
     grid-template-columns: 1fr 1fr;
-    column-gap: 80px;
-    row-gap: 18px;
+    column-gap: 60px;
+    row-gap: 16px;
     width: 100% !important;
 }
 
@@ -423,7 +455,6 @@ footer.site-footer {
     font-size: 13.5px;
     font-weight: 700;
     text-transform: uppercase;
-    /* Viết IN HOA */
     letter-spacing: 0.8px;
     position: relative;
     padding-bottom: 4px;
@@ -431,7 +462,6 @@ footer.site-footer {
     transition: color 0.2s ease;
 }
 
-/* Hiệu ứng gạch chân chạy ngang khi hover */
 .site-footer ul.adtec-footer-menu li a::after {
     content: '';
     position: absolute;
@@ -452,11 +482,11 @@ footer.site-footer {
     background-color: #A9C7FF;
 }
 
-/* --- Vùng bản quyền dưới đáy (Site Info) --- */
+/* --- Bản quyền dưới đáy --- */
 .site-footer .site-info {
     border-top: 1px solid rgba(255, 255, 255, 0.15);
-    margin-top: 16px;
-    padding: 12px 0;
+    margin-top: 24px;
+    padding: 14px 0;
     background-color: transparent;
 }
 
@@ -475,33 +505,34 @@ footer.site-footer {
 }
 
 /* ==========================================================================
-   3.1. FOOTER RESPONSIVE
+   3.1. FOOTER RESPONSIVE - 3 CỘT
    ========================================================================== */
-/* TABLET: 768px – 1279px — giữ layout ngang 2 cột, thu hẹp min-width + gap
-   để tránh wrap sớm do tổng min-width (300+450+40 = 790px) vượt vùng
-   khả dụng đầu dải tablet (768 - 60 padding = 708px). */
+
+/* TABLET: 768px - 1279px */
 @media (min-width: 768px) and (max-width: 1279px) {
+    .site-footer .footer-container {
+        gap: 28px;
+    }
+
     .site-footer .footer-company-info {
-        min-width: 220px;
-        max-width: 360px;
+        flex: 1 1 200px;
+    }
+
+    .site-footer .footer-contact {
+        flex: 1 1 180px;
     }
 
     .site-footer .footer-links-grid {
-        min-width: 320px;
-        max-width: 460px;
-    }
-
-    .site-footer .footer-container {
-        gap: 24px;
+        flex: 1 1 220px;
     }
 
     .site-footer ul.adtec-footer-menu {
-        column-gap: 40px;
+        column-gap: 36px;
         row-gap: 14px;
     }
 }
 
-/* MOBILE: < 768px — stack dọc hoàn toàn, menu chính sách 1 cột. */
+/* MOBILE: < 768px - stack dọc */
 @media (max-width: 768px) {
     .site-footer .footer-container {
         flex-direction: column;
@@ -509,21 +540,18 @@ footer.site-footer {
         padding: 0 20px;
     }
 
-    .site-footer .footer-company-info {
-        min-width: 0;
-        max-width: 100%;
-        width: 100%;
-    }
-
+    .site-footer .footer-company-info,
+    .site-footer .footer-contact,
     .site-footer .footer-links-grid {
         min-width: 0;
         max-width: 100%;
         width: 100%;
+        flex: none;
     }
 
     .site-footer ul.adtec-footer-menu {
         grid-template-columns: 1fr;
-        row-gap: 16px;
+        row-gap: 14px;
     }
 
     .site-footer .footer-logo img {
@@ -540,10 +568,6 @@ footer.site-footer {
 
     .site-footer .site-info p {
         text-align: center;
-    }
-
-    .timeline-center-axis {
-        display: none;
     }
 }
 
