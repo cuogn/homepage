@@ -1,42 +1,33 @@
-<doctype html>
+<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<?php wp_head(); ?>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
 <?php
-// Tách phần ngôn ngữ ra biến để dùng lại được 2 nơi (desktop top-row & mobile menu)
+// Tách phần ngôn ngữ ra biến (Chỉ hiện các ngôn ngữ KHÁC ngôn ngữ hiện tại)
 ob_start();
 if ( function_exists( 'pll_the_languages' ) ) {
     $languages = pll_the_languages( array( 'raw' => 1 ) );
-    if ( ! empty( $languages ) ) {
-        $current_index = -1;
-        $lang_list = array_values($languages);
-        $total_langs = count($lang_list);
-        foreach ( $lang_list as $index => $lang ) {
-            if ( $lang['current_lang'] ) { $current_index = $index; break; }
-        }
-        $next_index = ($current_index + 1) % $total_langs;
-        $target_lang = $lang_list[$next_index];
-        if ( $target_lang ) : ?>
-            <a href="<?php echo esc_url( $target_lang['url'] ); ?>" class="lang-switch-link" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
-                <span class="lang-label"><?php echo esc_html( strtoupper( $target_lang['slug'] ) ); ?></span>
-                <div class="lang-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                </div>
-            </a>
-        <?php endif;
-    }
-} else { ?>
-    <span class="lang-label">ENG</span>
-    <div class="lang-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-    </div>
-<?php }
+    if ( ! empty( $languages ) ) : ?>
+        <div class="adtec-lang-flags-wrapper">
+            <?php foreach ( $languages as $lang ) : 
+                // Nếu là ngôn ngữ hiện tại -> Bỏ qua (không in ra cờ)
+                if ( $lang['current_lang'] ) continue; 
+            ?>
+                <a href="<?php echo esc_url( $lang['url'] ); ?>" 
+                   class="lang-flag-item" 
+                   title="<?php echo esc_attr( $lang['name'] ); ?>">
+                    <img src="<?php echo esc_url( $lang['flag'] ); ?>" alt="<?php echo esc_attr( $lang['name'] ); ?>" width="24" height="16" />
+                </a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif;
+}
 $lang_switch_html = ob_get_clean();
 ?>
 
@@ -51,12 +42,12 @@ $lang_switch_html = ob_get_clean();
                 <?php endif; ?>
             </div><!-- .site-branding -->
 
-            <!-- Desktop: hiện ngôn ngữ -->
+            <!-- Desktop: Hiện 3 lá cờ góc trên bên phải -->
             <div class="header-language-switch">
                 <?php echo $lang_switch_html; ?>
             </div>
 
-            <!-- Mobile: hiện hamburger thay vào đúng vị trí này -->
+            <!-- Mobile: Nút hamburger -->
             <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
                 <span class="menu-toggle-bar bar-1"></span>
                 <span class="menu-toggle-bar bar-2"></span>
@@ -71,13 +62,13 @@ $lang_switch_html = ob_get_clean();
                         array(
                             'theme_location' => 'menu-1',
                             'menu_id'        => 'primary-menu',
-                            'container'       => false,
-                            'menu_class'      => 'adtec-mega-menu',
+                            'container'      => false,
+                            'menu_class'     => 'adtec-mega-menu',
                             'walker'         => new Adtec_Mega_Menu_Walker(),
                         )
                     );
                 ?>
-                <!-- Mobile: ngôn ngữ nằm trong menu xổ xuống -->
+                <!-- Mobile: 3 lá cờ nằm trong menu xổ xuống -->
                 <div class="mobile-lang-switch">
                     <?php echo $lang_switch_html; ?>
                 </div>

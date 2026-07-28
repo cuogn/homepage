@@ -1532,3 +1532,36 @@ textarea {
 	margin: 0;
 	line-height: 1.4;
 }
+
+
+/* Triệt hạ gạch chân dưới lá cờ */
+.adtec-lang-flags-wrapper a,
+.adtec-lang-flags-wrapper a:hover,
+.adtec-lang-flags-wrapper a:focus,
+.lang-flag-item {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    display: inline-flex !important;
+    align-items: center;
+}
+
+/* Khoảng cách giữa các lá cờ */
+.adtec-lang-flags-wrapper {
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+}
+
+.lang-flag-item img {
+    width: 24px !important;
+    height: auto !important;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+.lang-flag-item img:hover {
+    transform: scale(1.15);
+}

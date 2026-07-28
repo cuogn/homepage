@@ -166,8 +166,6 @@ body {
 .main-navigation ul#primary-menu>li {
     position: static !important;
     padding: 0 10px;
-    padding-bottom: 10px;
-
 }
 
 .main-navigation ul#primary-menu>li:hover {
@@ -206,12 +204,6 @@ body {
 .main-navigation ul#primary-menu>li:hover>a::after {
     width: 100%;
 }
-
-/* .main-navigation ul#primary-menu>li:hover>a::after,
-.main-navigation ul#primary-menu>li.current-menu-item>a::after {
-    width: 100%;
-} */
-
 
 /* ---------- Sub-menu (cấp 2, Mega Menu tràn viền với vỏ div) ---------- */
 #masthead,
@@ -2548,12 +2540,10 @@ footer.site-footer {
 
 @media (max-width: 1279px) {
 
-    /* Bỏ hẳn overlay hiện submenu ở cả tablet lẫn mobile */
     .section-submenu-overlay {
         display: none !important;
     }
 
-    /* Toàn bộ row (chữ + ảnh) trở thành 1 vùng bấm được */
     .section-row-link-mobile {
         display: block;
         position: absolute;
@@ -2561,8 +2551,6 @@ footer.site-footer {
         z-index: 5;
     }
 
-    /* Đưa nút "XEM CHI TIẾT" nổi lên trên link phủ toàn row,
-       để vẫn giữ được hiệu ứng hover/focus riêng của nó (dù cùng 1 đích đến) */
     .section-btn-more {
         position: relative;
         z-index: 6;
@@ -2579,6 +2567,15 @@ footer.site-footer {
     .other-products-list,
     .employee-section-subtitle {
         padding: 0 20px;
+    }
+    .site-header {
+        padding: 0 10px;
+    }
+    .elementor {
+        padding: 0 10px;
+    }
+    .header-top-row{
+        padding: 0 10px !important;
     }
 }
 
@@ -2644,7 +2641,7 @@ footer.site-footer {
 
     /* Padding cho header + menu ở mobile */
     .header-top-row.container-header {
-        padding: 16px 20px !important;
+        padding: 16px 10px 0 !important;
     }
 
     .main-navigation ul#primary-menu>li>a {
@@ -2665,8 +2662,11 @@ footer.site-footer {
     .mobile-lang-switch {
         display: none;
         padding: 16px 20px;
-        border-top: 1px solid #EDEDED;
+        /* border-top: 1px solid #EDEDED; */
         margin-top: 8px;
+    }
+    .header-top-row {
+        padding: 0 10px !important;
     }
 
     .main-navigation.toggled .mobile-lang-switch {
@@ -2720,6 +2720,10 @@ footer.site-footer {
 
     .adtec-group-container {
         padding: 0 20px;
+    }
+
+    .slider-btn {
+        display: none;
     }
 }
 

@@ -169,3 +169,51 @@ function adtec_customize_register_group_banner( $wp_customize ) {
     ) ) );
 }
 add_action( 'customize_register', 'adtec_customize_register_group_banner' );
+
+/**
+ * SECTION: Footer Slogan Settings (Hỗ trợ đa ngôn ngữ VI/EN/JA)
+ */
+function adtec_customize_register_footer_slogan( $wp_customize ) {
+    // Section: Footer Slogan
+    $wp_customize->add_section('adtec_footer_section', array(
+        'title'    => __('Footer Settings', 'adtec'),
+        'priority' => 40,
+    ));
+
+    // Slogan tiếng Việt
+    $wp_customize->add_setting('footer_slogan_vi', array(
+        'default'           => 'Nhà cung cấp máy nguồn cao tần và bộ phối hợp trở kháng RF hàng đầu Việt Nam',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('footer_slogan_vi', array(
+        'label'    => __('Slogan Footer - Tiếng Việt', 'adtec'),
+        'section'  => 'adtec_footer_section',
+        'type'     => 'text',
+    ));
+
+    // Slogan tiếng Anh
+    $wp_customize->add_setting('footer_slogan_en', array(
+        'default'           => "Vietnam's leading supplier of RF generators and impedance matching networks",
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('footer_slogan_en', array(
+        'label'    => __('Slogan Footer - English', 'adtec'),
+        'section'  => 'adtec_footer_section',
+        'type'     => 'text',
+    ));
+
+    // Slogan tiếng Nhật
+    $wp_customize->add_setting('footer_slogan_ja', array(
+        'default'           => 'ベトナムを代表する高周波電源およびRFマッチングボックスのサプライヤー',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('footer_slogan_ja', array(
+        'label'    => __('Slogan Footer - 日本語', 'adtec'),
+        'section'  => 'adtec_footer_section',
+        'type'     => 'text',
+    ));
+}
+add_action( 'customize_register', 'adtec_customize_register_footer_slogan' );

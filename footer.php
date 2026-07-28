@@ -37,18 +37,14 @@
                     <?php 
                     if ( function_exists('pll_current_language') ) {
                         $current_lang = pll_current_language();
-                        
-                        if ( $current_lang == 'en' ) {
-                            echo "Vietnam's leading supplier of RF generators and impedance matching networks";
-                        } elseif ( $current_lang == 'ja' ) {
-                            echo "ベトナムを代表する高周波電源およびRFマッチングボックスのサプライヤー";
-                        } else {
-                            // Mặc định tiếng Việt
-                            echo "Nhà cung cấp máy nguồn cao tần và bộ phối hợp trở kháng RF hàng đầu Việt Nam";
+                        $slogan = get_theme_mod('footer_slogan_' . $current_lang);
+                        if (empty($slogan)) {
+                            $slogan = get_theme_mod('footer_slogan_vi', 'Nhà cung cấp máy nguồn cao tần và bộ phối hợp trở kháng RF hàng đầu Việt Nam');
                         }
                     } else {
-                        echo "Nhà cung cấp máy nguồn cao tần và bộ phối hợp trở kháng RF hàng đầu Việt Nam";
+                        $slogan = get_theme_mod('footer_slogan_vi', 'Nhà cung cấp máy nguồn cao tần và bộ phối hợp trở kháng RF hàng đầu Việt Nam');
                     }
+                    echo esc_html($slogan);
                     ?>
                 </p>
                 <!-- Khối Icon Mạng xã hội -->
