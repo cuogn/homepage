@@ -3,7 +3,7 @@
  * Template Name: Homepage
  */
 get_header(); 
-// 1260×540px
+// 1260/540 <=> 1920x800px
 $current_page_id = get_queried_object_id();
 if (!$current_page_id) {
     $current_page_id = get_the_ID();
@@ -12,12 +12,13 @@ if (!$current_page_id) {
 $current_lang = function_exists('pll_current_language') ? pll_current_language() : 'vi';
 
 // 1. LẤY DỮ LIỆU BANNER CỦA TRANG HIỆN TẠI
-$slider_ids_str = get_post_meta($current_page_id, '_adtec_home_slider_ids', true);
+$slider_ids   = get_post_meta($current_page_id, '_adtec_home_slider_ids', true);
+$slider_links = get_post_meta($current_page_id, '_adtec_home_slider_links', true);
 
 // 2. NẾU TRANG HIỆN TẠI CHƯA CÓ BANNER (RỖNG) -> TÌM BANNER CỦA TRANG TIẾNG VIỆT
-if (empty($slider_ids_str)) {
+if (empty($slider_ids)) {
     $vi_page_id = 0;
-    
+
     // Cách A: Lấy ID bài viết dịch tiếng Việt thông qua Polylang
     if (function_exists('pll_get_post')) {
         $vi_page_id = pll_get_post($current_page_id, 'vi');
@@ -33,12 +34,20 @@ if (empty($slider_ids_str)) {
 
     // Nếu tìm thấy ID trang Tiếng Việt -> Lấy meta banner của trang đó
     if ($vi_page_id && $vi_page_id != $current_page_id) {
-        $slider_ids_str = get_post_meta($vi_page_id, '_adtec_home_slider_ids', true);
+        $slider_ids   = get_post_meta($vi_page_id, '_adtec_home_slider_ids', true);
+        $slider_links = get_post_meta($vi_page_id, '_adtec_home_slider_links', true);
     }
 }
 
-// Chuyển chuỗi ID thành mảng
-$slider_ids = $slider_ids_str ? explode(',', $slider_ids_str) : array();
+// Chuyển chuỗi ID thành mảng, links là pipe-separated
+$slider_ids_arr   = $slider_ids   ? explode(',', $slider_ids)   : array();
+$slider_links_arr = $slider_links ? explode('|', $slider_links) : array();
+
+// Lọc ra chỉ các slide thực sự có ảnh hợp lệ (để đếm controls đúng)
+$valid_slides = array_filter($slider_ids_arr, function($img_id) {
+    $img_id = intval($img_id);
+    return $img_id > 0 && wp_get_attachment_image_url($img_id, 'full');
+});
 
 // 2. LẤY DỮ LIỆU TIN TỨC MỚI NHẤT (3 BÀI)
 $news_args = array(
@@ -94,28 +103,41 @@ if (!empty($all_menus)) {
     <!-- ==========================================
          KHỐI 1: BANNER SLIDER
          ========================================== -->
-    <?php if (!empty($slider_ids)) : ?>
+    <?php if (!empty($slider_ids_arr)) : ?>
         <div class="home-slider-wrapper">
             <div class="home-slider-container">
-                <?php foreach ($slider_ids as $index => $img_id) : 
+                <?php foreach ($slider_ids_arr as $index => $img_id) :
                     $img_url = wp_get_attachment_image_url($img_id, 'full');
                     if ($img_url) :
+                        $slide_link = isset($slider_links_arr[$index]) ? trim($slider_links_arr[$index]) : '';
+                        $has_link   = !empty($slide_link) && (strpos($slide_link, 'http') === 0 || strpos($slide_link, '/') === 0);
                 ?>
+                    <?php if ($has_link) : ?>
+                    <a class="slide-item <?php echo $index === 0 ? 'active' : ''; ?>"
+                       href="<?php echo esc_url($slide_link); ?>"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       aria-label="Banner <?php echo $index + 1; ?>">
+                        <img src="<?php echo esc_url($img_url); ?>" alt="Banner Adtec">
+                    </a>
+                    <?php else : ?>
                     <div class="slide-item <?php echo $index === 0 ? 'active' : ''; ?>">
                         <img src="<?php echo esc_url($img_url); ?>" alt="Banner Adtec">
                     </div>
-                <?php 
+                    <?php endif; ?>
+                <?php
                     endif;
-                endforeach; 
+                endforeach;
                 ?>
             </div>
             
-            <!-- THANH ĐIỀU HƯỚNG SLIDER (PAGINATION & NAV BUTTONS) -->
+            <!-- THANH ĐIỀU HƯỚNG SLIDER (CHỈ HIỂN THỊ KHI CÓ TỪ 2 SLIDE TRỞ LÊN) -->
+            <?php if (count($valid_slides) > 1) : ?>
             <div class="slider-controls-bar">
                 <div class="slider-indicators">
-                    <?php foreach ($slider_ids as $index => $img_id) : ?>
+                <?php foreach ($valid_slides as $index => $img_id) : ?>
                         <span class="indicator-dash <?php echo $index === 0 ? 'active' : ''; ?>" data-slide="<?php echo $index; ?>"></span>
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
                 </div>
                 <div class="slider-arrow-btns">
                     <button class="slider-btn prev-btn" type="button" aria-label="Previous Slide">
@@ -130,8 +152,9 @@ if (!empty($all_menus)) {
                     </button>
                 </div>
             </div>
+            <?php endif; // count > 1 ?>
         </div>
-    <?php endif; ?>
+    <?php endif; // !empty slider_ids_arr ?>
 
     <!-- KHỐI TIN TỨC NỔI BẬT (BỌC FULL ĐIỀU KIỆN - RỖNG LÀ BẤT HOẠT CẢ KHỐI XANH) -->
 <?php if ($news_query->have_posts()) : ?>

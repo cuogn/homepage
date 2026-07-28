@@ -2063,13 +2063,11 @@ footer.site-footer {
     position: relative;
     width: 100%;
     overflow: hidden;
-    background-color: #ffffff;
 }
 
 .home-slider-container {
     position: relative;
     width: 100%;
-    height: 88%;
     aspect-ratio: 1260 / 540;
 }
 
@@ -2083,13 +2081,15 @@ footer.site-footer {
     opacity: 0;
     clip-path: polygon(0 0, 0 0, 0 0, 0 0);
     transition: clip-path 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slide-item.active {
     z-index: 2;
     opacity: 1;
     clip-path: polygon(0 0, 200vw 0, 0 200vh, 0 0);
-    /* Dùng vw/vh để quét hết toàn màn hình */
 }
 
 .slide-item img {
@@ -2097,6 +2097,16 @@ footer.site-footer {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+a.slide-item {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: inherit;
 }
 
 /* THANH ĐIỀU HƯỚNG SLIDER (DƯỚI BANNER) */
@@ -2592,13 +2602,16 @@ footer.site-footer {
     .employee-section-subtitle {
         padding: 0 20px;
     }
+
     .site-header {
         padding: 0 10px;
     }
+
     .elementor {
         padding: 0 10px;
     }
-    .header-top-row{
+
+    .header-top-row {
         padding: 0 10px !important;
     }
 }
@@ -2689,6 +2702,7 @@ footer.site-footer {
         /* border-top: 1px solid #EDEDED; */
         margin-top: 8px;
     }
+
     .header-top-row {
         padding: 0 10px !important;
     }

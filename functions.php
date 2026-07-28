@@ -75,6 +75,32 @@ function adtec_setup() {
 }
 add_action( 'after_setup_theme', 'adtec_setup' );
 
+// Đăng ký meta fields cho REST API (Gutenberg bắt buộc)
+function adtec_register_meta_for_rest() {
+    register_post_meta('page', '_adtec_home_slider_ids', array(
+        'type'              => 'string',
+        'single'            => true,
+        'show_in_rest'      => true,
+        'sanitize_callback'  => 'sanitize_text_field',
+        'auth_callback'     => function() { return current_user_can('edit_posts'); }
+    ));
+    register_post_meta('page', '_adtec_home_slider_links', array(
+        'type'              => 'string',
+        'single'            => true,
+        'show_in_rest'      => true,
+        'sanitize_callback'  => 'sanitize_text_field',
+        'auth_callback'     => function() { return current_user_can('edit_posts'); }
+    ));
+    register_post_meta('page', '_adtec_home_sections_data', array(
+        'type'              => 'array',
+        'single'            => true,
+        'show_in_rest'      => true,
+        'sanitize_callback'  => null,
+        'auth_callback'     => function() { return current_user_can('edit_posts'); }
+    ));
+}
+add_action('init', 'adtec_register_meta_for_rest');
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -1315,33 +1341,55 @@ add_action('add_meta_boxes', 'adtec_home_slider_metabox');
 
 function adtec_render_home_slider_mb($post) {
     wp_enqueue_media();
-    $slider_ids = get_post_meta($post->ID, '_adtec_home_slider_ids', true);
-    $slider_ids_arr = $slider_ids ? explode(',', $slider_ids) : array();
+    $slider_ids   = get_post_meta($post->ID, '_adtec_home_slider_ids', true);
+    $slider_links = get_post_meta($post->ID, '_adtec_home_slider_links', true);
+    $slider_ids_arr   = $slider_ids   ? explode(',', $slider_ids)   : array();
+    $slider_links_arr = $slider_links  ? explode('|', $slider_links) : array();
     wp_nonce_field('adtec_save_home_slider', 'adtec_home_slider_nonce');
     ?>
     <div class="sec-field-group">
         <label style="font-weight:bold; display:block; margin-bottom:8px;">Chọn danh sách ảnh Banner Slider:</label>
         <input type="hidden" id="home_slider_ids" name="home_slider_ids" value="<?php echo esc_attr($slider_ids); ?>">
         <button type="button" class="button button-primary" id="btn-upload-slider">📸 Chọn / Upload Nhiều Ảnh Slider</button>
-        
-        <div id="slider-preview-list" style="display:flex; gap:10px; margin-top:15px; flex-wrap:wrap;">
-            <?php 
+        <p style="margin-top:8px; font-size:12px; color:#666;">
+            Để ảnh hiển thị đẹp nhất, upload ảnh tỉ lệ <strong>1920×800px</strong> (hoặc 1260×540px cho tỉ lệ 7:3).
+        </p>
+
+        <div id="slider-preview-list" style="margin-top:15px;">
+            <?php
             if (!empty($slider_ids_arr)) {
-                foreach ($slider_ids_arr as $img_id) {
+                foreach ($slider_ids_arr as $idx => $img_id) {
                     $url = wp_get_attachment_image_url($img_id, 'thumbnail');
+                    $link = isset($slider_links_arr[$idx]) ? esc_attr($slider_links_arr[$idx]) : '';
                     if ($url) {
-                        echo '<div style="position:relative;" data-id="'.$img_id.'">
-                                <img src="'.esc_url($url).'" style="width:100px; height:70px; object-fit:cover; border:1px solid #ccc; border-radius:3px;" />
-                              </div>';
+                        echo '<div class="slider-item-wrap" style="display:flex;gap:10px;align-items:center;margin-bottom:10px;padding:8px;background:#f7f7f7;border-radius:4px;" data-id="'.$img_id.'">';
+                        echo '<img src="'.esc_url($url).'" style="width:100px;height:70px;object-fit:cover;border:1px solid #ccc;border-radius:3px;flex-shrink:0;" />';
+                        echo '<input type="url" class="slider-link-input" name="home_slider_links[]" placeholder="https://... (link khi click vào ảnh, để trống = không có link)" value="'.$link.'" style="flex:1;padding:4px 8px;height:32px;border:1px solid #ddd;border-radius:4px;font-size:13px;" />';
+                        echo '<button type="button" class="slider-remove-btn button-secondary" style="flex-shrink:0;padding:0 10px;height:32px;color:#d63638;border-color:#d63638;" title="Xóa khỏi slider">✕</button>';
+                        echo '</div>';
                     }
                 }
             }
             ?>
         </div>
+        <p style="margin-top:8px;font-size:12px;color:#666;">
+            Thứ tự ảnh trong danh sách trên là thứ tự hiển thị slider. Kéo thả để sắp xếp (nếu cần).
+        </p>
     </div>
 
     <script>
     jQuery(document).ready(function($) {
+        // Xóa ảnh khỏi slider
+        $('#slider-preview-list').on('click', '.slider-remove-btn', function() {
+            $(this).closest('.slider-item-wrap').remove();
+            var ids = [];
+            $('#slider-preview-list .slider-item-wrap').each(function() {
+                ids.push($(this).data('id'));
+            });
+            $('#home_slider_ids').val(ids.join(','));
+        });
+
+        // Upload thêm ảnh
         $('#btn-upload-slider').click(function(e) {
             e.preventDefault();
             var frame = wp.media({
@@ -1352,14 +1400,24 @@ function adtec_render_home_slider_mb($post) {
 
             frame.on('select', function() {
                 var selection = frame.state().get('selection');
-                var ids = [];
-                $('#slider-preview-list').html('');
+                var current_ids = $('#home_slider_ids').val();
+                var existing_ids = current_ids ? current_ids.split(',').filter(Boolean) : [];
+                var next_idx = $('#slider-preview-list .slider-item-wrap').length;
+
                 selection.map(function(attachment) {
                     attachment = attachment.toJSON();
-                    ids.push(attachment.id);
-                    $('#slider-preview-list').append('<div style="position:relative;"><img src="' + attachment.url + '" style="width:100px; height:70px; object-fit:cover; border:1px solid #ccc; border-radius:3px;" /></div>');
+                    if (existing_ids.indexOf(String(attachment.id)) === -1) {
+                        existing_ids.push(attachment.id);
+                        var wrap = '<div class="slider-item-wrap" style="display:flex;gap:10px;align-items:center;margin-bottom:10px;padding:8px;background:#f7f7f7;border-radius:4px;" data-id="'+attachment.id+'">';
+                        wrap += '<img src="'+attachment.url+'" style="width:100px;height:70px;object-fit:cover;border:1px solid #ccc;border-radius:3px;flex-shrink:0;" />';
+                        wrap += '<input type="url" class="slider-link-input" name="home_slider_links[]" placeholder="https://... (link khi click vào ảnh, để trống = không có link)" value="" style="flex:1;padding:4px 8px;height:32px;border:1px solid #ddd;border-radius:4px;font-size:13px;" />';
+                        wrap += '<button type="button" class="slider-remove-btn button-secondary" style="flex-shrink:0;padding:0 10px;height:32px;color:#d63638;border-color:#d63638;" title="Xóa khỏi slider">✕</button>';
+                        wrap += '</div>';
+                        $('#slider-preview-list').append(wrap);
+                        next_idx++;
+                    }
                 });
-                $('#home_slider_ids').val(ids.join(','));
+                $('#home_slider_ids').val(existing_ids.join(','));
             });
 
             frame.open();
@@ -1370,14 +1428,38 @@ function adtec_render_home_slider_mb($post) {
 }
 
 function adtec_save_home_slider_data($post_id) {
-    if (!isset($_POST['adtec_home_slider_nonce']) || !wp_verify_nonce($_POST['adtec_home_slider_nonce'], 'adtec_save_home_slider')) return;
+    // Bỏ qua autosave và revision
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (wp_is_post_revision($post_id)) return;
+
+    // Cho phép REST API (Gutenberg) bypass nonce check
+    $is_rest_request = defined('REST_REQUEST') && REST_REQUEST;
+    if (!$is_rest_request) {
+        if (!isset($_POST['adtec_home_slider_nonce']) ||
+            !wp_verify_nonce($_POST['adtec_home_slider_nonce'], 'adtec_save_home_slider')) return;
+    }
+
+    // Kiểm tra quyền
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    // Chỉ xử lý post type page
+    if (get_post_type($post_id) !== 'page') return;
 
     if (isset($_POST['home_slider_ids'])) {
         update_post_meta($post_id, '_adtec_home_slider_ids', sanitize_text_field($_POST['home_slider_ids']));
     }
+
+    // Lưu mảng links trực tiếp từ input (name="home_slider_links[]")
+    if (isset($_POST['home_slider_links']) && is_array($_POST['home_slider_links'])) {
+        $links = array_map(function($link) {
+            return esc_url_raw(trim($link));
+        }, $_POST['home_slider_links']);
+        update_post_meta($post_id, '_adtec_home_slider_links', implode('|', $links));
+    } else {
+        delete_post_meta($post_id, '_adtec_home_slider_links');
+    }
 }
-add_action('save_post', 'adtec_save_home_slider_data');
+add_action('save_post_page', 'adtec_save_home_slider_data');
 
 // METABOX REPEATER TRANG CHỦ - BÓC TOÀN BỘ CÁC MỤC MENU DỄ DÀNG
 function adtec_add_home_sections_metabox() {
@@ -1557,8 +1639,14 @@ function adtec_render_home_sections_mb($post) {
 
 // LƯU DỮ LIỆU
 function adtec_save_home_sections_data($post_id) {
-    if (!isset($_POST['adtec_home_sections_nonce']) || !wp_verify_nonce($_POST['adtec_home_sections_nonce'], 'adtec_save_home_sections')) return;
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (wp_is_post_revision($post_id)) return;
+    // Cho phép REST API (Gutenberg) bypass nonce
+    if (!defined('REST_REQUEST') || !REST_REQUEST) {
+        if (!isset($_POST['adtec_home_sections_nonce']) || !wp_verify_nonce($_POST['adtec_home_sections_nonce'], 'adtec_save_home_sections')) return;
+    }
+    if (!current_user_can('edit_post', $post_id)) return;
+    if (get_post_type($post_id) !== 'page') return;
 
     if (isset($_POST['home_sec']) && is_array($_POST['home_sec'])) {
         $clean_data = array_values($_POST['home_sec']);
@@ -1567,7 +1655,7 @@ function adtec_save_home_sections_data($post_id) {
         delete_post_meta($post_id, '_adtec_home_sections_data');
     }
 }
-add_action('save_post', 'adtec_save_home_sections_data');
+add_action('save_post_page', 'adtec_save_home_sections_data');
 
 // TỰ ĐỘNG ẨN METABOX BẰNG ADMIN CSS NẾU TRANG KHÔNG PHẢI LÀ TRANG CHỦ
 function adtec_hide_metabox_on_other_pages() {
