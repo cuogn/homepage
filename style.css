@@ -1566,3 +1566,8 @@ textarea {
 .lang-flag-item img:hover {
 	transform: scale(1.15);
 }
+
+.job-row-meta-item .highlight {
+	color: #D64545;
+	font-weight: 600;
+}

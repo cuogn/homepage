@@ -63,7 +63,7 @@ $total_jobs = count($job_ids);
                             <h3 class="job-item-title"><?php echo esc_html($job_title); ?></h3>
                             <div class="job-item-meta">
                                 <?php if (!empty($salary)) : ?>
-                                    <span class="meta-salary">Lương: <?php echo esc_html($salary); ?></span>
+                                    <span class="meta-salary">Lương: <span style="color: #D64545;"><?php echo esc_html($salary); ?></span></span>
                                 <?php endif; ?>
                                 <?php if (!empty($deadline_display)) : ?>
                                     <span class="meta-deadline">Hạn nộp hồ sơ: <?php echo esc_html($deadline_display); ?></span>
@@ -126,7 +126,7 @@ $total_jobs = count($job_ids);
                                 <div class="job-detail-meta-left">
                                     <?php if (!empty($salary)) : ?>
                                         <span class="job-detail-meta-item">
-                                            <strong>Lương: </strong> <?php echo esc_html($salary); ?>
+                                            <strong>Lương: </strong> <span style="color: #D64545;"><?php echo esc_html($salary); ?></span>
                                         </span>
                                     <?php endif; ?>
 

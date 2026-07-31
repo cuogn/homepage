@@ -16,12 +16,12 @@
             <?php wp_nonce_field('job_application_nonce', 'job_application_nonce_field'); ?>
 
             <div class="form-row">
-                <label for="applicant_name">Họ và tên (*)</label>
+                <label for="applicant_name">Họ và tên <span class="required-mark">(*)</span></label>
                 <input type="text" id="applicant_name" name="applicant_name" required />
             </div>
 
             <div class="form-row">
-                <label for="applicant_phone">Số điện thoại (*)</label>
+                <label for="applicant_phone">Số điện thoại <span class="required-mark">(*)</span></label>
                 <input type="tel" id="applicant_phone" name="applicant_phone" required />
             </div>
 
@@ -31,9 +31,26 @@
             </div>
 
             <div class="form-row">
-                <label for="cv_file">Tải lên CV (*)</label>
-                <input type="file" id="cv_file" name="cv_file" accept=".png,.jpg,.jpeg" required />
-                <small class="form-hint">Hỗ trợ định dạng .png, .jpg, .jpeg có kích thước dưới 10MB</small>
+                <label for="cv_file">Tải lên CV <span class="required-mark">(*)</span></label>
+                <div class="cv-upload-zone">
+                    <div class="cv-upload-content">
+                        <div class="cv-upload-icon-wrapper">
+                            <svg class="cv-upload-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <p class="cv-upload-text">Tải lên ảnh CV, CCCD hoặc giấy tờ cá nhân</p>
+                        <p class="cv-upload-hint">Hỗ trợ định dạng .png, .jpg, .jpeg có kích thước dưới 10Mb</p>
+                        <button type="button" class="cv-select-btn">Chọn CV</button>
+                    </div>
+                    <input type="file" id="cv_file" name="cv_file" accept=".png,.jpg,.jpeg" required />
+                    <div class="cv-file-info" style="display:none;">
+                        <span class="cv-file-name"></span>
+                        <span class="cv-remove-btn">×</span>
+                    </div>
+                </div>
             </div>
 
             <fieldset class="referral-section">
@@ -59,7 +76,7 @@
                 <label class="apply-consent">
                     <input type="checkbox" name="consent_given" required />
                     <span>Tôi đồng ý cho phép thu thập, xử lý và sử dụng dữ liệu cá nhân theo
-                        <a href="/chinh-sach-bao-ve-du-lieu-ca-nhan/" target="_blank">Chính sách bảo vệ dữ liệu cá nhân</a>. (*)
+                        <a href="/chinh-sach-bao-ve-du-lieu-ca-nhan/" target="_blank">Chính sách bảo vệ dữ liệu cá nhân</a>. <span class="required-mark">(*)</span>
                     </span>
                 </label>
             </div>

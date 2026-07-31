@@ -47,12 +47,83 @@
             });
         });
 
+        // ===== Prefetch job pages on hover =====
+        document.querySelectorAll('.job-list-item, .job-row-item').forEach(function(link) {
+            link.addEventListener('mouseenter', function() {
+                var href = this.getAttribute('href');
+                if (href) {
+                    var prefetchLink = document.createElement('link');
+                    prefetchLink.rel = 'prefetch';
+                    prefetchLink.href = href;
+                    document.head.appendChild(prefetchLink);
+                    setTimeout(function() { prefetchLink.remove(); }, 100);
+                }
+            });
+        });
+
         // ===== Ngăn click nút Ứng tuyển bubble lên link cha =====
         document.querySelectorAll('.btn-open-apply-modal').forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
             });
         });
+
+        // ===== CV Upload Preview =====
+        var cvUploadZone = document.getElementById('cvUploadZone');
+        var cvFileInput = document.getElementById('cv_file');
+        var cvPreview = document.getElementById('cvPreview');
+        var cvRemove = document.getElementById('cvRemove');
+
+        if (cvFileInput && cvUploadZone) {
+            cvFileInput.addEventListener('change', function(e) {
+                var file = e.target.files[0];
+                if (file && file.type.match(/^image\/(png|jpeg|jpg)$/)) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        cvPreview.innerHTML = '<img src="' + e.target.result + '" alt="CV Preview" />';
+                        cvPreview.style.display = 'block';
+                        cvRemove.style.display = 'flex';
+                        cvUploadZone.classList.add('has-file');
+                        document.querySelector('.cv-upload-content').style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            if (cvRemove) {
+                cvRemove.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    cvFileInput.value = '';
+                    cvPreview.innerHTML = '';
+                    cvPreview.style.display = 'none';
+                    cvRemove.style.display = 'none';
+                    cvUploadZone.classList.remove('has-file');
+                    document.querySelector('.cv-upload-content').style.display = 'flex';
+                });
+            }
+
+            // Drag and drop support
+            cvUploadZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                cvUploadZone.classList.add('dragover');
+            });
+
+            cvUploadZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                cvUploadZone.classList.remove('dragover');
+            });
+
+            cvUploadZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                cvUploadZone.classList.remove('dragover');
+                var files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type.match(/^image\/(png|jpeg|jpg)$/)) {
+                    cvFileInput.files = files;
+                    cvFileInput.dispatchEvent(new Event('change'));
+                }
+            });
+        }
 
         // ===== Modal Apply =====
         var overlay = document.getElementById('applyModalOverlay');
@@ -186,6 +257,19 @@
             if (backBtn) backBtn.style.display = '';
             if (closeBtn) closeBtn.style.display = '';
             if (submitBtn) submitBtn.disabled = false;
+
+            // Reset CV upload
+            if (cvFileInput) cvFileInput.value = '';
+            if (cvPreview) {
+                cvPreview.innerHTML = '';
+                cvPreview.style.display = 'none';
+            }
+            if (cvRemove) cvRemove.style.display = 'none';
+            if (cvUploadZone) {
+                cvUploadZone.classList.remove('has-file');
+                var uploadContent = cvUploadZone.querySelector('.cv-upload-content');
+                if (uploadContent) uploadContent.style.display = 'flex';
+            }
         }
 
         // Đóng status modal và quay lại form

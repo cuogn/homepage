@@ -2891,11 +2891,9 @@ footer.site-footer {
     flex-direction: column;
     gap: 3px;
     font-size: 13px;
-    color: #4A4A4A;
 }
 
 .job-item-meta .meta-salary {
-    color: #0056b3;
     font-weight: 600;
 }
 
@@ -3074,7 +3072,7 @@ footer.site-footer {
 }
 
 .apply-modal-header strong {
-    color: #0056b3;
+    color: #D64545;
 }
 
 .apply-modal-close {
@@ -3193,6 +3191,139 @@ footer.site-footer {
 
 .btn-submit:hover {
     background: #16294f;
+}
+
+/* ==== CV UPLOAD ZONE ==== */
+.cv-upload-zone {
+    position: relative;
+    border: 2px dashed #BDBDBD;
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #FAFAFA;
+}
+
+.cv-upload-zone:hover {
+    border-color: #1F3B73;
+    background: #F0F4FA;
+}
+
+.cv-upload-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.cv-upload-zone.dragover {
+    border-color: #1F3B73;
+    background: #F0F4FA;
+}
+
+.cv-upload-zone.has-file {
+    border-style: solid;
+    border-color: #1F3B73;
+}
+
+.cv-upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.cv-upload-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    background: #E8EEF6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cv-upload-icon {
+    color: #1F3B73;
+}
+
+.cv-upload-text {
+    color: #333333;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.cv-upload-hint {
+    color: #757575;
+    font-size: 13px;
+    margin: 0;
+}
+
+.cv-select-btn {
+    pointer-events: auto;
+    background: #1F3B73;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 8px;
+}
+
+.cv-select-btn:hover {
+    background: #16294f;
+}
+
+.required-mark {
+    color: #E53935;
+}
+
+.cv-error-text {
+    color: #E53935;
+    font-size: 12px;
+    margin-top: 8px;
+    display: block;
+}
+
+.cv-preview {
+    max-width: 100%;
+    margin-top: 12px;
+}
+
+.cv-preview img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 4px;
+    object-fit: contain;
+}
+
+.cv-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #666;
+}
+
+.cv-remove:hover {
+    background: #f0f0f0;
 }
 
 .apply-form-message {
@@ -3544,11 +3675,6 @@ footer.site-footer {
 .job-row-meta-item svg {
     flex-shrink: 0;
     color: #4A4A4A;
-}
-
-.job-row-meta-item .highlight {
-    color: #D64545;
-    font-weight: 600;
 }
 
 .job-row-deadline {
