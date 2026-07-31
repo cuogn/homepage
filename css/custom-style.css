@@ -3942,3 +3942,88 @@ footer.site-footer {
         gap: 12px;
     }
 }
+
+/* ============================================
+   STICKY APPLY BUTTON - Trong job-detail-column
+   Chỉ hiện khi nút gốc không còn trong viewport
+   ============================================ */
+.job-detail-column {
+    position: relative;
+}
+
+.job-detail-sticky-wrapper {
+    position: sticky;
+    bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 0;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.job-detail-sticky-wrapper.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.job-detail-sticky-wrapper .btn-apply-job {
+    background-color: #2979ff;
+    border-color: #2979ff;
+    border-radius: 20px;
+    height: 40px;
+    width: 140px;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(41, 121, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInDownSticky 0.6s ease;
+    transition: all 0.3s ease;
+}
+
+.job-detail-sticky-wrapper .btn-apply-job:hover {
+    background-color: #1e68e0;
+    border-color: #1e68e0;
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(41, 121, 255, 0.45);
+}
+
+.job-detail-sticky-wrapper .btn-apply-job:active {
+    transform: scale(0.98);
+}
+
+/* Animation */
+@keyframes fadeInDownSticky {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .job-detail-sticky-wrapper {
+        bottom: 16px;
+        padding: 16px 0;
+    }
+
+    .job-detail-sticky-wrapper .btn-apply-job {
+        height: 36px;
+        width: 120px;
+        font-size: 13px;
+        border-radius: 18px;
+    }
+}

@@ -217,7 +217,7 @@
                         setTimeout(function() {
                             if (overlay) overlay.style.display = 'none';
                             resetApplyModal();
-                        }, 1000);
+                        }, 2000);
                     } else {
                         if (statusIcon) {
                             statusIcon.innerHTML = '❌';
@@ -288,5 +288,48 @@
                 if (closeBtn) closeBtn.style.display = '';
             });
         }
+
+        // ===== Sticky Apply Button - Chỉ hiện khi nút gốc không còn trong viewport =====
+        (function() {
+            var stickyBtn = document.getElementById('applyStickyBtn');
+            var originalBtn = document.getElementById('btnOpenApplyModal');
+            var stickyWrapper = document.querySelector('.job-detail-sticky-wrapper');
+
+            if (!stickyBtn || !originalBtn || !stickyWrapper) return;
+
+            function checkOriginalBtnVisibility() {
+                var rect = originalBtn.getBoundingClientRect();
+                var isInViewport = (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+
+                if (isInViewport) {
+                    stickyWrapper.classList.remove('is-visible');
+                } else {
+                    stickyWrapper.classList.add('is-visible');
+                }
+            }
+
+            window.addEventListener('scroll', checkOriginalBtnVisibility, { passive: true });
+            window.addEventListener('resize', checkOriginalBtnVisibility, { passive: true });
+            checkOriginalBtnVisibility();
+
+            stickyBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                var jobId = stickyBtn.dataset.jobId || '';
+                var jobTitle = stickyBtn.dataset.jobTitle || '';
+
+                if (overlay) {
+                    if (jobTitleEl) jobTitleEl.textContent = jobTitle;
+                    if (jobIdInput) jobIdInput.value = jobId;
+                    overlay.style.display = 'flex';
+                }
+            });
+        })();
     });
 })();

@@ -151,7 +151,8 @@ $total_jobs = count($job_ids);
                                 </div>
                             </div>
 
-                            <button class="btn-open-apply-modal"
+                            <button id="btnOpenApplyModal"
+                                    class="btn-open-apply-modal"
                                     data-job-id="<?php echo esc_attr($active_id); ?>"
                                     data-job-title="<?php echo esc_attr($title); ?>">
                                 Ứng tuyển &gt;&gt;
@@ -163,6 +164,15 @@ $total_jobs = count($job_ids);
 
             <div class="job-detail-description">
                 <?php echo wp_kses_post($desc); ?>
+            </div>
+
+            <div class="job-detail-sticky-wrapper">
+                <button class="btn-apply-job sticky-button"
+                        id="applyStickyBtn"
+                        data-job-id="<?php echo esc_attr($active_id); ?>"
+                        data-job-title="<?php echo esc_attr($title); ?>">
+                    <span>Ứng tuyển</span>
+                </button>
             </div>
         <?php else : ?>
             <div class="job-detail-empty">

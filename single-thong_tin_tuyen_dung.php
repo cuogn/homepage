@@ -106,12 +106,12 @@ if (!in_array($current_job_id, $job_ids)) {
     exit;
 }
 
-// Load template part với job hiện tại là active
-get_template_part('template-parts/job-list-detail', null, array(
-    'job_ids'   => $job_ids,
-    'active_id' => $current_job_id,
-));
-?>
+    // Load template part với job hiện tại là active
+    get_template_part('template-parts/job-list-detail', null, array(
+        'job_ids'   => $job_ids,
+        'active_id' => $current_job_id,
+    ));
+    ?>
 </div><!-- /.career-detail-page-container -->
 
 <?php get_template_part('template-parts/apply-modal'); ?>
