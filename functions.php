@@ -1737,3 +1737,58 @@ function adtec_handle_job_application() {
     // 8. Success response
     wp_send_json_success(array('message' => 'Nộp hồ sơ thành công! Cảm ơn bạn đã ứng tuyển.'));
 }
+
+// ==================== DON UNG TUYEN META BOX ==================== //
+add_action('add_meta_boxes', function () {
+    add_meta_box(
+        'don_ung_tuyen_details',
+        'Thông tin ứng viên',
+        'adtec_render_don_ung_tuyen_meta_box',
+        'don_ung_tuyen',
+        'normal',
+        'high'
+    );
+});
+
+function adtec_render_don_ung_tuyen_meta_box($post) {
+    $fields = array(
+        'applicant_name'         => 'Họ và tên',
+        'applicant_phone'        => 'Số điện thoại',
+        'applicant_email'        => 'Email',
+        'applied_job_title'      => 'Vị trí ứng tuyển',
+        'referral_name'          => 'Người giới thiệu',
+        'referral_employee_code' => 'Mã nhân viên giới thiệu',
+        'referral_email'         => 'Email công ty người giới thiệu',
+    );
+
+    echo '<table class="form-table"><tbody>';
+    foreach ($fields as $key => $label) {
+        $value = get_post_meta($post->ID, $key, true);
+        echo '<tr><th style="width:220px;">' . esc_html($label) . '</th><td>' . esc_html($value ?: '—') . '</td></tr>';
+    }
+
+    $cv_id = get_post_meta($post->ID, 'cv_attachment_id', true);
+    echo '<tr><th>CV đã tải lên</th><td>';
+
+    if ($cv_id && wp_attachment_is_image($cv_id)) {
+        $cv_full_url  = wp_get_attachment_url($cv_id);
+        $cv_thumb_url = wp_get_attachment_image_url($cv_id, 'medium');
+        ?>
+        <a href="<?php echo esc_url($cv_full_url); ?>" target="_blank" style="display:inline-block;">
+            <img src="<?php echo esc_url($cv_thumb_url); ?>"
+                 alt="CV ứng viên"
+                 style="max-width:220px; height:auto; border:1px solid #ddd; border-radius:4px; display:block; margin-bottom:6px;">
+        </a>
+        <a href="<?php echo esc_url($cv_full_url); ?>" target="_blank">Xem ảnh gốc (kích thước đầy đủ)</a>
+        <?php
+    } elseif ($cv_id) {
+        echo '<a href="' . esc_url(wp_get_attachment_url($cv_id)) . '" target="_blank">Xem/Tải file CV</a>';
+    } else {
+        echo '<span style="color:#c0392b;">⚠ Không có file (kiểm tra lại bước upload)</span>';
+    }
+    echo '</td></tr>';
+
+    $consent = get_post_meta($post->ID, 'consent_given', true);
+    echo '<tr><th>Đã đồng ý chính sách</th><td>' . ($consent ? '✅ Có' : '❌ Không') . '</td></tr>';
+    echo '</tbody></table>';
+}
