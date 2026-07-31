@@ -604,7 +604,7 @@ footer.site-footer {
 .career-page-container,
 .career-detail-page-container {
     max-width: 1260px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 /* Hero Banner */
@@ -2800,5 +2800,859 @@ footer.site-footer {
 @media (min-width: 768px) {
     .mobile-lang-switch {
         display: none;
+    }
+}
+
+/* ==========================================================================
+   JOB LISTING PAGE - TUYỂN DỤNG (List trái + Chi tiết phải)
+   ========================================================================== */
+
+/* ==== WRAPPER & TITLE ==== */
+.job-page-wrapper {
+    max-width: 1260px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.job-page-title {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    color: #1A1A1A;
+    margin: 20px 0 40px;
+}
+
+/* ==== LAYOUT 2 CỘT ==== */
+.job-listing-wrapper {
+    max-width: 1260px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+/* ---- CỘT TRÁI: DANH SÁCH JOB ---- */
+.job-list-column {
+    flex: 0 0 380px;
+    background: #fff;
+    border: 1px solid #EDEDED;
+    border-radius: 8px;
+    max-height: 720px;
+    overflow-y: auto;
+}
+
+.job-list-header {
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1A1A;
+    border-bottom: 1px solid #EDEDED;
+}
+
+.job-list-items {
+    display: flex;
+    flex-direction: column;
+}
+
+.job-list-item {
+    display: block;
+    padding: 16px 20px;
+    border-bottom: 1px solid #EDEDED;
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.2s ease;
+}
+
+.job-list-item:last-child {
+    border-bottom: none;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+    .job-list-item:hover {
+        background-color: #F4F6F8;
+    }
+}
+
+.job-list-item.is-active {
+    background-color: #F4F6F8;
+    border-left: 3px solid #1F3B73;
+    padding-left: 17px;
+}
+
+.job-item-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin: 0 0 6px;
+}
+
+.job-item-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 13px;
+    color: #4A4A4A;
+}
+
+.job-item-meta .meta-salary {
+    color: #0056b3;
+    font-weight: 600;
+}
+
+.job-list-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #4A4A4A;
+}
+
+/* ---- CỘT PHẢI: CHI TIẾT JOB ---- */
+.job-detail-column {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #EDEDED;
+    border-radius: 8px;
+    padding: 30px 40px;
+    min-width: 0;
+}
+
+.job-detail-header {
+    margin-bottom: 0;
+}
+
+.job-detail-header-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.job-detail-thumb {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: #F4F6F8;
+    border: 1px solid #EDEDED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    overflow: hidden;
+}
+
+.job-detail-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.job-detail-header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.job-detail-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0 0 16px;
+}
+
+.job-detail-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.job-detail-meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 0;
+}
+
+.job-detail-meta-left,
+.job-detail-meta-right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: 14px;
+    color: #4A4A4A;
+}
+
+.job-detail-meta-right {
+    margin-top: 0;
+}
+
+.job-detail-meta-item {
+    display: inline-flex;
+    align-items: center;
+}
+
+.job-detail-meta-item strong {
+    color: #1A1A1A;
+    font-weight: 600;
+}
+
+.btn-open-apply-modal {
+    display: inline-block;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 28px;
+    transition: background-color 0.2s ease;
+    grid-area: btn;
+    align-self: center;
+    background: #fff;
+    border: 1px solid #0056b3;
+    color: #0056b3;
+    padding: 10px 22px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+    .btn-open-apply-modal:hover {
+        background: #0056b3;
+        color: #fff;
+    }
+}
+
+.job-detail-description {
+    line-height: 1.7;
+    color: #1A1A1A;
+    font-size: 15px;
+}
+
+.job-detail-description img {
+    max-width: 100%;
+    height: auto;
+}
+
+.job-detail-empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: #4A4A4A;
+}
+
+/* ==== MODAL ỨNG TUYỂN ==== */
+.apply-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+}
+
+.apply-modal-box {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.apply-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #EDEDED;
+}
+
+.apply-modal-header strong {
+    color: #0056b3;
+}
+
+.apply-modal-close {
+    background: none;
+    border: none;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    color: #4A4A4A;
+    flex-shrink: 0;
+}
+
+.form-row {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-row label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1A1A1A;
+}
+
+.form-row input[type="text"],
+.form-row input[type="tel"],
+.form-row input[type="email"],
+.form-row input[type="file"] {
+    padding: 10px 12px;
+    border: 1px solid #EDEDED;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    transition: border-color 0.2s ease;
+}
+
+.form-row input:focus {
+    outline: none;
+    border-color: #0056b3;
+}
+
+.form-hint {
+    font-size: 12px;
+    color: #4A4A4A;
+}
+
+.referral-section {
+    border: 1px solid #EDEDED;
+    border-radius: 6px;
+    padding: 16px;
+    margin: 20px 0;
+}
+
+.referral-section legend {
+    padding: 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1F3B73;
+}
+
+.consent-row .apply-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: #4A4A4A;
+    cursor: pointer;
+}
+
+.consent-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.apply-consent a {
+    color: #0056b3;
+}
+
+.apply-modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-back {
+    background: none;
+    border: 1px solid #EDEDED;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4A4A4A;
+    transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+    background: #F4F6F8;
+}
+
+.btn-submit {
+    background: #1F3B73;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-submit:hover {
+    background: #16294f;
+}
+
+.apply-form-message {
+    margin-top: 12px;
+    font-size: 14px;
+    min-height: 20px;
+}
+
+.apply-form-message.success {
+    color: #1e7e34;
+}
+
+.apply-form-message.error {
+    color: #c0392b;
+}
+
+/* ==== RESPONSIVE - TABLET: 768px - 1279px ==== */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .job-page-wrapper {
+        padding: 20px;
+    }
+
+    .job-listing-wrapper {
+        gap: 16px;
+    }
+
+    .job-list-column {
+        flex: 0 0 300px;
+    }
+
+    .job-detail-column {
+        padding: 24px 28px;
+    }
+
+    .job-detail-title {
+        font-size: 24px;
+    }
+}
+
+/* ==== RESPONSIVE - MOBILE: < 768px ==== */
+@media (max-width: 767px) {
+    .job-page-wrapper {
+        padding: 16px;
+    }
+
+    .job-page-title {
+        font-size: 24px;
+        margin: 12px 0 24px;
+    }
+
+    .job-listing-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .job-list-column {
+        flex: none;
+        width: 100%;
+        max-height: 420px;
+    }
+
+    .job-detail-column {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .job-detail-title {
+        font-size: 20px;
+    }
+
+    .job-detail-meta-row {
+        gap: 8px 20px;
+        font-size: 13px;
+    }
+
+    .btn-open-apply-modal {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Trang chi tiết 1 job (single): ưu tiên hiện chi tiết TRƯỚC danh sách */
+    body.single-thong_tin_tuyen_dung .job-listing-wrapper {
+        flex-direction: column-reverse;
+    }
+
+    body.single-thong_tin_tuyen_dung .job-list-column {
+        max-height: 320px;
+    }
+
+    /* Modal full-width hơn ở mobile */
+    .apply-modal-box {
+        padding: 20px;
+        max-height: 95vh;
+    }
+
+    .apply-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-back,
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+/* ==========================================================================
+   JOB ROW LIST - Layout danh sách job dạng hàng ngang (page-thong-tin-tuyen-dung.php)
+   ========================================================================== */
+
+/* ==== JOB ROW LIST (trang danh sách tuyển dụng) ==== */
+
+.job-count-text {
+    margin: 24px 0 16px;
+    font-size: 16px;
+    color: #1A1A1A;
+}
+
+.job-count-text strong {
+    color: #0056b3;
+    font-size: 18px;
+}
+
+.job-row-list {
+    overflow: hidden;
+}
+
+.job-row-item {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    grid-template-areas:
+        "thumb link btn";
+    column-gap: 16px;
+    align-items: start;
+    padding: 20px 24px;
+    border-bottom: 1px solid #EDEDED;
+    background: #fff;
+}
+
+.job-row-item:hover {
+    border: 1px solid #EDEDED;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.job-row-item:last-child {
+    border-bottom: none;
+}
+
+.job-row-item.is-hidden {
+    display: none;
+}
+
+.job-row-thumb {
+    grid-area: thumb;
+    align-self: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    background: #F4F6F8;
+    border: 1px solid #EDEDED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.job-row-thumb img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+}
+
+.job-row-link {
+    grid-area: link;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.job-row-link:hover .job-row-title {
+    color: #1F3B73;
+}
+
+.job-row-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1A1A1A;
+    text-decoration: none;
+}
+
+.job-row-meta-left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: 14px;
+    color: #4A4A4A;
+}
+
+.job-row-meta-right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    font-size: 14px;
+    color: #4A4A4A;
+}
+
+.job-row-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.job-row-meta-item svg {
+    flex-shrink: 0;
+    color: #4A4A4A;
+}
+
+.job-row-meta-item .highlight {
+    color: #D64545;
+    font-weight: 600;
+}
+
+.job-row-deadline {
+    color: #4A4A4A;
+}
+
+.job-row-apply-btn {
+    grid-area: btn;
+    align-self: center;
+    background: #fff;
+    border: 1px solid #0056b3;
+    color: #0056b3;
+    padding: 10px 22px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+    .job-row-apply-btn:hover {
+        background: #0056b3;
+        color: #fff;
+    }
+}
+
+/* Nút Xem thêm / Thu gọn */
+.load-more-wrapper {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.load-more-btn {
+    background: none;
+    border: none;
+    color: #0056b3;
+    font-weight: 600;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.load-more-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.load-more-btn.is-open svg {
+    transform: rotate(180deg);
+}
+
+/* ---- TABLET: 768-1279px ---- */
+@media (min-width: 768px) and (max-width: 1279px) {
+    .job-row-item {
+        padding: 18px 20px;
+        column-gap: 16px;
+    }
+
+    .job-row-title {
+        font-size: 16px;
+    }
+
+    .job-row-meta,
+    .job-row-meta-left,
+    .job-row-meta-right,
+    .job-row-deadline {
+        font-size: 13px;
+    }
+}
+
+/* ---- MOBILE: <768px ---- */
+@media (max-width: 767px) {
+    .job-count-text {
+        font-size: 14px;
+        margin: 16px 0 12px;
+    }
+
+    .job-row-item {
+        grid-template-columns: 44px 1fr auto;
+        grid-template-areas:
+            "thumb link btn";
+        column-gap: 12px;
+        padding: 16px;
+    }
+
+    .job-row-thumb {
+        width: 44px;
+        height: 44px;
+    }
+
+    .job-row-title {
+        font-size: 16px;
+    }
+
+    .job-row-meta-left,
+    .job-row-meta-right {
+        font-size: 13px;
+        gap: 6px 16px;
+    }
+
+    .job-row-apply-btn {
+        width: auto;
+        text-align: center;
+        margin-top: 0;
+        padding: 8px 16px;
+    }
+}
+
+/* ==================== CAREER BANNER ==================== */
+.career-banner {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    height: 400px;
+    margin-top: 24px;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.career-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    /* background: #1a1a1a; */
+}
+
+@media (max-width: 1199px) {
+    .career-banner {
+        height: 320px;
+    }
+}
+
+@media (max-width: 991px) {
+    .career-banner {
+        height: 280px;
+    }
+}
+
+@media (max-width: 767px) {
+    .career-banner {
+        height: 200px;
+    }
+
+    .career-banner-title {
+        font-size: 32px;
+    }
+
+    .career-banner-subtitle {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 479px) {
+    .career-banner {
+        height: 160px;
+    }
+
+    .career-banner-title {
+        font-size: 24px;
+        letter-spacing: 2px;
+    }
+
+    .career-banner-subtitle {
+        font-size: 12px;
+    }
+}
+
+/* ==================== JOB LIST DETAIL ==================== */
+.job-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.job-item-thumb {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: #F4F6F8;
+    border: 1px solid #EDEDED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.job-item-thumb img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+}
+
+.job-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.job-detail-top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.job-detail-top-row .job-detail-meta-row {
+    margin-bottom: 0;
+}
+
+.job-detail-top-row .btn-open-apply-modal {
+    margin-bottom: 0;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .job-detail-top-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .job-detail-top-row .btn-open-apply-modal {
+        width: 100%;
+        text-align: center;
+    }
+
+    .job-detail-thumb {
+        width: 44px;
+        height: 44px;
+    }
+
+    .job-detail-header-content {
+        gap: 12px;
     }
 }

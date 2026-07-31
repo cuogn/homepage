@@ -31,7 +31,6 @@ function adtec_get_slider_cpts_config() {
         'thong_tin_tuyen_dung' => array(
             'slug_key'   => 'slug_thongtintuyendung',
             'date_meta'  => 'recruitment_date',
-            'gallery_meta' => 'recruitment_gallery',
             'labels'     => array(
                 'singular'   => 'thong_tin_tuyen_dung',
                 'plural'     => 'tin_moi',

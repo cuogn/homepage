@@ -72,4 +72,28 @@ jQuery(document).ready(function ($) {
             btn.find('.btn-icon').css('transform', 'rotate(0deg)');
         }
     });
+
+    // Toggle cho trang Job Listing (btn-toggle-jobs)
+    $('.btn-toggle-jobs').on('click', function () {
+        var btn = $(this);
+        var container = btn.closest('.job-page-wrapper').find('#jobRowList');
+        var state = btn.attr('data-state');
+
+        var textMore = btn.attr('data-text-more') || 'Xem thêm';
+        var textLess = btn.attr('data-text-less') || 'Thu gọn';
+
+        if (state === 'closed') {
+            container.find('.is-hidden').removeClass('is-hidden').hide().fadeIn(300);
+            container.addClass('is-expanded');
+            btn.attr('data-state', 'open');
+            btn.find('.btn-text').text(textLess);
+            btn.find('.btn-icon').css('transform', 'rotate(180deg)');
+        } else {
+            container.find('.job-row-item').not(':nth-child(-n+4)').addClass('is-hidden');
+            container.removeClass('is-expanded');
+            btn.attr('data-state', 'closed');
+            btn.find('.btn-text').text(textMore);
+            btn.find('.btn-icon').css('transform', 'rotate(0deg)');
+        }
+    });
 });

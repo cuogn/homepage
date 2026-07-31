@@ -163,6 +163,17 @@ function adtec_scripts() {
     // 4. Nhúng file custom JS của ông (Chứa logic khởi chạy Slider trang chủ & slider Tin tức)
     wp_enqueue_script( 'adtec-custom-news', get_template_directory_uri() . '/js/adtec-custom-news.js', array('jquery'), _S_VERSION, true );
 
+    // ==========================================================================
+    // 5. JOB LISTING - Enqueue script cho trang tuyển dụng
+    // ==========================================================================
+    if ( is_page_template('page-thong-tin-tuyen-dung.php') || is_singular('thong_tin_tuyen_dung') ) {
+        wp_enqueue_script( 'adtec-job-listing', get_template_directory_uri() . '/js/job-listing.js', array('jquery'), _S_VERSION, true );
+        wp_localize_script( 'adtec-job-listing', 'adtec_ajax', array(
+            'ajax_url' => admin_url( 'admin-ajax.php' )
+        ) );
+    }
+    // ==========================================================================
+
     if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
         wp_enqueue_script( 'comment-reply' );
     }
@@ -370,77 +381,6 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'force_delete'     => false,
                 'clone'            => false,
             ],
-        ],
-    ];
-
-    // 4. Ô NHẬP LIỆU CHO CPT "TUYỂN DỤNG" (tuyen_dung)
-    $meta_boxes[] = [
-        'id'         => 'mb_career_details',
-        'title'      => 'Thông tin Đăng tuyển',
-        'post_types' => ['tuyen_dung'],
-        'fields'     => [
-            [
-                'name'  => 'Hạn nộp hồ sơ',
-                'id'    => 'career_deadline',
-                'type'  => 'date',
-                'clone' => false,
-            ],
-            [
-                'name'    => 'Loại hình công việc',
-                'id'      => 'career_work_type',
-                'type'    => 'select',
-                'options' => [
-                    'vi_tri_dac_biet' => 'Vị trí đặc biệt',
-                    'nhan_vien'        => 'Nhân viên',
-                    'cong_nhan'        => 'Công nhân',
-                    'ky_thuat_vien'    => 'Kỹ thuật viên',
-                ],
-                'desc'   => 'Chọn loại hình công việc (Vị trí đặc biệt/Nhân viên/Công nhân/Kỹ thuật viên)',
-                'clone'   => false,
-            ],
-            [
-                'name'  => 'Link Microsoft Form ứng tuyển',
-                'id'    => 'career_form_link',
-                'type'  => 'url',
-                'desc'  => 'Dán link chia sẻ từ Microsoft Forms vào đây',
-                'clone' => false,
-            ],
-            [
-                'name'    => 'Trạng thái tin',
-                'id'      => 'career_status',
-                'type'    => 'select',
-                'options' => [
-                    'dangtuyen' => 'Đang tuyển',
-                    'tamdung'   => 'Tạm dừng',
-                    'dadong'    => 'Đã đóng',
-                ],
-                'clone'   => false,
-            ],
-            [
-                'name'  => 'Đánh dấu Tin nổi bật',
-                'id'    => 'career_featured',
-                'type'  => 'checkbox',
-                'desc'  => 'Tick chọn để hiển thị ở mục "Tuyển dụng đặc biệt"',
-                'clone' => false,
-            ],
-            [
-                'name'  => 'Yêu cầu chung',
-                'id'    => 'career_requirements',
-                'type'  => 'textarea',
-                'clone' => false,
-            ],
-            [
-                'name'  => 'Chi tiết yêu cầu',
-                'id'    => 'career_details',
-                'type'  => 'textarea',
-                'clone' => false,
-            ],
-            [
-                'name'  => 'Quy trình ứng tuyển',
-                'id'    => 'career_process',
-                'type'  => 'textarea',
-                'clone' => false,
-            ]
         ],
     ];
 
@@ -654,19 +594,6 @@ function adtec_register_meta_boxes( $meta_boxes ) {
             ],
         ],
     ];
-    // 2. Meta Box cho CPT "Các sản phẩm khác"
-    // $meta_boxes[] = [
-    //     'id'         => 'mb_other_products_details',
-    //     'title'      => 'Danh Sách Các Sản Phẩm Phụ Trợ / Khác',
-    //     'post_types' => ['cac_san_pham_khac'],
-    //     'fields'     => [
-    //         [
-    //             'name' => 'Đường dẫn sản phẩm',
-    //             'id'   => 'other_product_url',
-    //             'type' => 'url',
-    //         ],
-    //     ],
-    // ];
 
     // Ô NHẬP LIỆU CHO CPT "THÔNG TIN TUYỂN DỤNG" (thong_tin_tuyen_dung)
     $meta_boxes[] = [
@@ -688,13 +615,52 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 ],
                 'clone'      => false,
             ],
+            // ==== FIELDS MỚI THEO KẾ HOẠCH ====
             [
-                'name'             => 'Thư viện ảnh thông tin tuyển dụng',
-                'id'               => 'recruitment_gallery',
-                'type'             => 'image_advanced',
-                'max_file_uploads' => 30, 
-                'force_delete'     => false,
-                'clone'            => false,
+                'name'  => 'Mức lương',
+                'id'    => 'job_salary',
+                'type'  => 'text',
+                'desc'  => 'Ví dụ: "Thoả thuận" hoặc "8-12 triệu"',
+                'clone' => false,
+            ],
+            [
+                'name'  => 'Địa điểm làm việc',
+                'id'    => 'job_location',
+                'type'  => 'text',
+                'desc'  => 'Ví dụ: "Nam Sơn, Quế Võ, Bắc Ninh"',
+                'clone' => false,
+            ],
+            [
+                'name'       => 'Hạn nộp hồ sơ',
+                'id'         => 'job_deadline',
+                'type'       => 'date',
+                'js_options' => [
+                    'dateFormat'      => 'dd-mm-yy',
+                    'changeMonth'     => true,
+                    'changeYear'      => true,
+                    'showButtonPanel' => true,
+                ],
+                'desc'       => 'Ngày cuối cùng nhận hồ sơ ứng viên',
+                'clone'      => false,
+            ],
+            [
+                'name'    => 'Thời gian làm việc',
+                'id'      => 'job_type',
+                'type'    => 'select',
+                'options' => [
+                    'full_time' => 'Toàn thời gian',
+                    'part_time' => 'Bán thời gian',
+                    'seasonal'  => 'Thời vụ',
+                ],
+                'desc'    => 'Chọn hình thức làm việc',
+                'clone'   => false,
+            ],
+            [
+                'name'    => 'Mô tả công việc',
+                'id'      => 'job_description',
+                'type'    => 'wysiwyg',
+                'desc'    => 'Nhập các mục "Yêu cầu chung / Nhiệm vụ / Yêu cầu / Quy trình ứng tuyển" bằng heading trong trình soạn thảo',
+                'clone'   => false,
             ],
         ],
     ];
@@ -718,21 +684,8 @@ function adv_register_all_custom_elements() {
         'menu_icon'    => 'dashicons-media-document',
         'supports'     => array('title', 'editor', 'thumbnail'),
     ));
-    // 1. Đăng ký CPT Tuyển dụng
-    register_post_type('tuyen_dung', array(
-        'label'        => 'Tuyển dụng',
-        'public'       => true,
-        'show_in_rest' => true,
-        'has_archive'  => false,
-        'menu_icon'    => 'dashicons-groups',
-        'supports'     => array('title', 'editor', 'thumbnail'),
-        'rewrite'      => array(
-            'slug'       => 'form-ung-tuyen',
-            'with_front' => false,
-        ),
-    ));
 
-    // 2. Đăng ký CPT Sự kiện (Giữ lại theo yêu cầu User)
+    // 2. Đăng ký CPT Sự kiện
     register_post_type('su_kien_nam', array(
         'label'        => 'Sự kiện năm',
         'public'       => true,
@@ -816,6 +769,18 @@ function adv_register_all_custom_elements() {
             ),
         'menu_icon'    => 'dashicons-groups',
         'supports'     => array('title', 'editor', 'thumbnail'),
+    ));
+
+    // 8. Đăng ký CPT Đơn ứng tuyển (Lưu hồ sơ ứng viên)
+    register_post_type('don_ung_tuyen', array(
+        'label'        => 'Đơn ứng tuyển',
+        'public'       => false,
+        'show_ui'      => true,
+        'has_archive'  => false,
+        'show_in_rest' => true,
+        'menu_icon'    => 'dashicons-id-alt',
+        'supports'     => array('title'),
+        'capability_type' => 'post',
     ));
 }
 add_action('init', 'adv_register_all_custom_elements');
@@ -1687,3 +1652,88 @@ function adtec_hide_metabox_on_other_pages() {
     }
 }
 add_action('admin_head', 'adtec_hide_metabox_on_other_pages');
+
+// ==========================================================================
+// XỬ LÝ AJAX NỘP HỒ SƠ ỨNG TUYỂN
+// ==========================================================================
+
+add_action('wp_ajax_submit_job_application', 'adtec_handle_job_application');
+add_action('wp_ajax_nopriv_submit_job_application', 'adtec_handle_job_application');
+
+function adtec_handle_job_application() {
+    // 1. Verify nonce
+    if (!isset($_POST['job_application_nonce_field']) || 
+        !wp_verify_nonce($_POST['job_application_nonce_field'], 'job_application_nonce')) {
+        wp_send_json_error(array('message' => 'Phiên làm việc không hợp lệ, vui lòng tải lại trang.'));
+    }
+
+    // 2. Sanitize input
+    $name       = sanitize_text_field($_POST['applicant_name'] ?? '');
+    $phone      = sanitize_text_field($_POST['applicant_phone'] ?? '');
+    $email      = sanitize_email($_POST['applicant_email'] ?? '');
+    $job_id     = intval($_POST['job_id'] ?? 0);
+    $consent    = isset($_POST['consent_given']);
+
+    // 3. Validate required fields
+    if (empty($name) || empty($phone) || !$job_id || !$consent) {
+        wp_send_json_error(array('message' => 'Vui lòng điền đầy đủ thông tin bắt buộc.'));
+    }
+
+    // 4. Verify job exists
+    $job = get_post($job_id);
+    if (!$job || $job->post_type !== 'thong_tin_tuyen_dung' || $job->post_status !== 'publish') {
+        wp_send_json_error(array('message' => 'Vị trí tuyển dụng không hợp lệ.'));
+    }
+
+    // 5. Handle file upload
+    $cv_attachment_id = 0;
+    if (!empty($_FILES['cv_file']['name'])) {
+        require_once(ABSPATH . 'wp-admin/includes/file.php');
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+        require_once(ABSPATH . 'wp-admin/includes/image.php');
+
+        // Validate file type
+        $allowed_types = array('image/png', 'image/jpeg');
+        if (!in_array($_FILES['cv_file']['type'], $allowed_types)) {
+            wp_send_json_error(array('message' => 'Định dạng file không hợp lệ. Chỉ chấp nhận .png, .jpg, .jpeg.'));
+        }
+
+        // Validate file size (10MB)
+        if ($_FILES['cv_file']['size'] > 10 * 1024 * 1024) {
+            wp_send_json_error(array('message' => 'File vượt quá 10MB. Vui lòng chọn file nhỏ hơn.'));
+        }
+
+        $cv_attachment_id = media_handle_upload('cv_file', 0);
+        if (is_wp_error($cv_attachment_id)) {
+            wp_send_json_error(array('message' => 'Tải file CV thất bại. Vui lòng thử lại.'));
+        }
+    } else {
+        wp_send_json_error(array('message' => 'Vui lòng tải lên CV.'));
+    }
+
+    // 6. Create application post
+    $application_id = wp_insert_post(array(
+        'post_type'   => 'don_ung_tuyen',
+        'post_title'  => $name . ' - ' . get_the_title($job_id),
+        'post_status' => 'publish',
+    ));
+
+    if (is_wp_error($application_id)) {
+        wp_send_json_error(array('message' => 'Lưu hồ sơ thất bại. Vui lòng thử lại.'));
+    }
+
+    // 7. Save meta fields
+    update_post_meta($application_id, 'applicant_name', $name);
+    update_post_meta($application_id, 'applicant_phone', $phone);
+    update_post_meta($application_id, 'applicant_email', $email);
+    update_post_meta($application_id, 'cv_attachment_id', $cv_attachment_id);
+    update_post_meta($application_id, 'referral_name', sanitize_text_field($_POST['referral_name'] ?? ''));
+    update_post_meta($application_id, 'referral_employee_code', sanitize_text_field($_POST['referral_employee_code'] ?? ''));
+    update_post_meta($application_id, 'referral_email', sanitize_email($_POST['referral_email'] ?? ''));
+    update_post_meta($application_id, 'applied_job_id', $job_id);
+    update_post_meta($application_id, 'applied_job_title', get_the_title($job_id));
+    update_post_meta($application_id, 'consent_given', 1);
+
+    // 8. Success response
+    wp_send_json_success(array('message' => 'Nộp hồ sơ thành công! Cảm ơn bạn đã ứng tuyển.'));
+}
