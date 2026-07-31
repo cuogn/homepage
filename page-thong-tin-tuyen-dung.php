@@ -25,13 +25,30 @@ $jobs_query = new WP_Query(array(
     ),
 ));
 
+// Lọc job đã hết hạn (job_deadline < hôm nay)
+$today = date('Y-m-d');
+$visible_jobs = array();
+if ($jobs_query->have_posts()) :
+    while ($jobs_query->have_posts()) : $jobs_query->the_post();
+        $jid      = get_the_ID();
+        $deadline = rwmb_meta('job_deadline', '', $jid);
+        // Chỉ thêm nếu chưa hết hạn hoặc không có deadline
+        if (empty($deadline) || $deadline >= $today) {
+            $visible_jobs[] = $jid;
+        }
+    endwhile;
+endif;
+wp_reset_postdata();
+
+// Re-query với danh sách job hợp lệ
+$job_ids_for_query = $visible_jobs;
+$total_jobs = count($visible_jobs);
+
 $job_type_labels = array(
     'full_time' => 'Toàn thời gian',
     'part_time' => 'Bán thời gian',
     'seasonal'  => 'Thời vụ',
 );
-
-$total_jobs = $jobs_query->found_posts;
 ?>
 
 <div class="job-page-wrapper">
@@ -58,20 +75,19 @@ $banner_image = get_theme_mod('career_banner_image', '');
     <div class="job-row-list" id="jobRowList">
         <?php
         $count = 0;
-        if ($jobs_query->have_posts()) :
-            while ($jobs_query->have_posts()) : $jobs_query->the_post();
-                $jid       = get_the_ID();
-                $salary    = rwmb_meta('job_salary', '', $jid);
-                $location  = rwmb_meta('job_location', '', $jid);
-                $deadline  = rwmb_meta('job_deadline', '', $jid);
-                $job_type  = rwmb_meta('job_type', '', $jid);
-                $deadline_display = !empty($deadline) ? date('d-m-Y', strtotime($deadline)) : '';
-                $job_type_label = isset($job_type_labels[$job_type]) ? $job_type_labels[$job_type] : '';
-                $hidden_class = ($count >= 4) ? 'is-hidden' : '';
+        foreach ($visible_jobs as $jid) :
+            setup_postdata(get_post($jid));
+            $salary    = rwmb_meta('job_salary', '', $jid);
+            $location  = rwmb_meta('job_location', '', $jid);
+            $deadline  = rwmb_meta('job_deadline', '', $jid);
+            $job_type  = rwmb_meta('job_type', '', $jid);
+            $deadline_display = !empty($deadline) ? date('d-m-Y', strtotime($deadline)) : '';
+            $job_type_label = isset($job_type_labels[$job_type]) ? $job_type_labels[$job_type] : '';
+            $hidden_class = ($count >= 4) ? 'is-hidden' : '';
 
-                $thumb_url = has_post_thumbnail($jid)
-                    ? get_the_post_thumbnail_url($jid, 'thumbnail')
-                    : $site_favicon_url;
+            $thumb_url = has_post_thumbnail($jid)
+                ? get_the_post_thumbnail_url($jid, 'thumbnail')
+                : $site_favicon_url;
         ?>
             <div class="job-row-item <?php echo $hidden_class; ?>">
                 <?php if ($thumb_url) : ?>
@@ -80,8 +96,8 @@ $banner_image = get_theme_mod('career_banner_image', '');
                     </div>
                 <?php endif; ?>
 
-                <a href="<?php the_permalink(); ?>" class="job-row-link">
-                    <span class="job-row-title"><?php the_title(); ?></span>
+                <a href="<?php echo get_permalink($jid); ?>" class="job-row-link">
+                    <span class="job-row-title"><?php echo get_the_title($jid); ?></span>
 
                     <span class="job-row-meta-left">
                         <?php if (!empty($salary)) : ?>
@@ -121,19 +137,17 @@ $banner_image = get_theme_mod('career_banner_image', '');
                 </button>
             </div>
         <?php
-                $count++;
-            endwhile;
-        endif;
+            $count++;
+        endforeach;
         wp_reset_postdata();
         ?>
     </div>
 
-    <?php if ($count > 4) : ?>
+    <?php if ($total_jobs > 4) : ?>
         <div class="load-more-wrapper">
-            <button class="load-more-btn btn-toggle-jobs" data-state="closed"
-                    data-text-more="Xem thêm" data-text-less="Thu gọn">
-                <span class="btn-text">Xem thêm</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            <button class="load-more-btn btn-toggle-jobs" data-state="more">
+                <span class="btn-text" style="font-size: 16px;">Xem thêm</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 7L15 12L10 17" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
             </button>
         </div>
     <?php endif; ?>

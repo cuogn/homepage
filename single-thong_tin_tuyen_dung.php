@@ -86,11 +86,25 @@ $jobs_query = new WP_Query(array(
     ),
 ));
 
+// Lọc job đã hết hạn (job_deadline < hôm nay)
+$today = date('Y-m-d');
 $job_ids = array();
 if ($jobs_query->have_posts()) {
-    $job_ids = wp_list_pluck($jobs_query->posts, 'ID');
+    while ($jobs_query->have_posts()) : $jobs_query->the_post();
+        $jid      = get_the_ID();
+        $deadline = rwmb_meta('job_deadline', '', $jid);
+        if (empty($deadline) || $deadline >= $today) {
+            $job_ids[] = $jid;
+        }
+    endwhile;
 }
 wp_reset_postdata();
+
+// Nếu job hiện tại đã bị ẩn (hết hạn), redirect về trang danh sách
+if (!in_array($current_job_id, $job_ids)) {
+    wp_redirect($lang_recruitment_url);
+    exit;
+}
 
 // Load template part với job hiện tại là active
 get_template_part('template-parts/job-list-detail', null, array(

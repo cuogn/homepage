@@ -635,7 +635,7 @@ function adtec_register_meta_boxes( $meta_boxes ) {
                 'id'         => 'job_deadline',
                 'type'       => 'date',
                 'js_options' => [
-                    'dateFormat'      => 'dd-mm-yy',
+                    'dateFormat'      => 'yy-mm-dd',
                     'changeMonth'     => true,
                     'changeYear'      => true,
                     'showButtonPanel' => true,
@@ -784,6 +784,28 @@ function adv_register_all_custom_elements() {
     ));
 }
 add_action('init', 'adv_register_all_custom_elements');
+
+// Migration: Convert old deadline format (d-m-Y) to new format (Y-m-d)
+function adv_migrate_deadline_format() {
+    if (get_transient('adv_deadline_migrated')) return;
+    
+    $posts = get_posts(array(
+        'post_type' => 'thong_tin_tuyen_dung',
+        'posts_per_page' => -1,
+        'post_status' => 'any',
+    ));
+    
+    foreach ($posts as $post) {
+        $old_deadline = get_post_meta($post->ID, 'job_deadline', true);
+        if (!empty($old_deadline) && preg_match('/^\d{2}-\d{2}-\d{4}$/', $old_deadline)) {
+            $new_deadline = date('Y-m-d', strtotime(str_replace('-', '/', $old_deadline)));
+            update_post_meta($post->ID, 'job_deadline', $new_deadline);
+        }
+    }
+    
+    set_transient('adv_deadline_migrated', true, DAY_IN_SECONDS);
+}
+add_action('init', 'adv_migrate_deadline_format', 1);
 
 function adv_register_all_taxonomies() {
 

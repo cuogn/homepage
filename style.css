@@ -1379,8 +1379,8 @@ textarea {
 /* Nút Load More */
 .load-more-wrapper {
 	display: flex;
-	justify-content: center;
-	margin-top: 20px;
+	text-align: left;
+	margin: 20px;
 }
 
 .load-more-btn {
@@ -1395,6 +1395,7 @@ textarea {
 	color: #00469B;
 	font-weight: bold;
 	transition: opacity 0.2s;
+	flex-direction: row;
 }
 
 .load-more-btn:hover {
@@ -1539,29 +1540,29 @@ textarea {
 .adtec-lang-flags-wrapper a:hover,
 .adtec-lang-flags-wrapper a:focus,
 .lang-flag-item {
-    text-decoration: none !important;
-    border-bottom: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-    display: inline-flex !important;
-    align-items: center;
+	text-decoration: none !important;
+	border-bottom: none !important;
+	box-shadow: none !important;
+	outline: none !important;
+	display: inline-flex !important;
+	align-items: center;
 }
 
 /* Khoảng cách giữa các lá cờ */
 .adtec-lang-flags-wrapper {
-    display: flex !important;
-    align-items: center;
-    gap: 10px;
+	display: flex !important;
+	align-items: center;
+	gap: 10px;
 }
 
 .lang-flag-item img {
-    width: 24px !important;
-    height: auto !important;
-    border-radius: 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease-in-out;
+	width: 24px !important;
+	height: auto !important;
+	border-radius: 2px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+	transition: transform 0.2s ease-in-out;
 }
 
 .lang-flag-item img:hover {
-    transform: scale(1.15);
+	transform: scale(1.15);
 }

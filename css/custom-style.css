@@ -3199,14 +3199,148 @@ footer.site-footer {
     margin-top: 12px;
     font-size: 14px;
     min-height: 20px;
+    line-height: 1.5;
+}
+
+.apply-form-message.loading {
+    color: #666;
 }
 
 .apply-form-message.success {
     color: #1e7e34;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 12px 16px;
+    border-radius: 6px;
 }
 
 .apply-form-message.error {
     color: #c0392b;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 12px 16px;
+    border-radius: 6px;
+}
+
+.apply-success-msg,
+.apply-error-msg {
+    text-align: center;
+}
+
+.apply-success-msg small,
+.apply-error-msg small {
+    opacity: 0.8;
+    font-size: 13px;
+}
+
+/* Loading Spinner */
+.apply-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.apply-spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid #e0e0e0;
+    border-top-color: #0056b3;
+    border-radius: 50%;
+    animation: apply-spin 0.8s linear infinite;
+}
+
+@keyframes apply-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Disable submit button when loading */
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ==================== APPLY STATUS MODAL ==================== */
+.apply-status-modal {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    padding: 0;
+}
+
+.apply-status-box {
+    background: #fff;
+    text-align: center;
+    padding: 32px 40px;
+    max-width: 360px;
+    width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.apply-status-icon {
+    font-size: 64px;
+    line-height: 1;
+    margin-bottom: 20px;
+}
+
+.apply-status-icon.loading {
+    display: flex;
+    justify-content: center;
+}
+
+.apply-spinner-large {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #e0e0e0;
+    border-top-color: #0056b3;
+    border-radius: 50%;
+    animation: apply-spin 0.8s linear infinite;
+}
+
+.apply-status-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin: 0 0 12px;
+}
+
+.apply-status-icon.success~.apply-status-title {
+    color: #1e7e34;
+}
+
+.apply-status-icon.error~.apply-status-title {
+    color: #c0392b;
+}
+
+.apply-status-text {
+    font-size: 15px;
+    color: #666;
+    margin: 0 0 24px;
+    line-height: 1.6;
+}
+
+.btn-apply-status-close {
+    background: #0056b3;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-apply-status-close:hover {
+    background: #004494;
 }
 
 /* ==== RESPONSIVE - TABLET: 768px - 1279px ==== */
@@ -3442,22 +3576,20 @@ footer.site-footer {
     }
 }
 
-/* Nút Xem thêm / Thu gọn */
-.load-more-wrapper {
-    text-align: center;
-    margin-top: 24px;
-}
-
 .load-more-btn {
     background: none;
     border: none;
-    color: #0056b3;
-    font-weight: 600;
-    font-size: 15px;
+    color: #0066cc;
+    font-size: 14px;
     display: inline-flex;
     align-items: center;
     gap: 6px;
     cursor: pointer;
+    padding: 8px 0;
+}
+
+.load-more-btn:hover {
+    text-decoration: underline;
 }
 
 .load-more-btn svg {
@@ -3466,6 +3598,34 @@ footer.site-footer {
 
 .load-more-btn.is-open svg {
     transform: rotate(180deg);
+}
+
+/* Animation cho items khi hiện thêm */
+.job-row-item,
+.job-list-item {
+    opacity: 1;
+}
+
+.job-row-item.is-hidden,
+.job-list-item.is-hidden {
+    display: none !important;
+}
+
+.job-row-item.is-revealing,
+.job-list-item.is-revealing {
+    animation: jobItemFadeIn 0.35s ease forwards;
+}
+
+@keyframes jobItemFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ---- TABLET: 768-1279px ---- */

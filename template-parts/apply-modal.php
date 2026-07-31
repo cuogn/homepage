@@ -5,7 +5,7 @@
  */
 ?>
 <div class="apply-modal-overlay" id="applyModalOverlay" style="display:none;">
-    <div class="apply-modal-box">
+    <div class="apply-modal-box" id="applyFormContainer">
         <div class="apply-modal-header">
             <span>BẠN ĐANG ỨNG TUYỂN CHO VỊ TRÍ <strong id="applyModalJobTitle"></strong></span>
             <button type="button" class="apply-modal-close" id="applyModalClose">&times;</button>
@@ -68,7 +68,16 @@
                 <button type="button" class="btn-back" id="applyModalBack">← Quay lại</button>
                 <button type="submit" class="btn-submit">✓ Nộp hồ sơ</button>
             </div>
-            <div class="apply-form-message"></div>
         </form>
+    </div>
+
+    <!-- Loading / Result Modal -->
+    <div class="apply-status-modal" id="applyStatusModal" style="display:none;">
+        <div class="apply-status-box">
+            <div class="apply-status-icon" id="applyStatusIcon"></div>
+            <h3 class="apply-status-title" id="applyStatusTitle"></h3>
+            <p class="apply-status-text" id="applyStatusText"></p>
+            <button type="button" class="btn-apply-status-close" id="applyStatusClose">Đóng</button>
+        </div>
     </div>
 </div>
