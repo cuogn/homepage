@@ -447,14 +447,14 @@ function adtec_register_meta_boxes( $meta_boxes ) {
         'title'      => 'Thông Tin Chi Nhánh / Văn Phòng',
         'post_types' => ['dia_diem'],
         'fields'     => [
-            [
-                'name'  => 'Thứ tự hiển thị (Order)',
-                'id'    => 'dia_diem_order',
-                'type'  => 'number',
-                'std'   => 0,
-                'desc'  => 'Nhập số (1, 2, 3...). Số nhỏ hơn sẽ hiển thị trước (VD: 1 hiển thị đầu tiên)',
-                'clone' => false,
-            ],
+            // [
+            //     'name'  => 'Thứ tự hiển thị (Order)',
+            //     'id'    => 'dia_diem_order',
+            //     'type'  => 'number',
+            //     'std'   => 0,
+            //     'desc'  => 'Nhập số (1, 2, 3...). Số nhỏ hơn sẽ hiển thị trước (VD: 1 hiển thị đầu tiên)',
+            //     'clone' => false,
+            // ],
             [
                 'name'    => 'Phân loại địa điểm',
                 'id'      => 'dia_diem_type',

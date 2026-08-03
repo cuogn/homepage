@@ -71,7 +71,9 @@ $display_title = !empty($prod_title) ? $prod_title : get_the_title();
     <!-- 3. KHỐI THÔNG TIN CHI TIẾT SẢN PHẨM -->
     <div class="generator-content-box">
         <!-- TIÊU ĐỀ TÊN MÁY -->
-
+         <?php if (!empty($display_title)) : ?>
+            <h2 class="generator-product-title"><?php echo esc_html($display_title); ?></h2>
+        <?php endif; ?>
         <!-- ĐOẠN MÔ TẢ GIỚI THIỆU -->
         <?php if ($prod_desc) : ?>
             <div class="generator-description">

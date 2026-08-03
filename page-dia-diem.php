@@ -60,17 +60,17 @@ $map_banner = get_theme_mod('adtec_group_map_banner', '');
                                 'terms'    => $term->term_id,
                             ),
                         ),
-                        'meta_query'     => array(
-                            'relation' => 'OR',
-                            array(
-                                'key'     => 'dia_diem_order',
-                                'compare' => 'EXISTS',
-                            ),
-                            array(
-                                'key'     => 'dia_diem_order',
-                                'compare' => 'NOT EXISTS',
-                            ),
-                        ),
+                        // 'meta_query'     => array(
+                        //     'relation' => 'OR',
+                        //     array(
+                        //         'key'     => 'dia_diem_order',
+                        //         'compare' => 'EXISTS',
+                        //     ),
+                        //     array(
+                        //         'key'     => 'dia_diem_order',
+                        //         'compare' => 'NOT EXISTS',
+                        //     ),
+                        // ),
                         'orderby'        => array(
                             'meta_value_num' => 'ASC',
                             'date'           => 'DESC'
