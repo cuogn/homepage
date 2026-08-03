@@ -1946,7 +1946,7 @@ footer.site-footer {
     flex-direction: row;
     /* Ép chữ bên trái, ảnh bên phải */
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 40px;
 }
 

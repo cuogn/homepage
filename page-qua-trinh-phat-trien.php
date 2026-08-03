@@ -4,6 +4,9 @@
  */
 get_header(); 
 
+// Khởi tạo biến pagination
+$paged = isset($_GET['hist_paged']) ? max(1, intval($_GET['hist_paged'])) : 1;
+
 global $wpdb;
 $years_in_db = $wpdb->get_col("
     SELECT DISTINCT YEAR(meta_value) 
@@ -13,8 +16,7 @@ $years_in_db = $wpdb->get_col("
 ");
 
 //Số năm / trang
-$years_per_page = 5; 
-$paged = (get_query_var('paged')) ? get_query_var('paged') : ((get_query_var('page')) ? get_query_var('page') : 1);
+$years_per_page = 5;
 
 $total_years = count($years_in_db);
 $total_pages = ceil($total_years / $years_per_page);
@@ -34,11 +36,15 @@ $current_years = array_slice($years_in_db, ($paged - 1) * $years_per_page, $year
     <!-- 2. NÚT ĐIỀU HƯỚNG TRÊN (NEXT) -->
     <div class="history-nav-top">
         <?php if ($paged > 1) : ?>
-            <a href="<?php echo esc_url(get_pagenum_link($paged - 1)); ?>" class="history-nav-btn prev-btn">&lt; PREV</a>
+            <?php $prev_page = $paged - 1; ?>
+            <?php $prev_url = add_query_arg('hist_paged', $prev_page, get_permalink()); ?>
+            <a href="<?php echo esc_url($prev_url); ?>" class="history-nav-btn prev-btn">&lt; PREV</a>
         <?php endif; ?>
         
         <?php if ($paged < $total_pages) : ?>
-            <a href="<?php echo esc_url(get_pagenum_link($paged + 1)); ?>" class="history-nav-btn next-btn">NEXT &gt;</a>
+            <?php $next_page = $paged + 1; ?>
+            <?php $next_url = add_query_arg('hist_paged', $next_page, get_permalink()); ?>
+            <a href="<?php echo esc_url($next_url); ?>" class="history-nav-btn next-btn">NEXT &gt;</a>
         <?php endif; ?>
     </div>
 
@@ -161,11 +167,13 @@ $current_years = array_slice($years_in_db, ($paged - 1) * $years_per_page, $year
     <!-- NÚT ĐIỀU HƯỚNG DƯỚI (PREV / NEXT) -->
     <div class="history-nav-bottom">
         <?php if ($paged > 1) : ?>
-            <a href="<?php echo esc_url(get_pagenum_link($paged - 1)); ?>" class="history-nav-btn prev-btn">&lt; PREV</a>
+            <?php $prev_url = add_query_arg('hist_paged', ($paged - 1), get_permalink()); ?>
+            <a href="<?php echo esc_url($prev_url); ?>" class="history-nav-btn prev-btn">&lt; PREV</a>
         <?php endif; ?>
 
         <?php if ($paged < $total_pages) : ?>
-            <a href="<?php echo esc_url(get_pagenum_link($paged + 1)); ?>" class="history-nav-btn next-btn">NEXT &gt;</a>
+            <?php $next_url = add_query_arg('hist_paged', ($paged + 1), get_permalink()); ?>
+            <a href="<?php echo esc_url($next_url); ?>" class="history-nav-btn next-btn">NEXT &gt;</a>
         <?php endif; ?>
     </div>
 </div>
