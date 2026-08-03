@@ -33,6 +33,7 @@ $lang_switch_html = ob_get_clean();
 
 <div id="page" class="site">
     <header id="masthead" class="site-header">
+        <div class="header-sentinel"></div>
         <div class="header-top-row container-header">
             <div class="site-branding">
                 <?php if ( has_custom_logo() ) : ?>
@@ -116,6 +117,10 @@ $lang_switch_html = ob_get_clean();
                     .forEach(li => li.classList.remove('submenu-open'));
             }
         });
+        var sentinel = document.querySelector('.header-sentinel');
+        new IntersectionObserver(function([entry]) {
+            header.classList.toggle('sticky-header', !entry.isIntersecting);
+        }).observe(sentinel);
     });
     </script>
 
