@@ -32,25 +32,28 @@
 
             <div class="form-row">
                 <label for="cv_file">Tải lên CV <span class="required-mark">(*)</span></label>
-                <div class="cv-upload-zone">
-                    <div class="cv-upload-content">
-                        <div class="cv-upload-icon-wrapper">
-                            <svg class="cv-upload-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                <div class="cv-upload-wrapper">
+                    <div class="cv-upload-zone" id="cvUploadZone">
+                        <div class="cv-upload-content" id="cvUploadContent">
+                            <div class="cv-upload-icon-wrapper">
+                                <svg class="cv-upload-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <p class="cv-upload-text">Tải lên ảnh CV, CCCD hoặc giấy tờ cá nhân</p>
+                            <p class="cv-upload-hint">Hỗ trợ định dạng .png, .jpg, .jpeg có kích thước dưới 10Mb</p>
+                            <button type="button" class="cv-select-btn">Chọn CV</button>
                         </div>
-                        <p class="cv-upload-text">Tải lên ảnh CV, CCCD hoặc giấy tờ cá nhân</p>
-                        <p class="cv-upload-hint">Hỗ trợ định dạng .png, .jpg, .jpeg có kích thước dưới 10Mb</p>
-                        <button type="button" class="cv-select-btn">Chọn CV</button>
+                        <div class="cv-preview-container" id="cvPreviewContainer" style="display:none;">
+                            <img id="cvPreviewImg" src="" alt="CV Preview" />
+                        </div>
+                        <input type="file" id="cv_file" name="cv_file" accept=".png,.jpg,.jpeg" required />
                     </div>
-                    <input type="file" id="cv_file" name="cv_file" accept=".png,.jpg,.jpeg" required />
-                    <div class="cv-file-info" style="display:none;">
-                        <span class="cv-file-name"></span>
-                        <span class="cv-remove-btn">×</span>
-                    </div>
+                    <button type="button" class="cv-remove-btn" id="cvRemoveBtn" style="display:none;">×</button>
                 </div>
+                <span class="cv-error-text" id="cvErrorText" style="display:none;">Hình ảnh hỗ trợ không được để trống</span>
             </div>
 
             <fieldset class="referral-section">

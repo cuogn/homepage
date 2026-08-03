@@ -71,35 +71,42 @@
         // ===== CV Upload Preview =====
         var cvUploadZone = document.getElementById('cvUploadZone');
         var cvFileInput = document.getElementById('cv_file');
-        var cvPreview = document.getElementById('cvPreview');
-        var cvRemove = document.getElementById('cvRemove');
+        var cvUploadContent = document.getElementById('cvUploadContent');
+        var cvPreviewContainer = document.getElementById('cvPreviewContainer');
+        var cvPreviewImg = document.getElementById('cvPreviewImg');
+        var cvRemoveBtn = document.getElementById('cvRemoveBtn');
+        var cvErrorText = document.getElementById('cvErrorText');
 
         if (cvFileInput && cvUploadZone) {
+            // Handle file selection
             cvFileInput.addEventListener('change', function(e) {
                 var file = e.target.files[0];
                 if (file && file.type.match(/^image\/(png|jpeg|jpg)$/)) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
-                        cvPreview.innerHTML = '<img src="' + e.target.result + '" alt="CV Preview" />';
-                        cvPreview.style.display = 'block';
-                        cvRemove.style.display = 'flex';
+                        // Show preview
+                        cvPreviewImg.src = e.target.result;
+                        cvPreviewContainer.style.display = 'flex';
+                        cvUploadContent.style.display = 'none';
                         cvUploadZone.classList.add('has-file');
-                        document.querySelector('.cv-upload-content').style.display = 'none';
+                        cvRemoveBtn.style.display = 'flex';
+                        cvErrorText.style.display = 'none';
                     };
                     reader.readAsDataURL(file);
                 }
             });
 
-            if (cvRemove) {
-                cvRemove.addEventListener('click', function(e) {
+            // Handle remove button
+            if (cvRemoveBtn) {
+                cvRemoveBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     cvFileInput.value = '';
-                    cvPreview.innerHTML = '';
-                    cvPreview.style.display = 'none';
-                    cvRemove.style.display = 'none';
+                    cvPreviewImg.src = '';
+                    cvPreviewContainer.style.display = 'none';
+                    cvUploadContent.style.display = 'flex';
                     cvUploadZone.classList.remove('has-file');
-                    document.querySelector('.cv-upload-content').style.display = 'flex';
+                    cvRemoveBtn.style.display = 'none';
                 });
             }
 
@@ -260,16 +267,11 @@
 
             // Reset CV upload
             if (cvFileInput) cvFileInput.value = '';
-            if (cvPreview) {
-                cvPreview.innerHTML = '';
-                cvPreview.style.display = 'none';
-            }
-            if (cvRemove) cvRemove.style.display = 'none';
-            if (cvUploadZone) {
-                cvUploadZone.classList.remove('has-file');
-                var uploadContent = cvUploadZone.querySelector('.cv-upload-content');
-                if (uploadContent) uploadContent.style.display = 'flex';
-            }
+            if (cvPreviewImg) cvPreviewImg.src = '';
+            if (cvPreviewContainer) cvPreviewContainer.style.display = 'none';
+            if (cvUploadContent) cvUploadContent.style.display = 'flex';
+            if (cvUploadZone) cvUploadZone.classList.remove('has-file');
+            if (cvRemoveBtn) cvRemoveBtn.style.display = 'none';
         }
 
         // Đóng status modal và quay lại form
