@@ -3236,6 +3236,10 @@ footer.site-footer {
     border-color: #1F3B73;
 }
 
+.cv-upload-zone.has-file input[type="file"] {
+    pointer-events: none;
+}
+
 .cv-upload-content {
     display: flex;
     flex-direction: column;
@@ -3313,6 +3317,54 @@ footer.site-footer {
     border-radius: 8px;
     border: 1px solid #e0e0e0;
     object-fit: contain;
+}
+
+.cv-file-name {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+    word-break: break-all;
+    max-width: 200px;
+}
+
+.cv-pdf-icon {
+    padding: 8px;
+}
+
+.cv-pdf-viewer {
+    position: relative;
+    width: 180px;
+    height: 220px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f5f5;
+}
+
+.cv-pdf-viewer iframe {
+    width: 100%;
+    height: calc(100% - 36px);
+    border: none;
+}
+
+.cv-pdf-fullscreen-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    padding: 8px;
+    background: #fff;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+    transition: background 0.2s;
+}
+
+.cv-pdf-fullscreen-btn:hover {
+    background: #f0f0f0;
 }
 
 .cv-remove-btn {

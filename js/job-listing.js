@@ -73,28 +73,70 @@
         var cvFileInput = document.getElementById('cv_file');
         var cvUploadContent = document.getElementById('cvUploadContent');
         var cvPreviewContainer = document.getElementById('cvPreviewContainer');
-        var cvPreviewImg = document.getElementById('cvPreviewImg');
+        var cvPreviewContent = document.getElementById('cvPreviewContent');
         var cvRemoveBtn = document.getElementById('cvRemoveBtn');
         var cvErrorText = document.getElementById('cvErrorText');
+
+        var isImageRegex = /^image\/(png|jpeg|jpg)$/;
+        var isPdfRegex = /^application\/pdf$/;
 
         if (cvFileInput && cvUploadZone) {
             // Handle file selection
             cvFileInput.addEventListener('change', function(e) {
                 var file = e.target.files[0];
-                if (file && file.type.match(/^image\/(png|jpeg|jpg)$/)) {
+                if (!file) return;
+
+                var fileName = file.name;
+                var fileSize = (file.size / 1024 / 1024).toFixed(2);
+
+                if (isImageRegex.test(file.type)) {
+                    // Image preview
                     var reader = new FileReader();
                     reader.onload = function(e) {
-                        // Show preview
-                        cvPreviewImg.src = e.target.result;
-                        cvPreviewContainer.style.display = 'flex';
-                        cvUploadContent.style.display = 'none';
-                        cvUploadZone.classList.add('has-file');
-                        cvRemoveBtn.style.display = 'flex';
-                        cvErrorText.style.display = 'none';
+                        cvPreviewContent.innerHTML = '<img src="' + e.target.result + '" alt="CV Preview" />' +
+                            '<span class="cv-file-name">' + fileName + ' (' + fileSize + ' MB)</span>';
+                        showPreview();
                     };
                     reader.readAsDataURL(file);
+                } else if (isPdfRegex.test(file.type)) {
+                    // PDF - embedded viewer
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var pdfDataUrl = e.target.result;
+                        cvPreviewContent.innerHTML = 
+                            '<div class="cv-pdf-viewer" id="cvPdfViewer">' +
+                                '<iframe src="' + pdfDataUrl + '" type="application/pdf"></iframe>' +
+                                '<button type="button" class="cv-pdf-fullscreen-btn" id="cvPdfFullscreenBtn">' +
+                                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>' +
+                                    ' Xem toàn màn hình' +
+                                '</button>' +
+                            '</div>' +
+                            '<span class="cv-file-name">' + fileName + ' (' + fileSize + ' MB)</span>';
+                        showPreview();
+                        
+                        // Fullscreen button handler
+                        document.getElementById('cvPdfFullscreenBtn').addEventListener('click', function() {
+                            var newWindow = window.open('', '_blank');
+                            newWindow.document.write('<html><head><title>' + fileName + '</title><style>body{margin:0;display:flex;justify-content:center;align-items:center;height:100vh;background:#333}iframe{width:100%;height:100%;border:none}</style></head><body><iframe src="' + pdfDataUrl + '"></iframe></body></html>');
+                            newWindow.document.close();
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // Invalid file type
+                    cvErrorText.textContent = 'Định dạng không được hỗ trợ. Chỉ chấp nhận .png, .jpg, .jpeg, .pdf';
+                    cvErrorText.style.display = 'block';
+                    cvFileInput.value = '';
                 }
             });
+
+            function showPreview() {
+                cvPreviewContainer.style.display = 'flex';
+                cvUploadContent.style.display = 'none';
+                cvUploadZone.classList.add('has-file');
+                cvRemoveBtn.style.display = 'flex';
+                cvErrorText.style.display = 'none';
+            }
 
             // Handle remove button
             if (cvRemoveBtn) {
@@ -102,11 +144,12 @@
                     e.preventDefault();
                     e.stopPropagation();
                     cvFileInput.value = '';
-                    cvPreviewImg.src = '';
+                    cvPreviewContent.innerHTML = '';
                     cvPreviewContainer.style.display = 'none';
                     cvUploadContent.style.display = 'flex';
                     cvUploadZone.classList.remove('has-file');
                     cvRemoveBtn.style.display = 'none';
+                    cvErrorText.style.display = 'none';
                 });
             }
 
@@ -125,7 +168,7 @@
                 e.preventDefault();
                 cvUploadZone.classList.remove('dragover');
                 var files = e.dataTransfer.files;
-                if (files.length > 0 && files[0].type.match(/^image\/(png|jpeg|jpg)$/)) {
+                if (files.length > 0 && (isImageRegex.test(files[0].type) || isPdfRegex.test(files[0].type))) {
                     cvFileInput.files = files;
                     cvFileInput.dispatchEvent(new Event('change'));
                 }
@@ -267,11 +310,12 @@
 
             // Reset CV upload
             if (cvFileInput) cvFileInput.value = '';
-            if (cvPreviewImg) cvPreviewImg.src = '';
+            if (cvPreviewContent) cvPreviewContent.innerHTML = '';
             if (cvPreviewContainer) cvPreviewContainer.style.display = 'none';
             if (cvUploadContent) cvUploadContent.style.display = 'flex';
             if (cvUploadZone) cvUploadZone.classList.remove('has-file');
             if (cvRemoveBtn) cvRemoveBtn.style.display = 'none';
+            if (cvErrorText) cvErrorText.style.display = 'none';
         }
 
         // Đóng status modal và quay lại form

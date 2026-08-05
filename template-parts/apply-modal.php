@@ -42,18 +42,18 @@
                                     <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <p class="cv-upload-text">Tải lên ảnh CV, CCCD hoặc giấy tờ cá nhân</p>
-                            <p class="cv-upload-hint">Hỗ trợ định dạng .png, .jpg, .jpeg có kích thước dưới 10Mb</p>
+                            <p class="cv-upload-text">Tải lên CV, CCCD hoặc giấy tờ cá nhân</p>
+                            <p class="cv-upload-hint">Hỗ trợ định dạng .png, .jpg, .jpeg, .pdf có kích thước dưới 10Mb</p>
                             <button type="button" class="cv-select-btn">Chọn CV</button>
                         </div>
                         <div class="cv-preview-container" id="cvPreviewContainer" style="display:none;">
-                            <img id="cvPreviewImg" src="" alt="CV Preview" />
+                            <div id="cvPreviewContent"></div>
                         </div>
-                        <input type="file" id="cv_file" name="cv_file" accept=".png,.jpg,.jpeg" required />
+                        <input type="file" id="cv_file" name="cv_file" accept=".png,.jpg,.jpeg,.pdf" required />
                     </div>
                     <button type="button" class="cv-remove-btn" id="cvRemoveBtn" style="display:none;">×</button>
                 </div>
-                <span class="cv-error-text" id="cvErrorText" style="display:none;">Hình ảnh hỗ trợ không được để trống</span>
+                <span class="cv-error-text" id="cvErrorText" style="display:none;">File không hợp lệ</span>
             </div>
 
             <fieldset class="referral-section">

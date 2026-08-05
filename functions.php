@@ -1715,9 +1715,9 @@ function adtec_handle_job_application() {
         require_once(ABSPATH . 'wp-admin/includes/image.php');
 
         // Validate file type
-        $allowed_types = array('image/png', 'image/jpeg');
+        $allowed_types = array('image/png', 'image/jpeg', 'application/pdf');
         if (!in_array($_FILES['cv_file']['type'], $allowed_types)) {
-            wp_send_json_error(array('message' => 'Định dạng file không hợp lệ. Chỉ chấp nhận .png, .jpg, .jpeg.'));
+            wp_send_json_error(array('message' => 'Định dạng file không hợp lệ. Chỉ chấp nhận .png, .jpg, .jpeg, .pdf.'));
         }
 
         // Validate file size (10MB)
