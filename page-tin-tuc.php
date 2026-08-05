@@ -138,9 +138,9 @@ get_header(); ?>
             ?>
         </div>
 
-        <?php if ( $count > 2 ) : ?>
+        <?php if ( $count > 4 ) : ?>
             <div class="load-more-wrapper">
-                <button class="load-more-btn btn-toggle-posts" 
+                <button class="load-more-btn btn-toggle-posts"
                         data-state="closed"
                         data-text-more="<?php echo esc_attr(adtec_get_label('load_more')); ?>"
                         data-text-less="<?php echo esc_attr(adtec_get_label('collapse')); // Nhớ định nghĩa key 'collapse' trong languages.php ?>">
